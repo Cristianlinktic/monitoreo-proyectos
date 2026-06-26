@@ -5,11 +5,13 @@ import { gsap } from 'gsap'
 import {
   Search, Shield, Zap, LayoutDashboard, MessageSquare, HardDrive,
   SlidersHorizontal, X, LayoutGrid, LayoutList, Edit3, Plus, ExternalLink,
+  Download,
 } from 'lucide-react'
 import { ProjectRow } from './ProjectRow'
 import { ProjectEditModal } from './ProjectEditModal'
 import { HealthRing } from './HealthRing'
 import { computeHealth, healthColor } from '@/lib/health'
+import { exportDayReport } from '@/lib/export'
 import type { ProjectWithMonitoring } from '@/lib/types'
 
 interface ProjectsTableProps {
@@ -60,10 +62,7 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
     <>
       <div
         className="rounded-2xl p-4 flex flex-col gap-3 transition-all duration-200 cursor-default"
-        style={{
-          background: 'rgba(8,13,26,0.9)',
-          border: '1px solid rgba(30,41,59,0.7)',
-        }}
+        style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}
         onMouseEnter={e => {
           (e.currentTarget as HTMLElement).style.borderColor = color + '50'
           ;(e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${color}20`
@@ -73,7 +72,6 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
           ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
         }}
       >
-        {/* Score ring + name */}
         <div className="flex flex-col items-center gap-2 pt-1">
           <HealthRing score={score} size={56} radius={22} stroke={3} />
           <div className="text-center">
@@ -82,7 +80,6 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
           </div>
         </div>
 
-        {/* Status indicators */}
         <div className="flex items-center justify-center gap-2 flex-wrap">
           {m?.ssl_imagen_url ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -118,7 +115,6 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
           {!m && <span className="text-[11px] text-[#334155]">Sin datos</span>}
         </div>
 
-        {/* Footer */}
         <div className="flex items-center justify-between pt-1 border-t" style={{ borderColor: 'rgba(30,41,59,0.4)' }}>
           {project.url ? (
             <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-[#334155] hover:text-cyan-400 transition-colors">
@@ -156,14 +152,45 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
 export function ProjectsTable({ projects, selectedDate, onRefresh, loading, showOnlyPending, onClearPending }: ProjectsTableProps) {
   const [search, setSearch] = useState('')
   const [viewMode, setViewMode] = useState<'table' | 'grid'>('table')
-  const tbodyRef = useRef<HTMLTableSectionElement>(null)
-  const prevLoading = useRef<boolean>(true)
+  const [showFilters, setShowFilters] = useState(false)
+  const [filters, setFilters] = useState({
+    maquetador: '',
+    minHealth: 0,
+    soloConTareas: false,
+    plugin: '',
+  })
+  const tbodyRef     = useRef<HTMLTableSectionElement>(null)
+  const filterPanelRef = useRef<HTMLDivElement>(null)
+  const prevLoading  = useRef<boolean>(true)
 
+  // Unique maquetador values
+  const maquetadores = Array.from(
+    new Set(projects.map(p => p.maquetador).filter(Boolean) as string[])
+  ).sort()
+
+  const activeFilterCount = [
+    filters.maquetador !== '',
+    filters.minHealth > 0,
+    filters.soloConTareas,
+    filters.plugin !== '',
+  ].filter(Boolean).length
+
+  // Filter chain
   const afterPendingFilter = showOnlyPending ? projects.filter(p => !p.monitoring) : projects
-  const filtered = afterPendingFilter.filter(p =>
+  const afterSearchFilter  = afterPendingFilter.filter(p =>
     p.nombre.toLowerCase().includes(search.toLowerCase()) ||
     (p.maquetador ?? '').toLowerCase().includes(search.toLowerCase())
   )
+  const filtered = afterSearchFilter.filter(p => {
+    if (filters.maquetador && p.maquetador !== filters.maquetador) return false
+    if (filters.minHealth > 0 && computeHealth(p.monitoring) < filters.minHealth) return false
+    if (filters.soloConTareas && !p.monitoring?.tareas_ejecutar?.trim()) return false
+    if (filters.plugin) {
+      const plugs = (p.plugins ?? []).join(' ').toLowerCase()
+      if (!plugs.includes(filters.plugin.toLowerCase())) return false
+    }
+    return true
+  })
 
   const monitored = projects.filter(p => p.monitoring).length
   const pending   = projects.length - monitored
@@ -181,6 +208,21 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
     }
     prevLoading.current = loading ?? false
   }, [loading])
+
+  // Animate filter panel
+  useEffect(() => {
+    if (!filterPanelRef.current) return
+    if (showFilters) {
+      gsap.fromTo(filterPanelRef.current,
+        { height: 0, opacity: 0 },
+        { height: 'auto', opacity: 1, duration: 0.28, ease: 'power2.out' }
+      )
+    } else {
+      gsap.to(filterPanelRef.current, { height: 0, opacity: 0, duration: 0.2, ease: 'power2.in' })
+    }
+  }, [showFilters])
+
+  const clearFilters = () => setFilters({ maquetador: '', minHealth: 0, soloConTareas: false, plugin: '' })
 
   return (
     <div className="flex flex-col gap-3">
@@ -201,11 +243,51 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
           />
         </div>
 
+        {/* Filters toggle */}
+        <button
+          onClick={() => setShowFilters(s => !s)}
+          className="relative flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer"
+          style={{
+            background: showFilters ? 'rgba(34,197,94,0.08)' : 'rgba(8,13,26,0.8)',
+            border: showFilters ? '1px solid rgba(34,197,94,0.3)' : '1px solid rgba(30,41,59,0.7)',
+            color: showFilters ? '#22C55E' : '#475569',
+          }}
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Filtros</span>
+          {activeFilterCount > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center"
+              style={{ background: '#22C55E', color: '#020617' }}>
+              {activeFilterCount}
+            </span>
+          )}
+        </button>
+
         <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl text-[11px]"
           style={{ background: 'rgba(8,13,26,0.8)', border: '1px solid rgba(30,41,59,0.6)', color: '#475569' }}>
-          <SlidersHorizontal className="w-3 h-3" />
           <span><span className="text-emerald-400 font-medium">{monitored}</span> ok · <span>{pending}</span> pend.</span>
         </div>
+
+        {/* Export button */}
+        <button
+          onClick={() => exportDayReport(projects, selectedDate)}
+          aria-label="Exportar reporte del día"
+          className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer"
+          style={{ background: 'rgba(8,13,26,0.8)', border: '1px solid rgba(30,41,59,0.7)', color: '#475569' }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,182,212,0.3)'
+            ;(e.currentTarget as HTMLElement).style.color = '#06B6D4'
+            ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(6,182,212,0.1)'
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'
+            ;(e.currentTarget as HTMLElement).style.color = '#475569'
+            ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+          }}
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Exportar</span>
+        </button>
 
         {/* View toggle */}
         <div className="flex items-center rounded-xl overflow-hidden" style={{ border: '1px solid rgba(30,41,59,0.7)', background: 'rgba(8,13,26,0.8)' }}>
@@ -226,7 +308,96 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
         </div>
       </div>
 
-      {/* Active filter banner */}
+      {/* Filter panel */}
+      <div ref={filterPanelRef} style={{ overflow: 'hidden', height: 0, opacity: 0 }}>
+        <div className="p-4 rounded-2xl flex flex-col gap-3"
+          style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+
+            {/* Maquetador */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Maquetador</label>
+              <select
+                value={filters.maquetador}
+                onChange={e => setFilters(f => ({ ...f, maquetador: e.target.value }))}
+                className="px-3 py-2 rounded-lg text-sm text-[#F8FAFC] focus:outline-none cursor-pointer"
+                style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.7)' }}
+              >
+                <option value="">Todos</option>
+                {maquetadores.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
+
+            {/* Health mínimo */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Health mínimo</label>
+              <div className="flex gap-1">
+                {([0, 60, 80, 100] as const).map(v => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setFilters(f => ({ ...f, minHealth: v }))}
+                    className="flex-1 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer"
+                    style={filters.minHealth === v ? {
+                      background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.35)', color: '#22C55E',
+                    } : {
+                      background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.6)', color: '#475569',
+                    }}
+                  >
+                    {v === 0 ? 'Todos' : `${v}+`}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Plugin filter */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Plugin</label>
+              <input
+                type="text"
+                placeholder="Filtrar por plugin..."
+                value={filters.plugin}
+                onChange={e => setFilters(f => ({ ...f, plugin: e.target.value }))}
+                className="px-3 py-2 rounded-lg text-sm text-[#F8FAFC] placeholder:text-[#334155] focus:outline-none"
+                style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.7)' }}
+                onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.35)' }}
+                onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)' }}
+              />
+            </div>
+
+            {/* Con tareas */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Tareas</label>
+              <button
+                type="button"
+                onClick={() => setFilters(f => ({ ...f, soloConTareas: !f.soloConTareas }))}
+                className="py-2 px-3 rounded-lg text-xs font-medium transition-all cursor-pointer text-left"
+                style={filters.soloConTareas ? {
+                  background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.3)', color: '#F59E0B',
+                } : {
+                  background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.7)', color: '#475569',
+                }}
+              >
+                {filters.soloConTareas ? '✓ ' : ''}Solo con tareas pendientes
+              </button>
+            </div>
+          </div>
+
+          {activeFilterCount > 0 && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="flex items-center gap-1 text-xs text-[#475569] hover:text-[#94A3B8] transition-colors cursor-pointer"
+              >
+                <X className="w-3 h-3" /> Limpiar filtros
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Active pending filter banner */}
       {showOnlyPending && (
         <div className="flex items-center justify-between px-4 py-2.5 rounded-xl"
           style={{ background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.25)' }}>
@@ -308,7 +479,7 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
                           <Search className="w-5 h-5 text-[#334155]" />
                         </div>
                         <p className="text-sm text-[#334155]">
-                          {search ? 'Sin resultados para esa búsqueda' : 'No hay proyectos aún'}
+                          {search || activeFilterCount > 0 ? 'Sin resultados con los filtros activos' : 'No hay proyectos aún'}
                         </p>
                       </div>
                     </td>

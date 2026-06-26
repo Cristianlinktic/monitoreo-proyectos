@@ -67,6 +67,29 @@ export async function getAvailableDates(): Promise<string[]> {
   return unique
 }
 
+export async function getProjectHistory(projectId: string): Promise<MonitoringEntry[]> {
+  const { data, error } = await supabase
+    .from('monitoring_entries')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('fecha', { ascending: true })
+  if (error) throw error
+  return data ?? []
+}
+
+export async function getLastMonitoringDates(): Promise<Record<string, string>> {
+  const { data, error } = await supabase
+    .from('monitoring_entries')
+    .select('project_id, fecha')
+    .order('fecha', { ascending: false })
+  if (error) throw error
+  const result: Record<string, string> = {}
+  for (const row of data ?? []) {
+    if (!result[row.project_id]) result[row.project_id] = row.fecha
+  }
+  return result
+}
+
 export async function getCoverageStats(): Promise<{ fecha: string; monitored: number }[]> {
   const { data, error } = await supabase
     .from('monitoring_entries')

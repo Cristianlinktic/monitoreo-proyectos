@@ -9,6 +9,8 @@ import { ProjectsTable } from '@/components/dashboard/ProjectsTable'
 import { ProjectFormModal } from '@/components/dashboard/ProjectFormModal'
 import { ImportModal } from '@/components/dashboard/ImportModal'
 import { HeatmapCalendar } from '@/components/dashboard/HeatmapCalendar'
+import { DomainAlerts } from '@/components/dashboard/DomainAlerts'
+import { StaleProjects } from '@/components/dashboard/StaleProjects'
 import { ToastProvider } from '@/components/ui/Toast'
 import { useMonitoring } from '@/hooks/useMonitoring'
 
@@ -48,6 +50,9 @@ function DashboardContent() {
           showOnlyPending={showOnlyPending}
           onTogglePending={() => setShowOnlyPending(p => !p)}
         />
+
+        <DomainAlerts projects={projects} />
+        <StaleProjects projects={projects} />
 
         <MetricsPanel projects={projects} totalProjects={projects.length} />
 

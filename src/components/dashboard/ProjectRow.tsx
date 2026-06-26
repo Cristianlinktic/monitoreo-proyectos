@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
+import Link from 'next/link'
 import {
   ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
   HardDrive, FileText, ListTodo, Edit3, Plus, Package, ExternalLink,
@@ -183,7 +184,12 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
                   boxShadow: hasData ? '0 0 6px rgba(34,197,94,0.6)' : 'none',
                 }}
               />
-              <span className="font-semibold text-sm text-[#F8FAFC]">{project.nombre}</span>
+              <Link
+                href={`/proyecto/${project.id}`}
+                className="font-semibold text-sm text-[#F8FAFC] hover:underline underline-offset-2 decoration-[#475569]"
+              >
+                {project.nombre}
+              </Link>
               {project.url && (
                 <a href={project.url} target="_blank" rel="noopener noreferrer"
                   className="text-[#334155] hover:text-cyan-400 transition-colors">
