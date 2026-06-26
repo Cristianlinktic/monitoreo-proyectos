@@ -6,12 +6,13 @@ import Link from 'next/link'
 import {
   ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
   HardDrive, FileText, ListTodo, Edit3, Plus, Package, ExternalLink,
-  Globe, User, Key, Calendar, Sigma, Copy, Check,
+  Globe, User, Key, Calendar, Sigma, Copy, Check, Archive, GripVertical,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { ProjectEditModal } from './ProjectEditModal'
 import { HealthRing } from './HealthRing'
 import { computeHealth } from '@/lib/health'
+import { archiveProject } from '@/services/projects.service'
 import { cn } from '@/lib/utils'
 import type { ProjectWithMonitoring, StatusLevel } from '@/lib/types'
 
@@ -110,13 +111,22 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
+interface DragHandlers {
+  draggable: true
+  onDragStart: () => void
+  onDragOver: (e: React.DragEvent) => void
+  onDrop: () => void
+  isDragOver: boolean
+}
+
 interface ProjectRowProps {
   project: ProjectWithMonitoring
   selectedDate: string
   onRefresh: () => void
+  dragHandlers?: DragHandlers
 }
 
-export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps) {
+export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: ProjectRowProps) {
   const [expanded, setExpanded] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
   const expandRef = useRef<HTMLTableRowElement>(null)
@@ -147,24 +157,38 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
     <>
       <tr
         ref={rowRef}
-        className="border-b transition-colors cursor-default"
-        style={{ borderColor: 'rgba(30,41,59,0.4)' }}
+        className="border-b transition-colors"
+        draggable={dragHandlers?.draggable}
+        onDragStart={dragHandlers?.onDragStart}
+        onDragOver={dragHandlers?.onDragOver}
+        onDrop={dragHandlers?.onDrop}
+        onDragEnd={() => {}}
+        style={{
+          borderColor: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.5)' : 'rgba(30,41,59,0.4)',
+          cursor: dragHandlers ? 'grab' : 'default',
+          background: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.04)' : undefined,
+        }}
         onMouseEnter={() => handleRowHover(true)}
         onMouseLeave={() => handleRowHover(false)}
       >
-        {/* Expand toggle */}
+        {/* Expand toggle + drag handle */}
         <td className="w-8 pl-3">
-          <button
-            onClick={() => setExpanded(p => !p)}
-            className="p-1.5 rounded-lg transition-all cursor-pointer"
-            style={{ color: '#334155' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22C55E'; (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
-          >
-            {expanded
-              ? <ChevronDown className="w-3.5 h-3.5" />
-              : <ChevronRight className="w-3.5 h-3.5" />}
-          </button>
+          <div className="flex items-center gap-0.5">
+            {dragHandlers && (
+              <GripVertical className="w-3 h-3 shrink-0 opacity-20 group-hover:opacity-60 transition-opacity" style={{ color: '#475569' }} />
+            )}
+            <button
+              onClick={() => setExpanded(p => !p)}
+              className="p-1.5 rounded-lg transition-all cursor-pointer"
+              style={{ color: '#334155' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22C55E'; (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+            >
+              {expanded
+                ? <ChevronDown className="w-3.5 h-3.5" />
+                : <ChevronRight className="w-3.5 h-3.5" />}
+            </button>
+          </div>
         </td>
 
         {/* Health ring */}
@@ -340,6 +364,24 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
                   </div>
                 </div>
               )}
+
+              {/* Archive */}
+              <div className="flex justify-end">
+                <button
+                  onClick={async () => {
+                    if (!window.confirm('¿Archivar este proyecto? Desaparecerá del dashboard pero se puede restaurar.')) return
+                    await archiveProject(project.id, true).catch(console.error)
+                    onRefresh()
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer"
+                  style={{ background: 'rgba(30,41,59,0.3)', border: '1px solid rgba(30,41,59,0.5)', color: '#475569' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F59E0B'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)' }}
+                >
+                  <Archive className="w-3 h-3" />
+                  Archivar proyecto
+                </button>
+              </div>
 
               {/* Monitoreo */}
               {m && (

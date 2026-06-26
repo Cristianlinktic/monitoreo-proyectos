@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Monitor MKT — LinkTIC
 
-## Getting Started
+Panel de monitoreo diario de proyectos web para el equipo de Marketing de LinkTIC.
 
-First, run the development server:
+## Acceso
+
+URL local: `http://localhost:3000`
+
+### Iniciar sesión
+Usa tu correo y contraseña registrados en el sistema.
+
+### Crear una cuenta nueva
+1. En la pantalla de login, haz clic en **"Crear cuenta"**
+2. Ingresa el código de administrador: **`linktic2026`**
+3. Completa el formulario con el correo y contraseña del nuevo usuario
+
+> El código se puede cambiar en `src/app/login/page.tsx` línea 9 (`ADMIN_CODE`).
+
+---
+
+## Desarrollo
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev       # servidor de desarrollo en http://localhost:3000
+npm run build     # build de producción
+npx tsc --noEmit  # verificar tipos TypeScript
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variables de entorno
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Crea un archivo `.env.local` en la raíz con:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=monitoring-images
+```
 
-## Learn More
+## Base de datos (Supabase)
 
-To learn more about Next.js, take a look at the following resources:
+Tablas requeridas:
+- `projects` — datos fijos de cada proyecto (URL, maquetador, plugins, accesos, etc.)
+- `monitoring_entries` — registro diario de monitoreo por proyecto y fecha
+- `tasks` — tareas con seguimiento por proyecto
+- `profiles` — perfiles de usuario vinculados a auth
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+SQL de configuración inicial disponible en los comentarios de `src/services/`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Stack
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 16** — App Router
+- **Supabase** — base de datos PostgreSQL + Storage + Auth
+- **Tailwind CSS v4** — estilos
+- **GSAP** — animaciones
+- **Recharts** — gráficas
+- **SheetJS (xlsx)** — importación/exportación de Excel

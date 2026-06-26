@@ -131,3 +131,13 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', system-ui, sans-serif; }
   pointer-events: none;
   z-index: 0;
 }
+
+/* ── Light theme (CSS filter trick — preserves accent hues) ───────────────── */
+html.theme-light {
+  filter: invert(1) hue-rotate(180deg);
+  color-scheme: light;
+}
+html.theme-light img,
+html.theme-light video {
+  filter: invert(1) hue-rotate(180deg);
+}

@@ -1,3 +1,6 @@
+// Run this in Supabase SQL Editor to add archived column:
+// ALTER TABLE projects ADD COLUMN IF NOT EXISTS archived boolean NOT NULL DEFAULT false;
+
 import { supabase } from '@/lib/supabase/client'
 import type { Project, CreateProjectPayload } from '@/lib/types'
 
@@ -5,6 +8,18 @@ export async function getProjects(): Promise<Project[]> {
   const { data, error } = await supabase
     .from('projects')
     .select('*')
+    .eq('archived', false)
+    .order('nombre')
+
+  if (error) throw error
+  return data ?? []
+}
+
+export async function getArchivedProjects(): Promise<Project[]> {
+  const { data, error } = await supabase
+    .from('projects')
+    .select('*')
+    .eq('archived', true)
     .order('nombre')
 
   if (error) throw error
@@ -32,6 +47,11 @@ export async function updateProject(id: string, payload: Partial<CreateProjectPa
 
   if (error) throw error
   return data
+}
+
+export async function archiveProject(id: string, archived: boolean): Promise<void> {
+  const { error } = await supabase.from('projects').update({ archived }).eq('id', id)
+  if (error) throw error
 }
 
 export async function deleteProject(id: string): Promise<void> {

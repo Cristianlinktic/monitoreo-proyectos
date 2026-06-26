@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Monitor de Proyectos',
-  description: 'Panel de monitoreo diario de proyectos web',
+  title: 'Monitor MKT · LinkTIC',
+  description: 'Panel de monitoreo diario de proyectos web — LinkTIC',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

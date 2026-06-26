@@ -4,7 +4,7 @@ import { use, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft, Globe, ExternalLink, Cpu, FileText, Sigma,
-  HardDrive, MessageSquare, LayoutDashboard, ListTodo, Package,
+  HardDrive, MessageSquare, LayoutDashboard, ListTodo, Package, CheckCircle2,
 } from 'lucide-react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart,
@@ -12,6 +12,7 @@ import {
 import { getProjects } from '@/services/projects.service'
 import { getProjectHistory } from '@/services/monitoring.service'
 import { HealthRing } from '@/components/dashboard/HealthRing'
+import { TasksPanel } from '@/components/dashboard/TasksPanel'
 import { computeHealth, healthColor } from '@/lib/health'
 import type { Project, MonitoringEntry } from '@/lib/types'
 
@@ -244,6 +245,15 @@ export default function ProyectoPage({ params }: PageProps) {
             </ResponsiveContainer>
           </div>
         )}
+
+        {/* Tasks */}
+        <div className="mb-8 p-5 rounded-2xl" style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#475569]" />
+            <span className="text-sm font-semibold text-[#F8FAFC]">Tareas</span>
+          </div>
+          <TasksPanel projectId={id} />
+        </div>
 
         {/* Timeline */}
         <div className="p-5 rounded-2xl" style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}>

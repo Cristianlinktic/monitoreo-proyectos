@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { gsap } from 'gsap'
 import {
   Search, Shield, Zap, LayoutDashboard, MessageSquare, HardDrive,
@@ -159,6 +159,13 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
     soloConTareas: false,
     plugin: '',
   })
+  const [dragOrder, setDragOrder] = useState<string[]>(() => {
+    if (typeof window === 'undefined') return []
+    try { return JSON.parse(localStorage.getItem('project-order') || '[]') } catch { return [] }
+  })
+  const [dragId, setDragId]       = useState<string | null>(null)
+  const [dragOverId, setDragOverId] = useState<string | null>(null)
+
   const tbodyRef     = useRef<HTMLTableSectionElement>(null)
   const filterPanelRef = useRef<HTMLDivElement>(null)
   const prevLoading  = useRef<boolean>(true)
@@ -195,6 +202,17 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
   const monitored = projects.filter(p => p.monitoring).length
   const pending   = projects.length - monitored
 
+  const orderedFiltered = useMemo(() => {
+    if (!dragOrder.length) return filtered
+    return [...filtered].sort((a, b) => {
+      const ai = dragOrder.indexOf(a.id), bi = dragOrder.indexOf(b.id)
+      if (ai === -1 && bi === -1) return 0
+      if (ai === -1) return 1
+      if (bi === -1) return -1
+      return ai - bi
+    })
+  }, [filtered, dragOrder])
+
   // Animate rows when loading finishes
   useEffect(() => {
     if (prevLoading.current && !loading && tbodyRef.current) {
@@ -223,6 +241,20 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
   }, [showFilters])
 
   const clearFilters = () => setFilters({ maquetador: '', minHealth: 0, soloConTareas: false, plugin: '' })
+
+  const handleDrop = (targetId: string) => {
+    if (!dragId || dragId === targetId) return
+    const currentIds = filtered.map(p => p.id)
+    const fromIdx = currentIds.indexOf(dragId)
+    const toIdx   = currentIds.indexOf(targetId)
+    const newOrder = [...currentIds]
+    newOrder.splice(fromIdx, 1)
+    newOrder.splice(toIdx, 0, dragId)
+    setDragOrder(newOrder)
+    localStorage.setItem('project-order', JSON.stringify(newOrder))
+    setDragId(null)
+    setDragOverId(null)
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -430,7 +462,7 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
                   </div>
                 </div>
               ))
-            : filtered.map(p => (
+            : orderedFiltered.map(p => (
                 <ProjectCard key={p.id} project={p} selectedDate={selectedDate} onRefresh={onRefresh} />
               ))
           }
@@ -485,8 +517,20 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
                     </td>
                   </tr>
                 ) : (
-                  filtered.map(project => (
-                    <ProjectRow key={project.id} project={project} selectedDate={selectedDate} onRefresh={onRefresh} />
+                  orderedFiltered.map(project => (
+                    <ProjectRow
+                      key={project.id}
+                      project={project}
+                      selectedDate={selectedDate}
+                      onRefresh={onRefresh}
+                      dragHandlers={{
+                        draggable: true,
+                        isDragOver: dragOverId === project.id,
+                        onDragStart: () => setDragId(project.id),
+                        onDragOver: (e) => { e.preventDefault(); setDragOverId(project.id) },
+                        onDrop: () => handleDrop(project.id),
+                      }}
+                    />
                   ))
                 )}
               </tbody>

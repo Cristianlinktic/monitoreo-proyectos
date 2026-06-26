@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import { Plus, Upload, Radio } from 'lucide-react'
+import { Plus, Upload, Radio, LogOut, Sun, Moon } from 'lucide-react'
 import { DateFilter } from '@/components/dashboard/DateFilter'
+import { useAuth } from '@/hooks/useAuth'
+import { useTheme } from '@/hooks/useTheme'
 
 interface HeaderProps {
   selectedDate: string
@@ -33,6 +35,8 @@ function LiveClock() {
 }
 
 export function Header({ selectedDate, availableDates, onDateChange, onNewProject, onImport }: HeaderProps) {
+  const { user, signOut } = useAuth()
+  const { theme, toggle: toggleTheme } = useTheme()
   const headerRef  = useRef<HTMLElement>(null)
   const scanRef    = useRef<HTMLDivElement>(null)
   const ring1Ref   = useRef<HTMLDivElement>(null)
@@ -163,6 +167,26 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
 
         {/* Actions */}
         <div className="flex items-center gap-2 shrink-0">
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+            className="p-2 rounded-xl transition-all cursor-pointer"
+            style={{ background: 'rgba(8,13,26,0.8)', border: '1px solid rgba(30,41,59,0.7)', color: '#475569' }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)'
+              ;(e.currentTarget as HTMLElement).style.color = '#F59E0B'
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'
+              ;(e.currentTarget as HTMLElement).style.color = '#475569'
+            }}
+          >
+            {theme === 'dark'
+              ? <Sun className="w-3.5 h-3.5" />
+              : <Moon className="w-3.5 h-3.5" />}
+          </button>
+
           {/* Import */}
           <button
             onClick={onImport}
@@ -186,6 +210,23 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
             <Upload className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Importar</span>
           </button>
+
+          {/* User + sign out */}
+          {user && (
+            <div className="hidden md:flex items-center gap-2 pl-2" style={{ borderLeft: '1px solid rgba(30,41,59,0.6)' }}>
+              <span className="text-[10px] text-[#334155] max-w-28 truncate">{user.email}</span>
+              <button
+                onClick={signOut}
+                title="Cerrar sesión"
+                className="p-1.5 rounded-lg transition-all cursor-pointer text-[#334155] hover:text-red-400"
+                style={{ border: '1px solid rgba(30,41,59,0.5)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(239,68,68,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.06)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
 
           {/* New project */}
           <button

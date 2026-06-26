@@ -9,14 +9,16 @@ import { Button } from '@/components/ui/Button'
 import { updateProject } from '@/services/projects.service'
 import { upsertMonitoring, uploadImage } from '@/services/monitoring.service'
 import { useToast } from '@/components/ui/Toast'
+import { TasksPanel } from './TasksPanel'
 import type { ProjectWithMonitoring } from '@/lib/types'
 
-type Tab = 'monitoreo' | 'proyecto' | 'acceso'
+type Tab = 'monitoreo' | 'proyecto' | 'acceso' | 'tareas'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'monitoreo', label: 'Monitoreo' },
   { id: 'proyecto',  label: 'Proyecto'  },
   { id: 'acceso',    label: 'Acceso'    },
+  { id: 'tareas',    label: 'Tareas'    },
 ]
 
 interface Props {
@@ -258,10 +260,17 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
           </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-[#1E293B]">
-          <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
-          <Button type="submit" loading={loading}>Guardar cambios</Button>
-        </div>
+        {/* ── Tab: Tareas ── */}
+        {tab === 'tareas' && (
+          <TasksPanel projectId={project.id} />
+        )}
+
+        {tab !== 'tareas' && (
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#1E293B]">
+            <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
+            <Button type="submit" loading={loading}>Guardar cambios</Button>
+          </div>
+        )}
       </form>
     </Modal>
   )

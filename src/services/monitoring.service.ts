@@ -5,6 +5,7 @@ export async function getMonitoringByDate(fecha: string): Promise<ProjectWithMon
   const { data: projects, error: pe } = await supabase
     .from('projects')
     .select('*')
+    .eq('archived', false)
     .order('nombre')
 
   if (pe) throw pe

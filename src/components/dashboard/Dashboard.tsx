@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ServerCrash } from 'lucide-react'
+import { Zap, ServerCrash } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { StatsBar } from '@/components/dashboard/StatsBar'
 import { MetricsPanel } from '@/components/dashboard/MetricsPanel'
@@ -11,6 +11,9 @@ import { ImportModal } from '@/components/dashboard/ImportModal'
 import { HeatmapCalendar } from '@/components/dashboard/HeatmapCalendar'
 import { DomainAlerts } from '@/components/dashboard/DomainAlerts'
 import { StaleProjects } from '@/components/dashboard/StaleProjects'
+import { ArchivedProjects } from '@/components/dashboard/ArchivedProjects'
+import { QuickMonitor } from '@/components/dashboard/QuickMonitor'
+import { CommandPalette } from '@/components/ui/CommandPalette'
 import { ToastProvider } from '@/components/ui/Toast'
 import { useMonitoring } from '@/hooks/useMonitoring'
 
@@ -20,6 +23,7 @@ function DashboardContent() {
   const [newProjectOpen, setNewProjectOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
   const [showOnlyPending, setShowOnlyPending] = useState(false)
+  const [quickMonitorOpen, setQuickMonitorOpen] = useState(false)
 
   return (
     <>
@@ -53,10 +57,29 @@ function DashboardContent() {
 
         <DomainAlerts projects={projects} />
         <StaleProjects projects={projects} />
+        <ArchivedProjects onRestore={refetch} />
 
         <MetricsPanel projects={projects} totalProjects={projects.length} />
 
         <HeatmapCalendar totalProjects={projects.length} onDateChange={setSelectedDate} />
+
+        {/* Quick Monitor button */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => setQuickMonitorOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
+              boxShadow: '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)',
+              color: '#020617',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(34,197,94,0.55), 0 2px 8px rgba(0,0,0,0.4)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)' }}
+          >
+            <Zap className="w-4 h-4" />
+            Monitoreo Rápido
+          </button>
+        </div>
 
         {error ? (
           <div className="flex flex-col items-center gap-3 py-24">
@@ -88,6 +111,25 @@ function DashboardContent() {
         open={importOpen}
         onClose={() => setImportOpen(false)}
         onSuccess={refetch}
+      />
+
+      {quickMonitorOpen && (
+        <QuickMonitor
+          projects={projects}
+          selectedDate={selectedDate}
+          onRefresh={refetch}
+          onClose={() => setQuickMonitorOpen(false)}
+        />
+      )}
+
+      <CommandPalette
+        projects={projects}
+        availableDates={availableDates}
+        selectedDate={selectedDate}
+        onDateChange={setSelectedDate}
+        onNewProject={() => setNewProjectOpen(true)}
+        onImport={() => setImportOpen(true)}
+        onQuickMonitor={() => setQuickMonitorOpen(true)}
       />
     </>
   )

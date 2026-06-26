@@ -13,6 +13,18 @@ export interface Project {
   autenticador: string | null
   licencias: string | null
   figma_url: string | null
+  archived: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface Task {
+  id: string
+  project_id: string
+  titulo: string
+  descripcion: string | null
+  estado: 'pendiente' | 'en_progreso' | 'resuelto'
+  fecha_limite: string | null
   created_at: string
   updated_at: string
 }
@@ -66,6 +78,7 @@ export interface CreateProjectPayload {
   autenticador?: string | null
   licencias?: string | null
   figma_url?: string | null
+  archived?: boolean
 }
 
 export interface ImportRow {
