@@ -9,6 +9,8 @@ import {
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { ProjectEditModal } from './ProjectEditModal'
+import { HealthRing } from './HealthRing'
+import { computeHealth } from '@/lib/health'
 import { cn } from '@/lib/utils'
 import type { ProjectWithMonitoring, StatusLevel } from '@/lib/types'
 
@@ -120,6 +122,7 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
   const rowRef = useRef<HTMLTableRowElement>(null)
   const m = project.monitoring
   const hasData = !!m
+  const healthScore = computeHealth(m)
 
   useEffect(() => {
     if (!expandRef.current) return
@@ -161,6 +164,11 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
               ? <ChevronDown className="w-3.5 h-3.5" />
               : <ChevronRight className="w-3.5 h-3.5" />}
           </button>
+        </td>
+
+        {/* Health ring */}
+        <td className="px-2 py-2 w-10">
+          <HealthRing score={healthScore} />
         </td>
 
         {/* Nombre */}
@@ -277,7 +285,7 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
       {/* Expanded panel */}
       {expanded && (
         <tr ref={expandRef} style={{ borderBottom: '1px solid rgba(30,41,59,0.4)' }}>
-          <td colSpan={10} className="px-4 py-5" style={{ background: 'rgba(3,7,18,0.8)' }}>
+          <td colSpan={11} className="px-4 py-5" style={{ background: 'rgba(3,7,18,0.8)' }}>
 
             {/* Top accent */}
             <div className="h-px w-full mb-5" style={{ background: 'linear-gradient(90deg, rgba(34,197,94,0.3), transparent)' }} />

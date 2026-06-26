@@ -58,7 +58,9 @@ const CARD_CONFIG = [
 
 export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }: StatsBarProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const numRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const numRefs  = useRef<(HTMLSpanElement | null)[]>([])
+  const trendRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const prevValues = useRef<number[] | null>(null)
 
   const total     = projects.length
   const monitored = projects.filter(p => p.monitoring).length
@@ -77,9 +79,11 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
     )
   }, [])
 
-  // Count-up — fires every time loading finishes (i.e. every date navigation)
+  // Count-up + trend — fires every time loading finishes
   useEffect(() => {
     if (loading) return
+    const prev = prevValues.current
+
     numRefs.current.forEach((el, i) => {
       if (!el) return
       const target = { val: 0 }
@@ -91,6 +95,18 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
         onUpdate() { if (el) el.textContent = String(Math.round(target.val)) },
       })
     })
+
+    // Trend arrows
+    trendRefs.current.forEach((el, i) => {
+      if (!el) return
+      if (!prev) { el.textContent = ''; return }
+      const diff = values[i] - prev[i]
+      if (diff === 0) { el.textContent = ''; return }
+      el.textContent = diff > 0 ? `↑${diff}` : `↓${Math.abs(diff)}`
+      el.style.color = diff > 0 ? '#22C55E' : '#EF4444'
+    })
+
+    prevValues.current = [...values]
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
@@ -150,6 +166,12 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
                 0
               </span>
             </div>
+
+            {/* Trend */}
+            <span
+              ref={el => { trendRefs.current[i] = el }}
+              className="text-[10px] font-semibold mt-1 block h-3 leading-none"
+            />
 
             {/* Label */}
             <p className="text-xs text-[#64748B] mt-2 font-medium">

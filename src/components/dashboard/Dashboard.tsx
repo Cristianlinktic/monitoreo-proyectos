@@ -1,13 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2, ServerCrash } from 'lucide-react'
+import { ServerCrash } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { StatsBar } from '@/components/dashboard/StatsBar'
 import { MetricsPanel } from '@/components/dashboard/MetricsPanel'
 import { ProjectsTable } from '@/components/dashboard/ProjectsTable'
 import { ProjectFormModal } from '@/components/dashboard/ProjectFormModal'
 import { ImportModal } from '@/components/dashboard/ImportModal'
+import { HeatmapCalendar } from '@/components/dashboard/HeatmapCalendar'
 import { ToastProvider } from '@/components/ui/Toast'
 import { useMonitoring } from '@/hooks/useMonitoring'
 
@@ -50,17 +51,9 @@ function DashboardContent() {
 
         <MetricsPanel projects={projects} totalProjects={projects.length} />
 
-        {loading ? (
-          <div className="flex items-center justify-center py-24">
-            <div className="flex flex-col items-center gap-3">
-              <div className="relative">
-                <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
-                <div className="absolute inset-0 rounded-full blur-md opacity-50" style={{ background: '#22C55E' }} />
-              </div>
-              <p className="text-xs text-[#334155] tracking-widest uppercase">Cargando proyectos</p>
-            </div>
-          </div>
-        ) : error ? (
+        <HeatmapCalendar totalProjects={projects.length} onDateChange={setSelectedDate} />
+
+        {error ? (
           <div className="flex flex-col items-center gap-3 py-24">
             <ServerCrash className="w-10 h-10 text-red-400" />
             <p className="text-sm text-[#94A3B8]">{error}</p>
@@ -73,6 +66,7 @@ function DashboardContent() {
             projects={projects}
             selectedDate={selectedDate}
             onRefresh={refetch}
+            loading={loading}
             showOnlyPending={showOnlyPending}
             onClearPending={() => setShowOnlyPending(false)}
           />
