@@ -1,27 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
 import {
-  ChevronDown,
-  ChevronRight,
-  Shield,
-  LayoutDashboard,
-  MessageSquare,
-  HardDrive,
-  FileText,
-  ListTodo,
-  Edit3,
-  Plus,
-  Package,
-  ExternalLink,
-  Globe,
-  User,
-  Key,
-  Calendar,
-  Sigma,
+  ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
+  HardDrive, FileText, ListTodo, Edit3, Plus, Package, ExternalLink,
+  Globe, User, Key, Calendar, Sigma, Copy, Check,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
 import { ProjectEditModal } from './ProjectEditModal'
 import { cn } from '@/lib/utils'
 import type { ProjectWithMonitoring, StatusLevel } from '@/lib/types'
@@ -35,45 +21,88 @@ function inferStatus(value: string | null | undefined): StatusLevel {
   return 'ok'
 }
 
-function StatusCell({ value, showImage, imageUrl }: {
-  value: string | null
-  showImage?: boolean
-  imageUrl?: string | null
-}) {
+function StatusCell({ value, showImage, imageUrl }: { value: string | null; showImage?: boolean; imageUrl?: string | null }) {
   const [imgOpen, setImgOpen] = useState(false)
-
-  if (!value && !imageUrl) {
-    return <Badge variant="pending">—</Badge>
-  }
-
+  if (!value && !imageUrl) return <span className="text-xs text-[#1E293B]">—</span>
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {imageUrl && (
         <>
-          <button
-            onClick={() => setImgOpen(true)}
-            className="relative group cursor-pointer"
-            aria-label="Ver imagen"
-          >
+          <button onClick={() => setImgOpen(true)} className="group cursor-pointer" aria-label="Ver imagen">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageUrl}
-              alt="captura"
-              className="w-8 h-8 rounded object-cover border border-[#1E293B] group-hover:border-emerald-500/40 transition-colors"
-            />
+            <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all" style={{ border: '1px solid rgba(30,41,59,0.8)' }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(34,197,94,0.4)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(30,41,59,0.8)')} />
           </button>
           {imgOpen && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-              onClick={() => setImgOpen(false)}
-            >
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(2,6,23,0.9)', backdropFilter: 'blur(12px)' }} onClick={() => setImgOpen(false)}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl} alt="captura" className="max-w-full max-h-full rounded-xl" />
+              <img src={imageUrl} alt="captura" className="max-w-full max-h-full rounded-2xl" style={{ boxShadow: '0 0 80px rgba(34,197,94,0.1)' }} />
             </div>
           )}
         </>
       )}
       {value && <Badge variant={inferStatus(value)}>{value}</Badge>}
+    </div>
+  )
+}
+
+function CopyableValue({ value, secret }: { value: string; secret?: boolean }) {
+  const [show, setShow] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const copy = () => {
+    navigator.clipboard.writeText(value)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1500)
+  }
+
+  return (
+    <div className="flex items-center gap-2 group/copy">
+      <span className="text-xs font-mono text-[#CBD5E1]">{secret && !show ? '••••••••••' : value}</span>
+      <div className="flex items-center gap-1 opacity-0 group-hover/copy:opacity-100 transition-opacity">
+        {secret && (
+          <button onClick={() => setShow(s => !s)} className="text-[10px] text-[#334155] hover:text-emerald-400 transition-colors cursor-pointer">
+            {show ? 'ocultar' : 'ver'}
+          </button>
+        )}
+        <button onClick={copy} className="text-[#334155] hover:text-cyan-400 transition-colors cursor-pointer">
+          {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function DataBlock({ icon, label, value, secret, link, accent = '#94A3B8' }: {
+  icon: React.ReactNode; label: string; value: string; secret?: boolean; link?: boolean; accent?: string
+}) {
+  return (
+    <div className="flex flex-col gap-1.5 p-3 rounded-xl" style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
+      <div className="flex items-center gap-1.5">
+        {icon}
+        <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: accent + '80' }}>{label}</span>
+      </div>
+      {link ? (
+        <a href={value} target="_blank" rel="noopener noreferrer"
+          className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
+          {value}
+        </a>
+      ) : secret ? (
+        <CopyableValue value={value} secret />
+      ) : (
+        <p className="text-xs text-[#CBD5E1] whitespace-pre-wrap leading-relaxed">{value}</p>
+      )}
+    </div>
+  )
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-3 mb-3">
+      <div className="h-px flex-1" style={{ background: 'rgba(30,41,59,0.6)' }} />
+      <span className="text-[10px] font-bold uppercase tracking-widest text-[#334155]">{children}</span>
+      <div className="h-px flex-1" style={{ background: 'rgba(30,41,59,0.6)' }} />
     </div>
   )
 }
@@ -87,24 +116,46 @@ interface ProjectRowProps {
 export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps) {
   const [expanded, setExpanded] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const expandRef = useRef<HTMLTableRowElement>(null)
+  const rowRef = useRef<HTMLTableRowElement>(null)
   const m = project.monitoring
-
   const hasData = !!m
+
+  useEffect(() => {
+    if (!expandRef.current) return
+    if (expanded) {
+      gsap.fromTo(expandRef.current,
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+      )
+    }
+  }, [expanded])
+
+  const handleRowHover = (enter: boolean) => {
+    if (!rowRef.current) return
+    gsap.to(rowRef.current, {
+      backgroundColor: enter ? 'rgba(15,23,42,0.6)' : 'transparent',
+      duration: 0.15,
+    })
+  }
 
   return (
     <>
-      {/* Row */}
-      <tr className={cn(
-        'border-b border-[#1E293B] transition-colors',
-        'hover:bg-[#0F172A]/60',
-        expanded && 'bg-[#0F172A]/40'
-      )}>
-        {/* Expand */}
+      <tr
+        ref={rowRef}
+        className="border-b transition-colors cursor-default"
+        style={{ borderColor: 'rgba(30,41,59,0.4)' }}
+        onMouseEnter={() => handleRowHover(true)}
+        onMouseLeave={() => handleRowHover(false)}
+      >
+        {/* Expand toggle */}
         <td className="w-8 pl-3">
           <button
-            onClick={() => setExpanded((p) => !p)}
-            className="p-1 rounded text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#1E293B] transition-colors cursor-pointer"
-            aria-label={expanded ? 'Colapsar' : 'Expandir'}
+            onClick={() => setExpanded(p => !p)}
+            className="p-1.5 rounded-lg transition-all cursor-pointer"
+            style={{ color: '#334155' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22C55E'; (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
           >
             {expanded
               ? <ChevronDown className="w-3.5 h-3.5" />
@@ -112,38 +163,41 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
           </button>
         </td>
 
-        {/* Nombre + maquetador */}
+        {/* Nombre */}
         <td className="px-3 py-3">
           <div className="flex flex-col gap-0.5">
-            <div className="flex items-center gap-1.5">
-              <span className="font-medium text-sm text-[#F8FAFC]">{project.nombre}</span>
+            <div className="flex items-center gap-2">
+              {/* Status dot */}
+              <div
+                className="w-1.5 h-1.5 rounded-full shrink-0"
+                style={{
+                  background: hasData ? '#22C55E' : '#334155',
+                  boxShadow: hasData ? '0 0 6px rgba(34,197,94,0.6)' : 'none',
+                }}
+              />
+              <span className="font-semibold text-sm text-[#F8FAFC]">{project.nombre}</span>
               {project.url && (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#475569] hover:text-emerald-400 transition-colors"
-                  aria-label="Abrir URL"
-                >
+                <a href={project.url} target="_blank" rel="noopener noreferrer"
+                  className="text-[#334155] hover:text-cyan-400 transition-colors">
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}
             </div>
             {project.maquetador && (
-              <span className="text-xs text-[#475569]">{project.maquetador}</span>
+              <span className="text-[11px] text-[#334155] ml-3.5">{project.maquetador}</span>
             )}
           </div>
         </td>
 
-        {/* Plugins count */}
+        {/* Plugins */}
         <td className="px-3 py-3 hidden md:table-cell">
           {project.plugins.length > 0 ? (
-            <span className="inline-flex items-center gap-1 text-xs text-[#94A3B8]">
-              <Package className="w-3 h-3" />
-              {project.plugins.length}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <Package className="w-3 h-3 text-[#334155]" />
+              <span className="text-xs text-[#475569]">{project.plugins.length}</span>
+            </div>
           ) : (
-            <span className="text-xs text-[#334155]">—</span>
+            <span className="text-xs text-[#1E293B]">—</span>
           )}
         </td>
 
@@ -160,70 +214,99 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
         {/* Estabilidad */}
         <td className="px-3 py-3 hidden xl:table-cell">
           {m?.estabilidad_diseno
-            ? <span className="text-xs text-[#CBD5E1]">{m.estabilidad_diseno}</span>
-            : <span className="text-xs text-[#334155]">—</span>}
+            ? <span className="text-xs text-[#94A3B8]">{m.estabilidad_diseno}</span>
+            : <span className="text-xs text-[#1E293B]">—</span>}
         </td>
 
         {/* Formularios */}
         <td className="px-3 py-3 hidden xl:table-cell">
-          <StatusCell value={m?.pruebas_formularios ?? null} />
+          {m?.pruebas_formularios
+            ? <Badge variant={inferStatus(m.pruebas_formularios)}>{m.pruebas_formularios}</Badge>
+            : <span className="text-xs text-[#1E293B]">—</span>}
         </td>
 
         {/* Backup */}
         <td className="px-3 py-3 hidden xl:table-cell">
-          <StatusCell value={m?.backup ?? null} />
+          {m?.backup
+            ? <Badge variant={inferStatus(m.backup)}>{m.backup}</Badge>
+            : <span className="text-xs text-[#1E293B]">—</span>}
         </td>
 
-        {/* Estado general */}
+        {/* Estado */}
         <td className="px-3 py-3">
           {hasData
             ? <Badge variant="ok">Monitoreado</Badge>
             : <Badge variant="pending">Pendiente</Badge>}
         </td>
 
-        {/* Acciones */}
+        {/* Acción */}
         <td className="px-3 py-3">
-          <Button
-            size="sm"
-            variant={hasData ? 'secondary' : 'primary'}
+          <button
             onClick={() => setEditOpen(true)}
-            className="whitespace-nowrap"
+            className={cn(
+              'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95',
+            )}
+            style={hasData ? {
+              background: 'rgba(15,23,42,0.8)',
+              border: '1px solid rgba(30,41,59,0.8)',
+              color: '#64748B',
+            } : {
+              background: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(6,182,212,0.08))',
+              border: '1px solid rgba(34,197,94,0.3)',
+              color: '#22C55E',
+              boxShadow: '0 0 12px rgba(34,197,94,0.15)',
+            }}
+            onMouseEnter={e => {
+              if (hasData) {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.3)'
+                ;(e.currentTarget as HTMLElement).style.color = '#22C55E'
+              }
+            }}
+            onMouseLeave={e => {
+              if (hasData) {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.8)'
+                ;(e.currentTarget as HTMLElement).style.color = '#64748B'
+              }
+            }}
           >
-            {hasData
-              ? <><Edit3 className="w-3 h-3" /> Editar</>
-              : <><Plus className="w-3 h-3" /> Registrar</>}
-          </Button>
+            {hasData ? <><Edit3 className="w-3 h-3" />Editar</> : <><Plus className="w-3 h-3" />Registrar</>}
+          </button>
         </td>
       </tr>
 
-      {/* Expanded detail */}
+      {/* Expanded panel */}
       {expanded && (
-        <tr className="border-b border-[#1E293B] bg-[#0A0F1E]">
-          <td colSpan={10} className="px-6 py-5">
+        <tr ref={expandRef} style={{ borderBottom: '1px solid rgba(30,41,59,0.4)' }}>
+          <td colSpan={10} className="px-4 py-5" style={{ background: 'rgba(3,7,18,0.8)' }}>
+
+            {/* Top accent */}
+            <div className="h-px w-full mb-5" style={{ background: 'linear-gradient(90deg, rgba(34,197,94,0.3), transparent)' }} />
+
             <div className="flex flex-col gap-5">
 
               {/* Acceso */}
-              {(project.link_acceso_editor || project.usuario || project.dominio) && (
+              {(project.link_acceso_editor || project.usuario || project.clave || project.dominio || project.autenticador || project.vencimiento_dominio) && (
                 <div>
-                  <p className="text-xs font-semibold text-[#475569] uppercase tracking-widest mb-3">Acceso</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    {project.dominio       && <DetailBlock icon={<ExternalLink className="w-3.5 h-3.5 text-blue-400" />}    label="Dominio"    value={project.dominio} />}
-                    {project.link_acceso_editor && <DetailBlock icon={<Globe className="w-3.5 h-3.5 text-emerald-400" />}   label="Editor"     value={project.link_acceso_editor} />}
-                    {project.usuario       && <DetailBlock icon={<User className="w-3.5 h-3.5 text-amber-400" />}           label="Usuario"    value={project.usuario} />}
-                    {project.clave         && <DetailBlock icon={<Key className="w-3.5 h-3.5 text-red-400" />}              label="Clave"      value={project.clave} secret />}
-                    {project.autenticador  && <DetailBlock icon={<Shield className="w-3.5 h-3.5 text-purple-400" />}        label="Auth"       value={project.autenticador} />}
-                    {project.vencimiento_dominio && <DetailBlock icon={<Calendar className="w-3.5 h-3.5 text-orange-400" />} label="Vencimiento" value={project.vencimiento_dominio} />}
+                  <SectionLabel>Acceso</SectionLabel>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
+                    {project.dominio         && <DataBlock icon={<Globe className="w-3.5 h-3.5 text-blue-400" />}     label="Dominio"    value={project.dominio} accent="#3B82F6" />}
+                    {project.link_acceso_editor && <DataBlock icon={<ExternalLink className="w-3.5 h-3.5 text-cyan-400" />} label="Editor"  value={project.link_acceso_editor} link accent="#06B6D4" />}
+                    {project.usuario         && <DataBlock icon={<User className="w-3.5 h-3.5 text-amber-400" />}     label="Usuario"    value={project.usuario} accent="#F59E0B" />}
+                    {project.clave           && <DataBlock icon={<Key className="w-3.5 h-3.5 text-red-400" />}        label="Clave"      value={project.clave} secret accent="#EF4444" />}
+                    {project.autenticador    && <DataBlock icon={<Shield className="w-3.5 h-3.5 text-violet-400" />}  label="Auth"       value={project.autenticador} accent="#8B5CF6" />}
+                    {project.vencimiento_dominio && <DataBlock icon={<Calendar className="w-3.5 h-3.5 text-orange-400" />} label="Vencimiento" value={project.vencimiento_dominio} accent="#F97316" />}
                   </div>
                 </div>
               )}
 
               {/* Configuración */}
-              {(project.licencias || project.figma_url) && (
+              {(project.licencias || project.figma_url || project.ceco) && (
                 <div>
-                  <p className="text-xs font-semibold text-[#475569] uppercase tracking-widest mb-3">Configuración</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {project.licencias  && <DetailBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}   label="Licencias" value={project.licencias} />}
-                    {project.figma_url  && <DetailBlock icon={<Sigma className="w-3.5 h-3.5 text-purple-400" />}   label="Figma"     value={project.figma_url} link />}
+                  <SectionLabel>Configuración</SectionLabel>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {project.ceco       && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-slate-400" />}  label="CECO"     value={project.ceco} />}
+                    {project.licencias  && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}   label="Licencias" value={project.licencias} />}
+                    {project.figma_url  && <DataBlock icon={<Sigma className="w-3.5 h-3.5 text-purple-400" />}   label="Figma"    value={project.figma_url} link accent="#A855F7" />}
                   </div>
                 </div>
               )}
@@ -231,10 +314,14 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
               {/* Plugins */}
               {project.plugins.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-[#475569] uppercase tracking-widest mb-3">Plugins ({project.plugins.length})</p>
+                  <SectionLabel>Plugins · {project.plugins.length}</SectionLabel>
                   <div className="flex flex-wrap gap-1.5">
-                    {project.plugins.map((p) => (
-                      <span key={p} className="text-xs px-2 py-0.5 rounded-md bg-[#1E293B] text-[#94A3B8] border border-[#334155]">{p}</span>
+                    {project.plugins.map(p => (
+                      <span key={p}
+                        className="text-[11px] px-2.5 py-1 rounded-lg font-medium"
+                        style={{ background: 'rgba(15,23,42,0.9)', border: '1px solid rgba(30,41,59,0.7)', color: '#64748B' }}>
+                        {p}
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -243,13 +330,13 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
               {/* Monitoreo */}
               {m && (
                 <div>
-                  <p className="text-xs font-semibold text-[#475569] uppercase tracking-widest mb-3">Monitoreo — {m.fecha}</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {m.notas               && <DetailBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}       label="Notas"             value={m.notas ?? ''} />}
-                    {m.tareas_ejecutar     && <DetailBlock icon={<ListTodo className="w-3.5 h-3.5 text-amber-400" />}      label="Tareas a ejecutar" value={m.tareas_ejecutar ?? ''} />}
-                    {m.backup              && <DetailBlock icon={<HardDrive className="w-3.5 h-3.5 text-emerald-400" />}   label="Backup"            value={m.backup ?? ''} />}
-                    {m.pruebas_formularios && <DetailBlock icon={<MessageSquare className="w-3.5 h-3.5 text-purple-400" />}label="Formularios"       value={m.pruebas_formularios ?? ''} />}
-                    {m.estabilidad_diseno  && <DetailBlock icon={<LayoutDashboard className="w-3.5 h-3.5 text-slate-400" />}label="Estabilidad"      value={m.estabilidad_diseno ?? ''} />}
+                  <SectionLabel>Monitoreo · {m.fecha}</SectionLabel>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {m.backup              && <DataBlock icon={<HardDrive className="w-3.5 h-3.5 text-emerald-400" />}     label="Backup"      value={m.backup} accent="#22C55E" />}
+                    {m.pruebas_formularios && <DataBlock icon={<MessageSquare className="w-3.5 h-3.5 text-violet-400" />}  label="Formularios" value={m.pruebas_formularios} accent="#8B5CF6" />}
+                    {m.estabilidad_diseno  && <DataBlock icon={<LayoutDashboard className="w-3.5 h-3.5 text-cyan-400" />}  label="Estabilidad" value={m.estabilidad_diseno} accent="#06B6D4" />}
+                    {m.notas               && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}         label="Notas"       value={m.notas ?? ''} />}
+                    {m.tareas_ejecutar     && <DataBlock icon={<ListTodo className="w-3.5 h-3.5 text-amber-400" />}        label="Tareas"      value={m.tareas_ejecutar ?? ''} accent="#F59E0B" />}
                   </div>
                 </div>
               )}
@@ -268,41 +355,5 @@ export function ProjectRow({ project, selectedDate, onRefresh }: ProjectRowProps
         />
       )}
     </>
-  )
-}
-
-function DetailBlock({ icon, label, value, secret, link }: {
-  icon: React.ReactNode
-  label: string
-  value: string
-  secret?: boolean
-  link?: boolean
-}) {
-  const [show, setShow] = useState(false)
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center gap-1.5">
-        {icon}
-        <span className="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">{label}</span>
-      </div>
-      {secret ? (
-        <div className="flex items-center gap-2">
-          <p className="text-sm text-[#CBD5E1] font-mono">
-            {show ? value : '••••••••••••'}
-          </p>
-          <button onClick={() => setShow(s => !s)}
-            className="text-xs text-[#475569] hover:text-emerald-400 transition-colors cursor-pointer">
-            {show ? 'ocultar' : 'mostrar'}
-          </button>
-        </div>
-      ) : link ? (
-        <a href={value} target="_blank" rel="noopener noreferrer"
-          className="text-sm text-emerald-400 hover:text-emerald-300 underline truncate transition-colors">
-          {value}
-        </a>
-      ) : (
-        <p className="text-sm text-[#CBD5E1] whitespace-pre-wrap leading-relaxed">{value}</p>
-      )}
-    </div>
   )
 }

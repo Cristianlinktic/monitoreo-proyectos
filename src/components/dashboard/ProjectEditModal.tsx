@@ -151,17 +151,22 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
   return (
     <Modal open={open} onClose={onClose} title={project.nombre} size="xl">
       {/* Tabs */}
-      <div className="flex gap-1 mb-5 p-1 bg-[#0A0F1E] rounded-xl border border-[#1E293B]">
+      <div className="flex gap-1 mb-5 p-1 rounded-xl" style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.6)' }}>
         {TABS.map(t => (
           <button
             key={t.id}
             type="button"
             onClick={() => setTab(t.id)}
-            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-              tab === t.id
-                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                : 'text-[#64748B] hover:text-[#94A3B8]'
-            }`}
+            className="flex-1 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer"
+            style={tab === t.id ? {
+              background: 'linear-gradient(135deg, rgba(34,197,94,0.12), rgba(6,182,212,0.06))',
+              border: '1px solid rgba(34,197,94,0.25)',
+              color: '#22C55E',
+              boxShadow: '0 0 12px rgba(34,197,94,0.1)',
+            } : {
+              border: '1px solid transparent',
+              color: '#475569',
+            }}
           >
             {t.label}
           </button>
@@ -212,7 +217,10 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
                   onChange={e => setPluginInput(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlugin() } }}
                   placeholder="Nombre del plugin + Enter"
-                  className="flex-1 px-3 py-2 rounded-lg text-sm bg-[#0F172A] border border-[#1E293B] text-[#F8FAFC] placeholder:text-[#475569] focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-colors"
+                  className="flex-1 px-3 py-2 rounded-lg text-sm text-[#F8FAFC] placeholder:text-[#334155] focus:outline-none transition-all"
+              style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.7)' }}
+              onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(34,197,94,0.08)' }}
+              onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
                 />
                 <button type="button" onClick={addPlugin} className="px-3 py-2 rounded-lg bg-[#1E293B] hover:bg-[#334155] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#334155] transition-colors cursor-pointer">
                   <Plus className="w-4 h-4" />

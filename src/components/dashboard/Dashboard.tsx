@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Loader2, ServerCrash } from 'lucide-react'
 import { Header } from '@/components/layout/Header'
 import { StatsBar } from '@/components/dashboard/StatsBar'
+import { MetricsPanel } from '@/components/dashboard/MetricsPanel'
 import { ProjectsTable } from '@/components/dashboard/ProjectsTable'
 import { ProjectFormModal } from '@/components/dashboard/ProjectFormModal'
 import { ImportModal } from '@/components/dashboard/ImportModal'
@@ -15,6 +16,7 @@ function DashboardContent() {
     useMonitoring()
   const [newProjectOpen, setNewProjectOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
+  const [showOnlyPending, setShowOnlyPending] = useState(false)
 
   return (
     <>
@@ -26,12 +28,37 @@ function DashboardContent() {
         onImport={() => setImportOpen(true)}
       />
 
-      <main className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6">
-        <StatsBar projects={projects} selectedDate={selectedDate} />
+      {/* Background decoration */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+        <div className="bg-grid absolute inset-0 opacity-30" />
+        <div className="orb w-[600px] h-[600px] -top-64 -left-64 opacity-[0.04]"
+          style={{ background: '#22C55E' }} />
+        <div className="orb w-[500px] h-[500px] top-1/2 -right-48 opacity-[0.04]"
+          style={{ background: '#06B6D4' }} />
+        <div className="orb w-[400px] h-[400px] bottom-0 left-1/3 opacity-[0.03]"
+          style={{ background: '#8B5CF6' }} />
+      </div>
+
+      <main className="relative max-w-screen-2xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-5" style={{ zIndex: 1 }}>
+        <StatsBar
+          projects={projects}
+          selectedDate={selectedDate}
+          loading={loading}
+          showOnlyPending={showOnlyPending}
+          onTogglePending={() => setShowOnlyPending(p => !p)}
+        />
+
+        <MetricsPanel projects={projects} totalProjects={projects.length} />
 
         {loading ? (
           <div className="flex items-center justify-center py-24">
-            <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative">
+                <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+                <div className="absolute inset-0 rounded-full blur-md opacity-50" style={{ background: '#22C55E' }} />
+              </div>
+              <p className="text-xs text-[#334155] tracking-widest uppercase">Cargando proyectos</p>
+            </div>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center gap-3 py-24">
@@ -42,7 +69,13 @@ function DashboardContent() {
             </button>
           </div>
         ) : (
-          <ProjectsTable projects={projects} selectedDate={selectedDate} onRefresh={refetch} />
+          <ProjectsTable
+            projects={projects}
+            selectedDate={selectedDate}
+            onRefresh={refetch}
+            showOnlyPending={showOnlyPending}
+            onClearPending={() => setShowOnlyPending(false)}
+          />
         )}
       </main>
 

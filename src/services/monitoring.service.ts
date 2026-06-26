@@ -66,3 +66,21 @@ export async function getAvailableDates(): Promise<string[]> {
   const unique = [...new Set((data ?? []).map((r) => r.fecha))]
   return unique
 }
+
+export async function getCoverageStats(): Promise<{ fecha: string; monitored: number }[]> {
+  const { data, error } = await supabase
+    .from('monitoring_entries')
+    .select('fecha')
+    .order('fecha', { ascending: true })
+
+  if (error) throw error
+
+  const counts = new Map<string, number>()
+  for (const row of data ?? []) {
+    counts.set(row.fecha, (counts.get(row.fecha) ?? 0) + 1)
+  }
+
+  return Array.from(counts.entries())
+    .map(([fecha, monitored]) => ({ fecha, monitored }))
+    .slice(-30)
+}

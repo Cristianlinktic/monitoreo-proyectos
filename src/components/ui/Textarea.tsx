@@ -9,12 +9,12 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, className, id, ...props }, ref) => {
+  ({ label, error, className, id, style, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">
+          <label htmlFor={inputId} className="text-[10px] font-semibold text-[#475569] uppercase tracking-widest">
             {label}
           </label>
         )}
@@ -23,17 +23,28 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           rows={3}
           className={cn(
-            'w-full px-3 py-2 rounded-lg text-sm resize-none',
-            'bg-[#0F172A] border border-[#1E293B] text-[#F8FAFC]',
-            'placeholder:text-[#475569]',
-            'focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30',
-            'transition-colors duration-150',
-            error && 'border-red-500/50',
+            'w-full px-3 py-2.5 rounded-lg text-sm resize-none text-[#F8FAFC] placeholder:text-[#334155]',
+            'focus:outline-none transition-all duration-150',
+            error && 'ring-1 ring-red-500/50',
             className
           )}
+          style={{
+            background: 'rgba(3,7,18,0.8)',
+            border: `1px solid ${error ? 'rgba(239,68,68,0.4)' : 'rgba(30,41,59,0.7)'}`,
+            lineHeight: '1.6',
+            ...style,
+          }}
+          onFocus={e => {
+            e.currentTarget.style.borderColor = 'rgba(34,197,94,0.4)'
+            e.currentTarget.style.boxShadow = '0 0 12px rgba(34,197,94,0.08)'
+          }}
+          onBlur={e => {
+            e.currentTarget.style.borderColor = error ? 'rgba(239,68,68,0.4)' : 'rgba(30,41,59,0.7)'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
           {...props}
         />
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-[11px] text-red-400">{error}</p>}
       </div>
     )
   }
