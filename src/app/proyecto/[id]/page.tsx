@@ -225,23 +225,16 @@ export default function ProyectoPage({ params }: PageProps) {
               <ExternalLink className="w-3.5 h-3.5 text-[#475569]" />
               <span className="text-xs font-semibold uppercase tracking-widest text-[#334155]">Redirects de formularios · {project.redirects.length}</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="flex flex-col gap-1.5">
               {project.redirects.map((r, i) => (
-                <div key={i} className="flex flex-col gap-1.5 p-3 rounded-xl"
-                  style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.6)' }}>
-                  <div className="flex items-center gap-1.5">
-                    <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-                    <span className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Formulario</span>
-                  </div>
-                  {r.url ? (
-                    <a href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
-                      className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate">
-                      {r.nombre || r.url}
-                    </a>
-                  ) : (
-                    <p className="text-xs text-[#CBD5E1] truncate">{r.nombre}</p>
-                  )}
-                </div>
+                r.url ? (
+                  <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
+                    className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate w-fit max-w-full">
+                    {r.nombre || r.url}
+                  </a>
+                ) : (
+                  <p key={i} className="text-xs text-[#CBD5E1] truncate">{r.nombre}</p>
+                )
               ))}
             </div>
           </div>

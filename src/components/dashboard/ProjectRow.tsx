@@ -320,6 +320,24 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         <tr ref={expandRef} style={{ borderBottom: '1px solid rgba(30,41,59,0.4)' }}>
           <td colSpan={11} className="px-4 py-5" style={{ background: 'rgba(3,7,18,0.8)' }}>
 
+            {/* Archivar proyecto - arriba a la derecha */}
+            <div className="flex justify-end mb-3">
+              <button
+                onClick={async () => {
+                  if (!window.confirm('¿Archivar este proyecto? Desaparecerá del dashboard pero se puede restaurar.')) return
+                  await archiveProject(project.id, true).catch(console.error)
+                  onRefresh()
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer"
+                style={{ background: 'rgba(30,41,59,0.3)', border: '1px solid rgba(30,41,59,0.5)', color: '#475569' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F59E0B'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)' }}
+              >
+                <Archive className="w-3 h-3" />
+                Archivar proyecto
+              </button>
+            </div>
+
             {/* Top accent */}
             <div className="h-px w-full mb-5" style={{ background: 'linear-gradient(90deg, rgba(34,197,94,0.3), transparent)' }} />
 
@@ -373,44 +391,28 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
                 <div>
                   <SectionLabel>Redirects de formularios · {project.redirects.length}</SectionLabel>
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                    {project.redirects.map((r, i) => (
-                      <div key={i} className="flex flex-col gap-1.5 p-3 rounded-xl"
-                        style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
-                        <div className="flex items-center gap-1.5">
-                          <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-                          <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,182,212,0.5)' }}>Formulario</span>
-                        </div>
-                        {r.url ? (
-                          <a href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
-                            className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
-                            {r.nombre || r.url}
-                          </a>
-                        ) : (
-                          <span className="text-xs text-[#CBD5E1] truncate">{r.nombre}</span>
-                        )}
+                    <div className="flex flex-col gap-2 p-3 rounded-xl"
+                      style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
+                      <div className="flex items-center gap-1.5">
+                        <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+                        <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,182,212,0.5)' }}>Formularios</span>
                       </div>
-                    ))}
+                      <div className="flex flex-col gap-1.5">
+                        {project.redirects.map((r, i) => (
+                          r.url ? (
+                            <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
+                              className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
+                              {r.nombre || r.url}
+                            </a>
+                          ) : (
+                            <span key={i} className="text-xs text-[#CBD5E1] truncate">{r.nombre}</span>
+                          )
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
-
-              {/* Archive */}
-              <div className="flex justify-end">
-                <button
-                  onClick={async () => {
-                    if (!window.confirm('¿Archivar este proyecto? Desaparecerá del dashboard pero se puede restaurar.')) return
-                    await archiveProject(project.id, true).catch(console.error)
-                    onRefresh()
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer"
-                  style={{ background: 'rgba(30,41,59,0.3)', border: '1px solid rgba(30,41,59,0.5)', color: '#475569' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F59E0B'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)' }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)' }}
-                >
-                  <Archive className="w-3 h-3" />
-                  Archivar proyecto
-                </button>
-              </div>
 
               {/* Monitoreo */}
               {m && (
