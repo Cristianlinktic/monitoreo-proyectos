@@ -32,14 +32,14 @@ function StatusCell({ value, showImage, imageUrl }: { value: string | null; show
     <div className="flex items-center gap-2 flex-wrap">
       {imageUrl && (
         <>
-          <button onClick={() => setImgOpen(true)} className="group cursor-pointer" aria-label="Ver imagen">
+          <button onClick={e => { e.stopPropagation(); setImgOpen(true) }} className="group cursor-pointer" aria-label="Ver imagen">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all" style={{ border: '1px solid rgba(30,41,59,0.8)' }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(34,197,94,0.4)')}
               onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(30,41,59,0.8)')} />
           </button>
           {imgOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(2,6,23,0.9)', backdropFilter: 'blur(12px)' }} onClick={() => setImgOpen(false)}>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(2,6,23,0.9)', backdropFilter: 'blur(12px)' }} onClick={e => { e.stopPropagation(); setImgOpen(false) }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={imageUrl} alt="captura" className="max-w-full max-h-full rounded-2xl" style={{ boxShadow: '0 0 80px rgba(34,197,94,0.1)' }} />
             </div>
@@ -163,9 +163,10 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         onDragOver={dragHandlers?.onDragOver}
         onDrop={dragHandlers?.onDrop}
         onDragEnd={() => {}}
+        onClick={() => setExpanded(p => !p)}
         style={{
           borderColor: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.5)' : 'rgba(30,41,59,0.4)',
-          cursor: dragHandlers ? 'grab' : 'default',
+          cursor: dragHandlers ? 'grab' : 'pointer',
           background: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.04)' : undefined,
         }}
         onMouseEnter={() => handleRowHover(true)}
@@ -178,7 +179,7 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
               <GripVertical className="w-3 h-3 shrink-0 opacity-20 group-hover:opacity-60 transition-opacity" style={{ color: '#475569' }} />
             )}
             <button
-              onClick={() => setExpanded(p => !p)}
+              onClick={e => { e.stopPropagation(); setExpanded(p => !p) }}
               className="p-1.5 rounded-lg transition-all cursor-pointer"
               style={{ color: '#334155' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22C55E'; (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
@@ -210,12 +211,14 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
               />
               <Link
                 href={`/proyecto/${project.id}`}
+                onClick={e => e.stopPropagation()}
                 className="font-semibold text-sm text-[#F8FAFC] hover:underline underline-offset-2 decoration-[#475569]"
               >
                 {project.nombre}
               </Link>
               {project.url && (
                 <a href={project.url} target="_blank" rel="noopener noreferrer"
+                  onClick={e => e.stopPropagation()}
                   className="text-[#334155] hover:text-cyan-400 transition-colors">
                   <ExternalLink className="w-3 h-3" />
                 </a>
@@ -280,7 +283,7 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         {/* Acción */}
         <td className="px-3 py-3">
           <button
-            onClick={() => setEditOpen(true)}
+            onClick={e => { e.stopPropagation(); setEditOpen(true) }}
             className={cn(
               'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95',
             )}
@@ -360,6 +363,32 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
                         style={{ background: 'rgba(15,23,42,0.9)', border: '1px solid rgba(30,41,59,0.7)', color: '#64748B' }}>
                         {p}
                       </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Redirects de formularios */}
+              {project.redirects && project.redirects.length > 0 && (
+                <div>
+                  <SectionLabel>Redirects de formularios · {project.redirects.length}</SectionLabel>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                    {project.redirects.map((r, i) => (
+                      <div key={i} className="flex flex-col gap-1.5 p-3 rounded-xl"
+                        style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
+                        <div className="flex items-center gap-1.5">
+                          <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
+                          <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,182,212,0.5)' }}>Formulario</span>
+                        </div>
+                        {r.url ? (
+                          <a href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
+                            className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
+                            {r.nombre || r.url}
+                          </a>
+                        ) : (
+                          <span className="text-xs text-[#CBD5E1] truncate">{r.nombre}</span>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>

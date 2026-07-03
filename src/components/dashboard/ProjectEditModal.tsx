@@ -10,7 +10,8 @@ import { updateProject } from '@/services/projects.service'
 import { upsertMonitoring, uploadImage } from '@/services/monitoring.service'
 import { useToast } from '@/components/ui/Toast'
 import { TasksPanel } from './TasksPanel'
-import type { ProjectWithMonitoring } from '@/lib/types'
+import { RedirectsField } from './RedirectsField'
+import type { ProjectWithMonitoring, Redirect } from '@/lib/types'
 
 type Tab = 'monitoreo' | 'proyecto' | 'acceso' | 'tareas'
 
@@ -73,6 +74,7 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
   })
   const [plugins, setPlugins] = useState<string[]>(project.plugins ?? [])
   const [pluginInput, setPluginInput] = useState('')
+  const [redirects, setRedirects] = useState<Redirect[]>(project.redirects ?? [])
 
   const setProjField = (f: keyof typeof proj) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -111,6 +113,7 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
         figma_url:           proj.figma_url           || null,
         licencias:           proj.licencias           || null,
         plugins,
+        redirects,
         dominio:             acc.dominio              || null,
         vencimiento_dominio: acc.vencimiento_dominio  || null,
         link_acceso_editor:  acc.link_acceso_editor   || null,
@@ -241,6 +244,8 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
                 </div>
               )}
             </div>
+
+            <RedirectsField value={redirects} onChange={setRedirects} />
           </>
         )}
 

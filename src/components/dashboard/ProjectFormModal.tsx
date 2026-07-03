@@ -8,7 +8,8 @@ import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
 import { createProject, updateProject } from '@/services/projects.service'
 import { useToast } from '@/components/ui/Toast'
-import type { Project } from '@/lib/types'
+import { RedirectsField } from './RedirectsField'
+import type { Project, Redirect } from '@/lib/types'
 
 interface ProjectFormModalProps {
   open: boolean
@@ -46,6 +47,7 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
 
   const [pluginInput, setPluginInput] = useState('')
   const [plugins, setPlugins] = useState<string[]>(project?.plugins ?? [])
+  const [redirects, setRedirects] = useState<Redirect[]>(project?.redirects ?? [])
   const [loading, setLoading] = useState(false)
 
   const set = (field: keyof typeof form) =>
@@ -76,6 +78,7 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
         licencias:           form.licencias           || null,
         figma_url:           form.figma_url           || null,
         plugins,
+        redirects,
       }
       if (isEdit && project) {
         await updateProject(project.id, payload)
@@ -201,6 +204,9 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
                 </div>
               )}
             </div>
+
+            {/* Redirects de formularios */}
+            <RedirectsField value={redirects} onChange={setRedirects} />
           </>
         )}
 

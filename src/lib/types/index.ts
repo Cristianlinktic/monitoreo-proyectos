@@ -1,9 +1,15 @@
+export interface Redirect {
+  nombre: string
+  url: string
+}
+
 export interface Project {
   id: string
   nombre: string
   maquetador: string | null
   url: string | null
   plugins: string[]
+  redirects: Redirect[]
   ceco: string | null
   dominio: string | null
   vencimiento_dominio: string | null
@@ -69,6 +75,7 @@ export interface CreateProjectPayload {
   maquetador?: string | null
   url?: string | null
   plugins?: string[]
+  redirects?: Redirect[]
   ceco?: string | null
   dominio?: string | null
   vencimiento_dominio?: string | null
