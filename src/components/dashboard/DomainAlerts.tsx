@@ -25,21 +25,21 @@ function severity(days: number): 'expired' | 'critical' | 'upcoming' | null {
 }
 
 const SEV_COLOR = {
-  expired:  '#EF4444',
+  expired:  '#F87171',
   critical: '#F59E0B',
-  upcoming: '#06B6D4',
+  upcoming: '#22D3EE',
 }
 
 const SEV_BG = {
-  expired:  'rgba(239,68,68,0.08)',
+  expired:  'rgba(248,113,113,0.08)',
   critical: 'rgba(245,158,11,0.08)',
-  upcoming: 'rgba(6,182,212,0.08)',
+  upcoming: 'rgba(34,211,238,0.08)',
 }
 
 const SEV_BORDER = {
-  expired:  'rgba(239,68,68,0.2)',
+  expired:  'rgba(248,113,113,0.2)',
   critical: 'rgba(245,158,11,0.2)',
-  upcoming: 'rgba(6,182,212,0.2)',
+  upcoming: 'rgba(34,211,238,0.2)',
 }
 
 const SEV_LABEL = {
@@ -84,7 +84,7 @@ export function DomainAlerts({ projects }: DomainAlertsProps) {
 
   return (
     <div className="rounded-2xl overflow-hidden"
-      style={{ background: 'rgba(8,13,26,0.9)', border: `1px solid rgba(30,41,59,0.7)` }}>
+      style={{ background: 'var(--bg-card)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--border)' }}>
 
       {/* Top accent */}
       <div className="h-px w-full"
@@ -95,12 +95,12 @@ export function DomainAlerts({ projects }: DomainAlertsProps) {
         type="button"
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer"
-        style={{ background: 'rgba(5,10,20,0.6)' }}
+        style={{ background: 'rgba(255,255,255,0.02)' }}
       >
         <div className="p-1.5 rounded-lg" style={{ background: `${worstColor}15`, border: `1px solid ${worstColor}30` }}>
           <AlertTriangle className="w-3.5 h-3.5" style={{ color: worstColor }} />
         </div>
-        <span className="font-semibold text-sm text-[#F8FAFC] flex-1 text-left">
+        <span className="font-semibold text-sm flex-1 text-left" style={{ color: 'var(--text)' }}>
           Vencimientos de dominio
         </span>
         <div className="flex items-center gap-2">
@@ -109,8 +109,8 @@ export function DomainAlerts({ projects }: DomainAlertsProps) {
             {alertItems.length}
           </span>
           {open
-            ? <ChevronUp className="w-4 h-4 text-[#475569]" />
-            : <ChevronDown className="w-4 h-4 text-[#475569]" />}
+            ? <ChevronUp className="w-4 h-4" style={{ color: 'var(--text-faint)' }} />
+            : <ChevronDown className="w-4 h-4" style={{ color: 'var(--text-faint)' }} />}
         </div>
       </button>
 
@@ -123,9 +123,9 @@ export function DomainAlerts({ projects }: DomainAlertsProps) {
               style={{ background: SEV_BG[sev], border: `1px solid ${SEV_BORDER[sev]}` }}>
               <Globe className="w-3.5 h-3.5 shrink-0" style={{ color: SEV_COLOR[sev] }} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#F8FAFC] truncate">{project.nombre}</p>
+                <p className="text-sm font-medium truncate" style={{ color: 'var(--text)' }}>{project.nombre}</p>
                 {project.dominio && (
-                  <p className="text-[11px] text-[#475569] truncate">{project.dominio}</p>
+                  <p className="text-[11px] truncate" style={{ color: 'var(--text-faint)' }}>{project.dominio}</p>
                 )}
               </div>
               <span className="text-[11px] font-semibold shrink-0 px-2 py-0.5 rounded-lg"

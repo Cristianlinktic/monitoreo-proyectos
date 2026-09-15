@@ -1,0 +1,35 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Diseño final" },
+    { "id": "page-2", "name": "Alternativas" },
+    { "id": "page-3", "name": "Dashboard y detalle" },
+    { "id": "page-4", "name": "Modales" }
+  ],
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Aurora maximalista", "page": "page-1" },
+    { "file": "OptionA.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "A · HUD refinado", "page": "page-2" },
+    { "file": "OptionB.dc.html", "x": 1520, "y": 0, "w": 1440, "h": 900, "title": "B · Consola dividida", "page": "page-2" },
+    { "file": "OptionC.dc.html", "x": 3040, "y": 0, "w": 1440, "h": 900, "title": "C · Terminal minimal", "page": "page-2" },
+    { "file": "OptionD.dc.html", "x": 4560, "y": 0, "w": 1440, "h": 900, "title": "D · Editorial cálido", "page": "page-2" },
+    { "file": "OptionF.dc.html", "x": 6080, "y": 0, "w": 1440, "h": 900, "title": "F · Pastel suave", "page": "page-2" },
+    { "file": "Dashboard.dc.html", "x": 0, "y": 0, "w": 1440, "h": 2040, "title": "Dashboard", "page": "page-3" },
+    { "file": "ProjectDetail.dc.html", "x": 1520, "y": 0, "w": 1440, "h": 1920, "title": "Detalle de proyecto", "page": "page-3" },
+    { "file": "ModalProject.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Nuevo / editar proyecto", "page": "page-4" },
+    { "file": "ModalMonitoring.dc.html", "x": 1520, "y": 0, "w": 1440, "h": 900, "title": "Registrar monitoreo", "page": "page-4" },
+    { "file": "ModalImport.dc.html", "x": 3040, "y": 0, "w": 1440, "h": 900, "title": "Importar desde Excel", "page": "page-4" }
+  ],
+  "annotations": [
+    { "id": "note-main", "x": 0, "y": -110, "w": 460, "text": "Diseño elegido — Aurora maximalista\nOscuro con mesh de magenta/violeta/cian, wordmark gigante en Unbounded, composición asimétrica. Las demás direcciones quedan en la página 'Alternativas'.", "page": "page-1" },
+    { "id": "note-a", "x": 0, "y": -110, "w": 460, "text": "Opción A — Evolución refinada\nMismo lenguaje HUD actual (blobs, radar, esquinas), pero más contenido y pulido.", "page": "page-2" },
+    { "id": "note-b", "x": 1520, "y": -110, "w": 460, "text": "Opción B — Consola dividida\nLayout a dos columnas con stats y heatmap ilustrativos antes del login.", "page": "page-2" },
+    { "id": "note-c", "x": 3040, "y": -110, "w": 460, "text": "Opción C — Terminal minimal\nMonocromo, tipografía mono, sin blobs ni glow.", "page": "page-2" },
+    { "id": "note-d", "x": 4560, "y": -110, "w": 460, "text": "Opción D — Editorial cálido\nTema claro, papel cálido, serif + acento terracota.", "page": "page-2" },
+    { "id": "note-f", "x": 6080, "y": -110, "w": 460, "text": "Opción F — Pastel suave\nTema claro lavanda/menta, formas redondeadas, sombras suaves.", "page": "page-2" },
+    { "id": "note-dashboard", "x": 0, "y": -110, "w": 460, "text": "Dashboard — extiende la identidad Aurora (mesh, Unbounded/Manrope, tarjetas glass) a la vista principal: stats, alertas, cobertura, tabla de proyectos con datos de muestra.", "page": "page-3" },
+    { "id": "note-detail", "x": 1520, "y": -110, "w": 460, "text": "Detalle de proyecto — health ring, info del proyecto, plugins/redirects, rendimiento histórico, tareas y línea de tiempo de monitoreo.", "page": "page-3" },
+    { "id": "note-modal-project", "x": 0, "y": -110, "w": 460, "text": "Modal: nuevo/editar proyecto — pestaña 'Proyecto' activa a modo de ejemplo; las otras pestañas (Acceso, Monitoreo, Tareas) siguen el mismo patrón.", "page": "page-4" },
+    { "id": "note-modal-monitoring", "x": 1520, "y": -110, "w": 460, "text": "Modal: registrar monitoreo — capturas de SSL/rendimiento, estados de estabilidad/formularios/backup, notas y tareas.", "page": "page-4" },
+    { "id": "note-modal-import", "x": 3040, "y": -110, "w": 460, "text": "Modal: importar desde Excel — estado de vista previa tras subir el archivo, con resumen y tabla de muestra.", "page": "page-4" }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

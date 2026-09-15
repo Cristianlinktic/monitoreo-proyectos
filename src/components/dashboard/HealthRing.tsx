@@ -9,7 +9,7 @@ interface HealthRingProps {
   stroke?: number
 }
 
-export function HealthRing({ score, size = 36, radius = 14, stroke = 2.5 }: HealthRingProps) {
+export function HealthRing({ score, size = 30, radius = 12, stroke = 4 }: HealthRingProps) {
   const color = healthColor(score)
   const circumference = 2 * Math.PI * radius
   const progress = score / 100
@@ -31,7 +31,7 @@ export function HealthRing({ score, size = 36, radius = 14, stroke = 2.5 }: Heal
       <circle
         cx={center} cy={center} r={radius}
         fill="none"
-        stroke="#1E293B"
+        stroke="rgba(255,255,255,0.1)"
         strokeWidth={stroke}
       />
       {/* Progress arc */}
@@ -58,9 +58,11 @@ export function HealthRing({ score, size = 36, radius = 14, stroke = 2.5 }: Heal
             transform: `rotate(90deg)`,
             transformOrigin: `${center}px ${center}px`,
             fill: color,
-            fontSize: size <= 36 ? '9px' : '13px',
+            // 3-digit scores (100) need a smaller size to clear the ring — Unbounded is wide per-glyph.
+            fontSize: `${(size <= 36 ? 10 : 13) * (String(score).length >= 3 ? 0.7 : 1)}px`,
             fontWeight: 700,
-            fontFamily: 'Space Grotesk, sans-serif',
+            fontFamily: 'Unbounded, sans-serif',
+            letterSpacing: '-0.03em',
           }}
         >
           {score}

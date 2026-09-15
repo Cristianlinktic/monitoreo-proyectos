@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #22C55E; }
+    a:hover { color: #4ade80; }
+    @keyframes b-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes b-sweep { to { transform: rotate(360deg); } }
+  </style>
+</helmet>
+
+<div style="width:1440px;height:900px;overflow:hidden;background:#020617;font-family:'DM Sans',system-ui,sans-serif;display:flex;">
+
+  <!-- LEFT: product / live console -->
+  <div style="position:relative;width:840px;height:100%;overflow:hidden;padding:64px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;">
+    <div style="position:absolute;inset:0;opacity:0.45;background-image:radial-gradient(circle,#1E293B 1px, transparent 1px);background-size:28px 28px;"></div>
+    <div style="position:absolute;top:-220px;left:-200px;width:640px;height:640px;border-radius:50%;background:#22C55E;opacity:0.10;filter:blur(150px);"></div>
+    <div style="position:absolute;bottom:-260px;right:-160px;width:600px;height:600px;border-radius:50%;background:#8B5CF6;opacity:0.07;filter:blur(150px);"></div>
+
+    <div style="position:relative;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;">
+        <div style="position:relative;padding:9px;border-radius:12px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(6,182,212,0.08));border:1px solid rgba(34,197,94,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6a6 6 0 0 1 6 6"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M7.76 7.76a6 6 0 0 0 0 8.48"/></svg>
+          <div style="position:absolute;top:-1px;right:-1px;width:6px;height:6px;border-radius:9999px;background:#22C55E;box-shadow:0 0 6px rgba(34,197,94,0.9);animation:b-pulse 2s ease-in-out infinite;"></div>
+        </div>
+        <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#475569;margin:0;">LinkTIC · Equipo Marketing</p>
+      </div>
+
+      <h1 style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:64px;line-height:0.98;letter-spacing:-0.02em;margin:0 0 18px;color:#F8FAFC;">MONITOR</h1>
+      <p style="font-size:15px;line-height:1.6;color:#94A3B8;max-width:420px;margin:0;">Visibilidad diaria de SSL, rendimiento, estabilidad de diseño, formularios y backups de todos los proyectos web del equipo, en un solo panel.</p>
+    </div>
+
+    <!-- live preview -->
+    <div style="position:relative;">
+      <div style="display:flex;gap:12px;margin-bottom:20px;">
+        <div style="flex:1;padding:16px 18px;border-radius:14px;background:rgba(8,13,26,0.7);border:1px solid rgba(30,41,59,0.8);">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#475569;margin:0 0 8px;">Proyectos</p>
+          <p style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:#F8FAFC;margin:0;">24</p>
+        </div>
+        <div style="flex:1;padding:16px 18px;border-radius:14px;background:rgba(8,13,26,0.7);border:1px solid rgba(30,41,59,0.8);">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#475569;margin:0 0 8px;">Salud SSL prom.</p>
+          <p style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:#22C55E;margin:0;">99.8%</p>
+        </div>
+        <div style="flex:1;padding:16px 18px;border-radius:14px;background:rgba(8,13,26,0.7);border:1px solid rgba(245,158,11,0.25);">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#475569;margin:0 0 8px;">Alertas hoy</p>
+          <p style="font-family:'Space Grotesk',system-ui,sans-serif;font-size:26px;font-weight:700;color:#F59E0B;margin:0;">3</p>
+        </div>
+      </div>
+
+      <div style="padding:16px 18px;border-radius:14px;background:rgba(8,13,26,0.7);border:1px solid rgba(30,41,59,0.8);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:#475569;margin:0;">Últimos 14 días</p>
+          <p style="font-size:10px;color:#334155;margin:0;">muestra ilustrativa</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(14, minmax(0, 1fr));gap:5px;">
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.75);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.55);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.75);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.85);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(245,158,11,0.7);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.55);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.75);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.85);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.75);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(239,68,68,0.65);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.6);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.8);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.85);"></div>
+          <div style="aspect-ratio:1;border-radius:4px;background:rgba(34,197,94,0.9);"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: auth -->
+  <div style="position:relative;width:600px;height:100%;box-sizing:border-box;border-left:1px solid rgba(30,41,59,0.8);background:#0B1120;display:flex;align-items:center;justify-content:center;padding:64px;">
+    <div style="width:100%;max-width:380px;">
+      <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#475569;margin:0 0 10px;">Acceso del equipo</p>
+      <h2 style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:26px;letter-spacing:-0.01em;color:#F8FAFC;margin:0 0 8px;">Bienvenido de nuevo</h2>
+      <p style="font-size:13px;color:#64748B;margin:0 0 28px;">Ingresa tus credenciales para continuar.</p>
+
+      <div style="position:relative;display:flex;gap:4px;margin-bottom:24px;padding:4px;border-radius:12px;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.6);">
+        <div style="position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 6px);border-radius:8px;background:linear-gradient(135deg,rgba(34,197,94,0.14),rgba(6,182,212,0.07));border:1px solid rgba(34,197,94,0.28);"></div>
+        <div style="position:relative;flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:12px;font-weight:500;color:#22C55E;">Iniciar sesión</div>
+        <div style="position:relative;flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:12px;font-weight:500;color:#475569;">Crear cuenta</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.15em;">Correo electrónico</label>
+          <div style="width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;font-size:14px;color:#F8FAFC;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.7);">usuario@linktic.com</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.15em;">Contraseña</label>
+          <div style="position:relative;">
+            <div style="width:100%;box-sizing:border-box;padding:9px 40px 9px 12px;border-radius:8px;font-size:14px;color:#F8FAFC;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.7);">••••••••</div>
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#334155;display:flex;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-top:2px;width:100%;box-sizing:border-box;padding:12px;border-radius:8px;font-weight:600;font-size:14px;color:#020617;background:linear-gradient(135deg,#22C55E 0%,#16A34A 100%);box-shadow:0 0 16px rgba(34,197,94,0.3),0 2px 8px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;gap:8px;">
+          Iniciar sesión
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#334155;margin:36px 0 0;">LinkTIC © 2026 · Uso interno</p>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

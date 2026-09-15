@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #22C55E; }
+    a:hover { color: #4ade80; }
+    @keyframes hud-radar { to { transform: rotate(360deg); } }
+    @keyframes hud-edge { to { background-position: 200% 0%; } }
+    @keyframes hud-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes hud-ring { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.7); opacity: 0; } }
+  </style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;overflow:hidden;background:#020617;font-family:'DM Sans',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;">
+
+  <div style="position:absolute;inset:0;opacity:0.5;background-image:radial-gradient(circle,#1E293B 1px, transparent 1px);background-size:28px 28px;"></div>
+  <div style="position:absolute;top:-180px;left:-160px;width:560px;height:560px;border-radius:50%;background:#22C55E;opacity:0.09;filter:blur(130px);"></div>
+  <div style="position:absolute;bottom:-220px;right:-180px;width:600px;height:600px;border-radius:50%;background:#06B6D4;opacity:0.07;filter:blur(150px);"></div>
+  <div style="position:absolute;width:700px;height:700px;border-radius:50%;background:conic-gradient(from 0deg, rgba(34,197,94,0.14), transparent 22%, transparent 100%);animation:hud-radar 11s linear infinite;mix-blend-mode:screen;"></div>
+
+  <div style="position:relative;width:452px;">
+
+    <div style="position:absolute;top:-2px;left:-2px;width:16px;height:16px;border-top:1.5px solid rgba(34,197,94,0.55);border-left:1.5px solid rgba(34,197,94,0.55);border-top-left-radius:8px;filter:drop-shadow(0 0 5px rgba(34,197,94,0.4));"></div>
+    <div style="position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-top:1.5px solid rgba(34,197,94,0.55);border-right:1.5px solid rgba(34,197,94,0.55);border-top-right-radius:8px;filter:drop-shadow(0 0 5px rgba(34,197,94,0.4));"></div>
+    <div style="position:absolute;bottom:-2px;left:-2px;width:16px;height:16px;border-bottom:1.5px solid rgba(34,197,94,0.55);border-left:1.5px solid rgba(34,197,94,0.55);border-bottom-left-radius:8px;filter:drop-shadow(0 0 5px rgba(34,197,94,0.4));"></div>
+    <div style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-bottom:1.5px solid rgba(34,197,94,0.55);border-right:1.5px solid rgba(34,197,94,0.55);border-bottom-right-radius:8px;filter:drop-shadow(0 0 5px rgba(34,197,94,0.4));"></div>
+
+    <div style="height:2px;width:100%;background:linear-gradient(90deg,transparent,#22C55E,#06B6D4,#8B5CF6,transparent);background-size:200% 100%;animation:hud-edge 5s linear infinite;"></div>
+
+    <div style="border-radius:0 16px 16px 16px;padding:44px 40px;background:rgba(8,13,26,0.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(30,41,59,0.8);border-top:none;box-shadow:0 30px 90px rgba(0,0,0,0.65),0 2px 24px rgba(0,0,0,0.4),0 0 80px rgba(34,197,94,0.10),inset 0 1px 0 rgba(255,255,255,0.04);">
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:34px;">
+        <div style="position:relative;display:flex;align-items:center;justify-content:center;">
+          <div style="position:absolute;inset:0;border-radius:16px;border:1px solid rgba(34,197,94,0.45);animation:hud-ring 2s cubic-bezier(.4,0,.6,1) infinite;pointer-events:none;"></div>
+          <div style="position:relative;padding:14px;border-radius:16px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(6,182,212,0.08));border:1px solid rgba(34,197,94,0.3);box-shadow:0 0 24px rgba(34,197,94,0.15);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6a6 6 0 0 1 6 6"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M7.76 7.76a6 6 0 0 0 0 8.48"/></svg>
+          </div>
+          <div style="position:absolute;top:-1px;right:-1px;width:7px;height:7px;border-radius:9999px;background:#22C55E;box-shadow:0 0 8px rgba(34,197,94,0.9);animation:hud-blink 2s ease-in-out infinite;"></div>
+        </div>
+        <div style="text-align:center;">
+          <p style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#475569;margin:0 0 6px;">LinkTIC · Equipo Marketing</p>
+          <h1 style="font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;font-size:42px;line-height:1;letter-spacing:-0.02em;margin:0;background:linear-gradient(135deg,#22C55E 0%,#06B6D4 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">MONITOR</h1>
+          <p style="font-size:12px;margin:10px 0 0;color:#334155;">Monitoreo diario de proyectos web</p>
+        </div>
+      </div>
+
+      <div style="position:relative;display:flex;gap:4px;margin-bottom:24px;padding:4px;border-radius:12px;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.6);">
+        <div style="position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 6px);border-radius:8px;background:linear-gradient(135deg,rgba(34,197,94,0.14),rgba(6,182,212,0.07));border:1px solid rgba(34,197,94,0.28);"></div>
+        <div style="position:relative;flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:12px;font-weight:500;color:#22C55E;">Iniciar sesión</div>
+        <div style="position:relative;flex:1;text-align:center;padding:7px 0;border-radius:8px;font-size:12px;font-weight:500;color:#475569;">Crear cuenta</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.15em;">Correo electrónico</label>
+          <div style="position:relative;">
+            <div style="width:100%;box-sizing:border-box;padding:9px 12px;border-radius:8px;font-size:14px;color:#F8FAFC;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.7);">usuario@linktic.com</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.15em;">Contraseña</label>
+          <div style="position:relative;">
+            <div style="width:100%;box-sizing:border-box;padding:9px 40px 9px 12px;border-radius:8px;font-size:14px;color:#F8FAFC;background:rgba(3,7,18,0.8);border:1px solid rgba(30,41,59,0.7);">••••••••</div>
+            <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#334155;display:flex;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div style="margin-top:2px;width:100%;box-sizing:border-box;padding:12px;border-radius:8px;font-weight:600;font-size:14px;color:#020617;background:linear-gradient(135deg,#22C55E 0%,#16A34A 100%);box-shadow:0 0 16px rgba(34,197,94,0.3),0 2px 8px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;gap:8px;">
+          Iniciar sesión
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#020617" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="position:absolute;bottom:38px;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#334155;">LinkTIC © 2026 · Uso interno</p>
+</div>
+</x-dc>
+</body>
+</html>

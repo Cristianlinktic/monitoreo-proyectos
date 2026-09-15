@@ -100,9 +100,12 @@ export function MonitoringFormModal({
     onFile: (f: File) => void
   }) => (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">{label}</label>
+      <label className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <div
-        className="relative flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed border-[#1E293B] hover:border-emerald-500/40 transition-colors cursor-pointer min-h-28 group"
+        className="relative flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed transition-colors cursor-pointer min-h-28 group"
+        style={{ borderColor: 'var(--border)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,114,194,0.4)' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}
         onClick={() => inputRef.current?.click()}
       >
         {url ? (
@@ -110,11 +113,11 @@ export function MonitoringFormModal({
           <img src={url} alt={label} className="max-h-24 rounded-lg object-contain" />
         ) : (
           <>
-            <ImageIcon className="w-6 h-6 text-[#334155] group-hover:text-emerald-500/60 transition-colors" />
-            <span className="text-xs text-[#475569]">Click para subir imagen</span>
+            <ImageIcon className="w-6 h-6 transition-colors" style={{ color: 'var(--text-faint)' }} />
+            <span className="text-xs" style={{ color: 'var(--text-faint)' }}>Click para subir imagen</span>
           </>
         )}
-        <Upload className="absolute top-2 right-2 w-3.5 h-3.5 text-[#334155] group-hover:text-emerald-400 transition-colors" />
+        <Upload className="absolute top-2 right-2 w-3.5 h-3.5 transition-colors" style={{ color: 'var(--text-faint)' }} />
         <input
           ref={inputRef}
           type="file"
@@ -197,7 +200,7 @@ export function MonitoringFormModal({
           rows={3}
         />
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-[#1E293B]">
+        <div className="flex justify-end gap-2 pt-2" style={{ borderTop: '1px solid var(--border-soft)' }}>
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancelar
           </Button>

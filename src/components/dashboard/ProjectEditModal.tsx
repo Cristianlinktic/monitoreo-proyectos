@@ -156,21 +156,20 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
   return (
     <Modal open={open} onClose={onClose} title={project.nombre} size="xl">
       {/* Tabs */}
-      <div className="flex gap-1 mb-5 p-1 rounded-xl" style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.6)' }}>
+      <div className="flex gap-1.5 mb-5">
         {TABS.map(t => (
           <button
             key={t.id}
             type="button"
             onClick={() => setTab(t.id)}
-            className="flex-1 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer"
+            className="px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer"
             style={tab === t.id ? {
-              background: 'linear-gradient(135deg, rgba(34,197,94,0.12), rgba(6,182,212,0.06))',
-              border: '1px solid rgba(34,197,94,0.25)',
-              color: '#22C55E',
-              boxShadow: '0 0 12px rgba(34,197,94,0.1)',
+              background: 'linear-gradient(135deg, rgba(244,114,194,0.2), rgba(124,58,237,0.14))',
+              border: '1px solid rgba(244,114,194,0.3)',
+              color: 'var(--text)',
             } : {
               border: '1px solid transparent',
-              color: '#475569',
+              color: 'var(--text-faint)',
             }}
           >
             {t.label}
@@ -214,7 +213,7 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
             </div>
             <Textarea label="Licencias" placeholder="Bricks - Vence dic 2025" value={proj.licencias} onChange={setProjField('licencias')} rows={3} />
             <div className="flex flex-col gap-2">
-              <label className="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">Plugins instalados</label>
+              <label className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>Plugins instalados</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -222,21 +221,29 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
                   onChange={e => setPluginInput(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addPlugin() } }}
                   placeholder="Nombre del plugin + Enter"
-                  className="flex-1 px-3 py-2 rounded-lg text-sm text-[#F8FAFC] placeholder:text-[#334155] focus:outline-none transition-all"
-              style={{ background: 'rgba(3,7,18,0.8)', border: '1px solid rgba(30,41,59,0.7)' }}
-              onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(34,197,94,0.08)' }}
-              onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
+                  className="flex-1 px-3 py-2 rounded-lg text-sm placeholder:text-[color:var(--text-faint)] focus:outline-none transition-all"
+                  style={{ background: 'rgba(0,0,0,0.28)', border: '1px solid var(--border)', color: 'var(--text)' }}
+                  onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,114,194,0.4)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(244,114,194,0.12)' }}
+                  onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' }}
                 />
-                <button type="button" onClick={addPlugin} className="px-3 py-2 rounded-lg bg-[#1E293B] hover:bg-[#334155] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#334155] transition-colors cursor-pointer">
+                <button type="button" onClick={addPlugin} className="px-3 py-2 rounded-lg transition-colors cursor-pointer"
+                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid var(--border)', color: 'var(--text-muted)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)'; (e.currentTarget as HTMLElement).style.color = 'var(--text)' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
+                >
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
               {plugins.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 p-3 bg-[#0A0F1E] rounded-lg border border-[#1E293B] max-h-36 overflow-y-auto">
+                <div className="flex flex-wrap gap-1.5 p-3 rounded-lg max-h-36 overflow-y-auto" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-soft)' }}>
                   {plugins.map(p => (
-                    <span key={p} className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs bg-[#1E293B] text-[#94A3B8] border border-[#334155]">
+                    <span key={p} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs" style={{ background: 'rgba(244,114,194,0.15)', color: 'var(--accent)' }}>
                       {p}
-                      <button type="button" onClick={() => setPlugins(prev => prev.filter(x => x !== p))} className="text-[#475569] hover:text-red-400 transition-colors cursor-pointer">
+                      <button type="button" onClick={() => setPlugins(prev => prev.filter(x => x !== p))} className="transition-colors cursor-pointer"
+                        style={{ color: 'var(--accent)', opacity: 0.7 }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '0.7' }}
+                      >
                         <X className="w-3 h-3" />
                       </button>
                     </span>
@@ -271,7 +278,7 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
         )}
 
         {tab !== 'tareas' && (
-          <div className="flex justify-end gap-2 pt-2 border-t border-[#1E293B]">
+          <div className="flex justify-end gap-2 pt-2" style={{ borderTop: '1px solid var(--border-soft)' }}>
             <Button type="button" variant="secondary" onClick={onClose}>Cancelar</Button>
             <Button type="submit" loading={loading}>Guardar cambios</Button>
           </div>
@@ -289,20 +296,23 @@ function ImageUploader({ label, url, inputRef, onFile }: {
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-medium text-[#94A3B8] uppercase tracking-wider">{label}</label>
+      <label className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <div
-        className="relative flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed border-[#1E293B] hover:border-emerald-500/40 transition-colors cursor-pointer min-h-28 group"
+        className="relative flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-dashed transition-colors cursor-pointer min-h-28 group"
+        style={{ borderColor: 'var(--border)' }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,114,194,0.4)' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}
         onClick={() => inputRef.current?.click()}
       >
         {url
           // eslint-disable-next-line @next/next/no-img-element
           ? <img src={url} alt={label} className="max-h-24 rounded-lg object-contain" />
           : <>
-              <ImageIcon className="w-6 h-6 text-[#334155] group-hover:text-emerald-500/60 transition-colors" />
-              <span className="text-xs text-[#475569]">Click para subir imagen</span>
+              <ImageIcon className="w-6 h-6 transition-colors" style={{ color: 'var(--text-faint)' }} />
+              <span className="text-xs" style={{ color: 'var(--text-faint)' }}>Click para subir imagen</span>
             </>
         }
-        <Upload className="absolute top-2 right-2 w-3.5 h-3.5 text-[#334155] group-hover:text-emerald-400 transition-colors" />
+        <Upload className="absolute top-2 right-2 w-3.5 h-3.5 transition-colors" style={{ color: 'var(--text-faint)' }} />
         <input ref={inputRef} type="file" accept="image/*" className="sr-only"
           onChange={e => e.target.files?.[0] && onFile(e.target.files[0])} />
       </div>

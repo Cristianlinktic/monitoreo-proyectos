@@ -1,32 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg:          #020617;
-  --bg-card:     #080D1A;
-  --bg-muted:    #0F172A;
-  --border:      #1E293B;
-  --border-soft: #334155;
-  --text:        #F8FAFC;
-  --text-muted:  #94A3B8;
-  --accent:      #22C55E;
-  --accent-dim:  rgba(34,197,94,0.12);
-  --cyan:        #06B6D4;
-  --cyan-dim:    rgba(6,182,212,0.12);
-  --violet:      #8B5CF6;
-  --violet-dim:  rgba(139,92,246,0.12);
+  /* Aurora maximalista — dark cosmic base + magenta/violet/cyan mesh accents */
+  --bg:          #0B0713;
+  --bg-card:     rgba(20,12,34,0.55);
+  --bg-muted:    rgba(255,255,255,0.05);
+  --border:      rgba(255,255,255,0.12);
+  --border-soft: rgba(255,255,255,0.08);
+  --text:        #FFFFFF;
+  --text-muted:  #C9B8E8;
+  --text-faint:  #7A6E99;
+
+  --accent:      #F472C2;
+  --accent-2:    #7C3AED;
+  --accent-dim:  rgba(244,114,194,0.15);
+  --accent-gradient: linear-gradient(135deg, #F472C2 0%, #7C3AED 100%);
+
+  --cyan:        #22D3EE;
+  --cyan-dim:    rgba(34,211,238,0.15);
+  --violet:      #A78BFA;
+  --violet-dim:  rgba(124,58,237,0.18);
   --amber:       #F59E0B;
-  --amber-dim:   rgba(245,158,11,0.12);
+  --amber-dim:   rgba(245,158,11,0.15);
+  --emerald:     #34D399;
+  --emerald-dim: rgba(52,211,153,0.15);
   --warning:     #F59E0B;
-  --danger:      #EF4444;
-  --info:        #3B82F6;
+  --danger:      #F87171;
+  --info:        #22D3EE;
+
+  --radius-pill:    9999px;
+  --radius-card:    20px;
+  --radius-card-sm: 14px;
+  --radius-control: 10px;
+
+  --ease-out-cubic:   cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out-quart:   cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-spring-slow: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring-med:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring-hover: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text);
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
+  --font-heading: 'Unbounded', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -36,24 +55,31 @@ html { color-scheme: dark; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'Manrope', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', system-ui, sans-serif; }
+h1,h2,h3,h4,h5,h6 { font-family: 'Unbounded', system-ui, sans-serif; }
 
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: #334155; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
 
 /* ── Dot grid background ──────────────────────────────────────────────────── */
 .bg-grid {
-  background-image: radial-gradient(circle, #1E293B 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
   background-size: 28px 28px;
 }
+
+/* ── Aurora mesh blobs (ambient background accent) ───────────────────────── */
+.aurora-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(160px); mix-blend-mode: screen; }
+.aurora-blob-magenta { width: 640px; height: 640px; top: -220px; left: -180px; background: #C026D3; opacity: 0.22; }
+.aurora-blob-violet  { width: 600px; height: 600px; bottom: -220px; left: 30%; background: #7C3AED; opacity: 0.18; }
+.aurora-blob-cyan    { width: 640px; height: 640px; top: 30%; right: -220px; background: #22D3EE; opacity: 0.14; }
 
 /* ── Glow utilities ───────────────────────────────────────────────────────── */
 .glow-emerald { box-shadow: 0 0 24px rgba(34,197,94,0.25), 0 0 48px rgba(34,197,94,0.08); }
@@ -123,6 +149,118 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', system-ui, sans-serif; }
   box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
 }
 
+/* ── Login gooey blob field ───────────────────────────────────────────────── */
+.login-blob-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  filter: url('#login-gooey');
+  opacity: 0.45;
+  pointer-events: none;
+}
+.login-blob-layer { position: relative; width: 100%; height: 100%; }
+.login-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(6px);
+  animation: login-blob-float 20s infinite alternate ease-in-out;
+  transition: margin 0.15s ease-out;
+}
+@keyframes login-blob-float {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(6vw, 10vh) scale(1.15); }
+  66%  { transform: translate(-4vw, 6vh) scale(0.85); }
+  100% { transform: translate(4vw, -6vh) scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .login-blob { animation: none; }
+}
+
+/* ── Login: futuristic HUD accents ────────────────────────────────────────── */
+.login-edge {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #22C55E, #06B6D4, #8B5CF6, transparent);
+  background-size: 200% 100%;
+  animation: login-edge-flow 5s linear infinite;
+}
+@keyframes login-edge-flow {
+  to { background-position: 200% 0%; }
+}
+
+.login-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(34, 197, 94, 0.55);
+  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.45));
+  pointer-events: none;
+}
+.login-corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 0.5rem; }
+.login-corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 0.5rem; }
+.login-corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 0.5rem; }
+.login-corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 0.5rem; }
+
+.login-radar {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background: conic-gradient(from 0deg, rgba(34, 197, 94, 0.14), transparent 20%, transparent 100%);
+  animation: login-radar-spin 9s linear infinite;
+  mix-blend-mode: screen;
+}
+@keyframes login-radar-spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.9);
+  animation: login-live-blink 2s ease-in-out infinite;
+}
+@keyframes login-live-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.login-field { position: relative; }
+.login-field::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #22c55e, #06b6d4);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+  transition: width 0.45s var(--ease-spring-hover);
+  pointer-events: none;
+}
+.login-field:focus-within::after { width: 100%; }
+
+.login-cta { position: relative; overflow: hidden; border-radius: 0.5rem; }
+.login-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.login-cta:hover::before { left: 150%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .login-edge, .login-radar, .login-live-dot { animation: none; }
+}
+
 /* ── Floating orb decoration ──────────────────────────────────────────────── */
 .orb {
   position: fixed;
@@ -141,3 +279,12 @@ html.theme-light img,
 html.theme-light video {
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* ── Adaptive grid (scoped — never applied to :root, so it can't resize the
+   rest of the app). Wrap a redesigned section in .adaptive-grid and size its
+   children in `em` (not `rem`) to inherit this local scale. ────────────── */
+.adaptive-grid { font-size: 16px; }
+@media (max-width: 1920px) { .adaptive-grid { font-size: 0.833333vw; } }
+@media (max-width: 1440px) { .adaptive-grid { font-size: 1.111111vw; } }
+@media (max-width: 1024px) { .adaptive-grid { font-size: 1.5625vw; } }
+@media (max-width: 640px)  { .adaptive-grid { font-size: 4.444444vw; } }

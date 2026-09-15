@@ -7,9 +7,9 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
 const variantClasses: Record<Variant, string> = {
-  primary:   'text-[#020617] font-semibold',
-  secondary: 'bg-[#0F172A] hover:bg-[#1E293B] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#1E293B] hover:border-[#334155]',
-  ghost:     'hover:bg-[#1E293B] text-[#64748B] hover:text-[#F8FAFC]',
+  primary:   'text-white font-semibold',
+  secondary: 'bg-[var(--bg-muted)] hover:bg-white/10 text-[var(--text-muted)] hover:text-white border border-[var(--border)] hover:border-white/25',
+  ghost:     'hover:bg-white/8 text-[var(--text-faint)] hover:text-white',
   danger:    'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/40',
 }
 
@@ -34,18 +34,19 @@ export function Button({ variant = 'primary', size = 'md', loading = false, clas
       className={cn(
         'inline-flex items-center justify-center gap-2 rounded-lg font-medium',
         'transition-all duration-150 cursor-pointer active:scale-95',
-        'focus:outline-none focus:ring-2 focus:ring-emerald-500/40',
+        'focus:outline-none focus:ring-2 focus:ring-[rgba(244,114,194,0.4)]',
         'disabled:opacity-40 disabled:cursor-not-allowed',
         variantClasses[variant],
         sizeClasses[size],
         className
       )}
       style={isPrimary ? {
-        background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-        boxShadow: '0 0 16px rgba(34,197,94,0.3), 0 2px 8px rgba(0,0,0,0.4)',
+        fontFamily: 'var(--font-heading)',
+        background: 'var(--accent-gradient)',
+        boxShadow: '0 0 16px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)',
       } : undefined}
-      onMouseEnter={e => { if (isPrimary) (e.currentTarget as HTMLElement).style.boxShadow = '0 0 24px rgba(34,197,94,0.5), 0 2px 8px rgba(0,0,0,0.4)' }}
-      onMouseLeave={e => { if (isPrimary) (e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(34,197,94,0.3), 0 2px 8px rgba(0,0,0,0.4)' }}
+      onMouseEnter={e => { if (isPrimary) (e.currentTarget as HTMLElement).style.boxShadow = '0 0 28px rgba(244,114,194,0.55), 0 2px 8px rgba(0,0,0,0.4)' }}
+      onMouseLeave={e => { if (isPrimary) (e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)' }}
       {...props}
     >
       {loading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}

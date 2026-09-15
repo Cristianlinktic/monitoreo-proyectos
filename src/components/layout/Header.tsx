@@ -28,7 +28,7 @@ function LiveClock() {
   }, [])
   if (!time) return null
   return (
-    <span className="font-mono text-[11px] tracking-widest tabular-nums" style={{ color: '#22C55E' }}>
+    <span className="font-mono text-[11px] tracking-widest tabular-nums" style={{ color: '#34D399' }}>
       {time}
     </span>
   )
@@ -77,7 +77,7 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
     // Logo subtle pulse
     if (logoRef.current) {
       gsap.to(logoRef.current, {
-        boxShadow: '0 0 28px rgba(34,197,94,0.55), 0 0 56px rgba(34,197,94,0.18)',
+        boxShadow: '0 0 28px rgba(244,114,194,0.55), 0 0 56px rgba(244,114,194,0.18)',
         duration: 1.4, repeat: -1, yoyo: true, ease: 'sine.inOut',
       })
     }
@@ -88,27 +88,28 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
       ref={headerRef}
       className="sticky top-0 z-40 opacity-0 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, rgba(3,7,18,0.98) 0%, rgba(2,6,23,0.92) 100%)',
-        borderBottom: '1px solid rgba(30,41,59,0.6)',
+        background: 'linear-gradient(180deg, rgba(20,12,34,0.92) 0%, rgba(11,7,19,0.88) 100%)',
+        borderBottom: '1px solid var(--border)',
         backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
       }}
     >
       {/* Top gradient accent */}
       <div className="h-px w-full"
-        style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(34,197,94,0.6) 25%, rgba(6,182,212,0.8) 50%, rgba(139,92,246,0.6) 75%, transparent 100%)' }}
+        style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(244,114,194,0.6) 25%, rgba(124,58,237,0.8) 50%, rgba(34,211,238,0.6) 75%, transparent 100%)' }}
       />
 
       {/* Scanning sweep line */}
       <div ref={scanRef} className="absolute top-0 bottom-0 w-32 pointer-events-none z-10"
         style={{
-          background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.06), rgba(34,197,94,0.12), rgba(34,197,94,0.06), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(244,114,194,0.06), rgba(244,114,194,0.12), rgba(244,114,194,0.06), transparent)',
           left: 0,
         }}
       />
 
       {/* Subtle dot grid overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-20"
-        style={{ backgroundImage: 'radial-gradient(circle, rgba(30,41,59,0.8) 1px, transparent 1px)', backgroundSize: '20px 20px' }}
+        style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '20px 20px' }}
       />
 
       <div className="relative max-w-screen-2xl mx-auto px-4 sm:px-6 h-[68px] flex items-center justify-between gap-4">
@@ -118,39 +119,47 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
           <div className="relative">
             {/* Pulse rings */}
             <div ref={ring1Ref} className="absolute inset-0 rounded-xl pointer-events-none"
-              style={{ border: '1px solid rgba(34,197,94,0.5)', opacity: 0.5 }}
+              style={{ border: '1px solid rgba(244,114,194,0.5)', opacity: 0.5 }}
             />
             <div ref={ring2Ref} className="absolute inset-0 rounded-xl pointer-events-none"
-              style={{ border: '1px solid rgba(34,197,94,0.3)', opacity: 0.3 }}
+              style={{ border: '1px solid rgba(124,58,237,0.4)', opacity: 0.3 }}
             />
             {/* Icon */}
             <div
               ref={logoRef}
               className="relative z-10 p-2.5 rounded-xl flex items-center justify-center"
               style={{
-                background: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(6,182,212,0.08))',
-                border: '1px solid rgba(34,197,94,0.35)',
+                background: 'var(--accent-gradient)',
+                border: '1px solid rgba(244,114,194,0.4)',
               }}
             >
-              <Radio className="w-4 h-4 text-emerald-400" />
+              <Radio className="w-4 h-4" style={{ color: '#FFFFFF' }} />
             </div>
           </div>
 
           <div className="hidden sm:flex flex-col gap-0.5">
             <div className="flex items-baseline gap-2">
-              <span className="font-heading font-bold text-sm leading-none text-gradient">
+              <span
+                className="font-heading font-bold text-sm leading-none"
+                style={{
+                  background: 'var(--accent-gradient)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
                 Monitor MKT
               </span>
               <span className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-                style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}>
+                style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)', color: '#34D399' }}>
                 LIVE
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[9px] tracking-widest uppercase" style={{ color: '#94A3B8' }}>
+              <span className="text-[9px] tracking-widest uppercase" style={{ color: 'var(--text-faint)' }}>
                 LinkTIC
               </span>
-              <div className="h-px flex-1 w-8" style={{ background: 'rgba(30,41,59,0.6)' }} />
+              <div className="h-px flex-1 w-8" style={{ background: 'var(--border-soft)' }} />
               <LiveClock />
             </div>
           </div>
@@ -172,14 +181,14 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
             className="p-2 rounded-xl transition-all cursor-pointer"
-            style={{ background: 'rgba(8,13,26,0.8)', border: '1px solid rgba(30,41,59,0.7)', color: '#475569' }}
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-faint)' }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)'
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.35)'
               ;(e.currentTarget as HTMLElement).style.color = '#F59E0B'
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'
-              ;(e.currentTarget as HTMLElement).style.color = '#475569'
+              (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'
+              ;(e.currentTarget as HTMLElement).style.color = 'var(--text-faint)'
             }}
           >
             {theme === 'dark'
@@ -192,18 +201,18 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
             onClick={onImport}
             className="group flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer"
             style={{
-              background: 'rgba(8,13,26,0.8)',
-              border: '1px solid rgba(30,41,59,0.7)',
-              color: '#475569',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border)',
+              color: 'var(--text-faint)',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(6,182,212,0.3)'
-              ;(e.currentTarget as HTMLElement).style.color = '#06B6D4'
-              ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(6,182,212,0.1)'
+              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,211,238,0.35)'
+              ;(e.currentTarget as HTMLElement).style.color = '#22D3EE'
+              ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(34,211,238,0.12)'
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.7)'
-              ;(e.currentTarget as HTMLElement).style.color = '#475569'
+              (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'
+              ;(e.currentTarget as HTMLElement).style.color = 'var(--text-faint)'
               ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
             }}
           >
@@ -213,15 +222,15 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
 
           {/* User + sign out */}
           {user && (
-            <div className="hidden md:flex items-center gap-2 pl-2" style={{ borderLeft: '1px solid rgba(30,41,59,0.6)' }}>
-              <span className="text-[10px] text-[#334155] max-w-28 truncate">{user.email}</span>
+            <div className="hidden md:flex items-center gap-2 pl-2" style={{ borderLeft: '1px solid var(--border-soft)' }}>
+              <span className="text-[10px] max-w-28 truncate" style={{ color: 'var(--text-faint)' }}>{user.email}</span>
               <button
                 onClick={signOut}
                 title="Cerrar sesión"
-                className="p-1.5 rounded-lg transition-all cursor-pointer text-[#334155] hover:text-red-400"
-                style={{ border: '1px solid rgba(30,41,59,0.5)' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(239,68,68,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(239,68,68,0.06)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                className="p-1.5 rounded-lg transition-all cursor-pointer"
+                style={{ border: '1px solid var(--border-soft)', color: 'var(--text-faint)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(248,113,113,0.3)'; (e.currentTarget as HTMLElement).style.background = 'rgba(248,113,113,0.08)'; (e.currentTarget as HTMLElement).style.color = 'var(--danger)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-soft)'; (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}
               >
                 <LogOut className="w-3.5 h-3.5" />
               </button>
@@ -233,15 +242,15 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
             onClick={onNewProject}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-              boxShadow: '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)',
-              color: '#020617',
+              background: 'var(--accent-gradient)',
+              boxShadow: '0 0 20px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)',
+              color: '#FFFFFF',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(34,197,94,0.55), 0 2px 8px rgba(0,0,0,0.4)'
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(244,114,194,0.55), 0 2px 8px rgba(0,0,0,0.4)'
             }}
             onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)'
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)'
             }}
           >
             <Plus className="w-3.5 h-3.5" />
@@ -252,7 +261,7 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
 
       {/* Bottom inner glow */}
       <div className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: 'linear-gradient(90deg, transparent, rgba(34,197,94,0.12), rgba(6,182,212,0.08), transparent)' }}
+        style={{ background: 'linear-gradient(90deg, transparent, rgba(244,114,194,0.14), rgba(124,58,237,0.1), transparent)' }}
       />
     </header>
   )

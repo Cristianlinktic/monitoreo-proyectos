@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import Link from 'next/link'
 import {
   ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
-  HardDrive, FileText, ListTodo, Edit3, Plus, Package, ExternalLink,
+  HardDrive, FileText, ListTodo, ExternalLink,
   Globe, User, Key, Calendar, Sigma, Copy, Check, Archive, GripVertical,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
@@ -27,21 +27,21 @@ function inferStatus(value: string | null | undefined): StatusLevel {
 
 function StatusCell({ value, showImage, imageUrl }: { value: string | null; showImage?: boolean; imageUrl?: string | null }) {
   const [imgOpen, setImgOpen] = useState(false)
-  if (!value && !imageUrl) return <span className="text-xs text-[#1E293B]">—</span>
+  if (!value && !imageUrl) return <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {imageUrl && (
         <>
           <button onClick={e => { e.stopPropagation(); setImgOpen(true) }} className="group cursor-pointer" aria-label="Ver imagen">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all" style={{ border: '1px solid rgba(30,41,59,0.8)' }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(34,197,94,0.4)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(30,41,59,0.8)')} />
+            <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all" style={{ border: '1px solid var(--border)' }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(244,114,194,0.4)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')} />
           </button>
           {imgOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(2,6,23,0.9)', backdropFilter: 'blur(12px)' }} onClick={e => { e.stopPropagation(); setImgOpen(false) }}>
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(11,7,19,0.9)', backdropFilter: 'blur(12px)' }} onClick={e => { e.stopPropagation(); setImgOpen(false) }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imageUrl} alt="captura" className="max-w-full max-h-full rounded-2xl" style={{ boxShadow: '0 0 80px rgba(34,197,94,0.1)' }} />
+              <img src={imageUrl} alt="captura" className="max-w-full max-h-full rounded-2xl" style={{ boxShadow: '0 0 80px rgba(244,114,194,0.15)' }} />
             </div>
           )}
         </>
@@ -63,39 +63,43 @@ function CopyableValue({ value, secret }: { value: string; secret?: boolean }) {
 
   return (
     <div className="flex items-center gap-2 group/copy">
-      <span className="text-xs font-mono text-[#CBD5E1]">{secret && !show ? '••••••••••' : value}</span>
+      <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>{secret && !show ? '••••••••••' : value}</span>
       <div className="flex items-center gap-1 opacity-0 group-hover/copy:opacity-100 transition-opacity">
         {secret && (
-          <button onClick={() => setShow(s => !s)} className="text-[10px] text-[#334155] hover:text-emerald-400 transition-colors cursor-pointer">
+          <button onClick={() => setShow(s => !s)} className="text-[10px] transition-colors cursor-pointer"
+            style={{ color: 'var(--text-faint)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#34D399' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}>
             {show ? 'ocultar' : 'ver'}
           </button>
         )}
-        <button onClick={copy} className="text-[#334155] hover:text-cyan-400 transition-colors cursor-pointer">
-          {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+        <button onClick={copy} className="transition-colors cursor-pointer" style={{ color: 'var(--text-faint)' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22D3EE' }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}>
+          {copied ? <Check className="w-3 h-3" style={{ color: '#34D399' }} /> : <Copy className="w-3 h-3" />}
         </button>
       </div>
     </div>
   )
 }
 
-function DataBlock({ icon, label, value, secret, link, accent = '#94A3B8' }: {
+function DataBlock({ icon, label, value, secret, link, accent = 'var(--text-muted)' }: {
   icon: React.ReactNode; label: string; value: string; secret?: boolean; link?: boolean; accent?: string
 }) {
   return (
-    <div className="flex flex-col gap-1.5 p-3 rounded-xl" style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
-      <div className="flex items-center gap-1.5">
-        {icon}
-        <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: accent + '80' }}>{label}</span>
-      </div>
+    <div className="flex items-baseline gap-1.5 text-xs min-w-0">
+      <span className="shrink-0 inline-flex" style={{ color: accent }}>{icon}</span>
+      <span className="shrink-0" style={{ color: 'var(--text-faint)' }}>{label}:</span>
       {link ? (
         <a href={value} target="_blank" rel="noopener noreferrer"
-          className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
+          className="underline underline-offset-2 truncate transition-colors"
+          style={{ color: '#22D3EE' }}>
           {value}
         </a>
       ) : secret ? (
         <CopyableValue value={value} secret />
       ) : (
-        <p className="text-xs text-[#CBD5E1] whitespace-pre-wrap leading-relaxed">{value}</p>
+        <span className="truncate" style={{ color: 'var(--text-muted)' }}>{value}</span>
       )}
     </div>
   )
@@ -103,11 +107,7 @@ function DataBlock({ icon, label, value, secret, link, accent = '#94A3B8' }: {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3 mb-3">
-      <div className="h-px flex-1" style={{ background: 'rgba(30,41,59,0.6)' }} />
-      <span className="text-[10px] font-bold uppercase tracking-widest text-[#334155]">{children}</span>
-      <div className="h-px flex-1" style={{ background: 'rgba(30,41,59,0.6)' }} />
-    </div>
+    <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--text-faint)' }}>{children}</p>
   )
 }
 
@@ -148,7 +148,7 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
   const handleRowHover = (enter: boolean) => {
     if (!rowRef.current) return
     gsap.to(rowRef.current, {
-      backgroundColor: enter ? 'rgba(15,23,42,0.6)' : 'transparent',
+      backgroundColor: enter ? 'rgba(255,255,255,0.04)' : 'transparent',
       duration: 0.15,
     })
   }
@@ -165,9 +165,9 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         onDragEnd={() => {}}
         onClick={() => setExpanded(p => !p)}
         style={{
-          borderColor: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.5)' : 'rgba(30,41,59,0.4)',
+          borderColor: dragHandlers?.isDragOver ? 'rgba(244,114,194,0.5)' : 'var(--border-soft)',
           cursor: dragHandlers ? 'grab' : 'pointer',
-          background: dragHandlers?.isDragOver ? 'rgba(34,197,94,0.04)' : undefined,
+          background: dragHandlers?.isDragOver ? 'rgba(244,114,194,0.05)' : undefined,
         }}
         onMouseEnter={() => handleRowHover(true)}
         onMouseLeave={() => handleRowHover(false)}
@@ -176,14 +176,14 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         <td className="w-8 pl-3">
           <div className="flex items-center gap-0.5">
             {dragHandlers && (
-              <GripVertical className="w-3 h-3 shrink-0 opacity-20 group-hover:opacity-60 transition-opacity" style={{ color: '#475569' }} />
+              <GripVertical className="w-3 h-3 shrink-0 opacity-20 group-hover:opacity-60 transition-opacity" style={{ color: 'var(--text-faint)' }} />
             )}
             <button
               onClick={e => { e.stopPropagation(); setExpanded(p => !p) }}
               className="p-1.5 rounded-lg transition-all cursor-pointer"
-              style={{ color: '#334155' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22C55E'; (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#334155'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+              style={{ color: 'var(--text-faint)' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)'; (e.currentTarget as HTMLElement).style.background = 'rgba(244,114,194,0.1)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)'; (e.currentTarget as HTMLElement).style.background = 'transparent' }}
             >
               {expanded
                 ? <ChevronDown className="w-3.5 h-3.5" />
@@ -205,27 +205,31 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
               <div
                 className="w-1.5 h-1.5 rounded-full shrink-0"
                 style={{
-                  background: hasData ? '#22C55E' : '#334155',
-                  boxShadow: hasData ? '0 0 6px rgba(34,197,94,0.6)' : 'none',
+                  background: hasData ? '#34D399' : 'var(--text-faint)',
+                  boxShadow: hasData ? '0 0 6px rgba(52,211,153,0.6)' : 'none',
                 }}
               />
               <Link
                 href={`/proyecto/${project.id}`}
                 onClick={e => e.stopPropagation()}
-                className="font-semibold text-sm text-[#F8FAFC] hover:underline underline-offset-2 decoration-[#475569]"
+                className="font-semibold text-sm hover:underline underline-offset-2"
+                style={{ color: 'var(--text)' }}
               >
                 {project.nombre}
               </Link>
               {project.url && (
                 <a href={project.url} target="_blank" rel="noopener noreferrer"
                   onClick={e => e.stopPropagation()}
-                  className="text-[#334155] hover:text-cyan-400 transition-colors">
+                  className="transition-colors"
+                  style={{ color: 'var(--text-faint)' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#22D3EE' }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               )}
             </div>
             {project.maquetador && (
-              <span className="text-[11px] text-[#334155] ml-3.5">{project.maquetador}</span>
+              <span className="text-[11px] ml-3.5" style={{ color: 'var(--text-faint)' }}>{project.maquetador}</span>
             )}
           </div>
         </td>
@@ -233,12 +237,9 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         {/* Plugins */}
         <td className="px-3 py-3 hidden md:table-cell">
           {project.plugins.length > 0 ? (
-            <div className="flex items-center gap-1.5">
-              <Package className="w-3 h-3 text-[#334155]" />
-              <span className="text-xs text-[#475569]">{project.plugins.length}</span>
-            </div>
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{project.plugins.length}</span>
           ) : (
-            <span className="text-xs text-[#1E293B]">—</span>
+            <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>
           )}
         </td>
 
@@ -255,22 +256,22 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         {/* Estabilidad */}
         <td className="px-3 py-3 hidden xl:table-cell">
           {m?.estabilidad_diseno
-            ? <span className="text-xs text-[#94A3B8]">{m.estabilidad_diseno}</span>
-            : <span className="text-xs text-[#1E293B]">—</span>}
+            ? <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{m.estabilidad_diseno}</span>
+            : <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>}
         </td>
 
         {/* Formularios */}
         <td className="px-3 py-3 hidden xl:table-cell">
           {m?.pruebas_formularios
             ? <Badge variant={inferStatus(m.pruebas_formularios)}>{m.pruebas_formularios}</Badge>
-            : <span className="text-xs text-[#1E293B]">—</span>}
+            : <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>}
         </td>
 
         {/* Backup */}
         <td className="px-3 py-3 hidden xl:table-cell">
           {m?.backup
             ? <Badge variant={inferStatus(m.backup)}>{m.backup}</Badge>
-            : <span className="text-xs text-[#1E293B]">—</span>}
+            : <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>}
         </td>
 
         {/* Estado */}
@@ -285,40 +286,19 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
           <button
             onClick={e => { e.stopPropagation(); setEditOpen(true) }}
             className={cn(
-              'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer active:scale-95',
+              'text-xs font-semibold cursor-pointer transition-opacity hover:opacity-75',
             )}
-            style={hasData ? {
-              background: 'rgba(15,23,42,0.8)',
-              border: '1px solid rgba(30,41,59,0.8)',
-              color: '#64748B',
-            } : {
-              background: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(6,182,212,0.08))',
-              border: '1px solid rgba(34,197,94,0.3)',
-              color: '#22C55E',
-              boxShadow: '0 0 12px rgba(34,197,94,0.15)',
-            }}
-            onMouseEnter={e => {
-              if (hasData) {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(34,197,94,0.3)'
-                ;(e.currentTarget as HTMLElement).style.color = '#22C55E'
-              }
-            }}
-            onMouseLeave={e => {
-              if (hasData) {
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.8)'
-                ;(e.currentTarget as HTMLElement).style.color = '#64748B'
-              }
-            }}
+            style={{ color: 'var(--accent)' }}
           >
-            {hasData ? <><Edit3 className="w-3 h-3" />Editar</> : <><Plus className="w-3 h-3" />Registrar</>}
+            {hasData ? 'Editar' : 'Registrar'}
           </button>
         </td>
       </tr>
 
       {/* Expanded panel */}
       {expanded && (
-        <tr ref={expandRef} style={{ borderBottom: '1px solid rgba(30,41,59,0.4)' }}>
-          <td colSpan={11} className="px-4 py-5" style={{ background: 'rgba(3,7,18,0.8)' }}>
+        <tr ref={expandRef} style={{ borderBottom: '1px solid var(--border-soft)' }}>
+          <td colSpan={11} className="px-4 py-5" style={{ background: 'rgba(11,7,19,0.6)' }}>
 
             {/* Archivar proyecto - arriba a la derecha */}
             <div className="flex justify-end mb-3">
@@ -329,104 +309,88 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
                   onRefresh()
                 }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all cursor-pointer"
-                style={{ background: 'rgba(30,41,59,0.3)', border: '1px solid rgba(30,41,59,0.5)', color: '#475569' }}
+                style={{ background: 'var(--bg-muted)', border: '1px solid var(--border-soft)', color: 'var(--text-faint)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#F59E0B'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#475569'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(30,41,59,0.5)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-soft)' }}
               >
                 <Archive className="w-3 h-3" />
                 Archivar proyecto
               </button>
             </div>
 
-            {/* Top accent */}
-            <div className="h-px w-full mb-5" style={{ background: 'linear-gradient(90deg, rgba(34,197,94,0.3), transparent)' }} />
+            {/* Compact detail panel — one glass card, one grid, no boxed sub-cards */}
+            <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-soft)' }}>
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-x-6 gap-y-5">
 
-            <div className="flex flex-col gap-5">
-
-              {/* Acceso */}
-              {(project.link_acceso_editor || project.usuario || project.clave || project.dominio || project.autenticador || project.vencimiento_dominio) && (
-                <div>
-                  <SectionLabel>Acceso</SectionLabel>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
-                    {project.dominio         && <DataBlock icon={<Globe className="w-3.5 h-3.5 text-blue-400" />}     label="Dominio"    value={project.dominio} accent="#3B82F6" />}
-                    {project.link_acceso_editor && <DataBlock icon={<ExternalLink className="w-3.5 h-3.5 text-cyan-400" />} label="Editor"  value={project.link_acceso_editor} link accent="#06B6D4" />}
-                    {project.usuario         && <DataBlock icon={<User className="w-3.5 h-3.5 text-amber-400" />}     label="Usuario"    value={project.usuario} accent="#F59E0B" />}
-                    {project.clave           && <DataBlock icon={<Key className="w-3.5 h-3.5 text-red-400" />}        label="Clave"      value={project.clave} secret accent="#EF4444" />}
-                    {project.autenticador    && <DataBlock icon={<Shield className="w-3.5 h-3.5 text-violet-400" />}  label="Auth"       value={project.autenticador} accent="#8B5CF6" />}
-                    {project.vencimiento_dominio && <DataBlock icon={<Calendar className="w-3.5 h-3.5 text-orange-400" />} label="Vencimiento" value={project.vencimiento_dominio} accent="#F97316" />}
+                {/* Acceso */}
+                {(project.link_acceso_editor || project.usuario || project.clave || project.dominio || project.autenticador || project.vencimiento_dominio) && (
+                  <div className="flex flex-col gap-1.5 min-w-0">
+                    <SectionLabel>Acceso</SectionLabel>
+                    {project.dominio         && <DataBlock icon={<Globe className="w-3.5 h-3.5" />}         label="Dominio"     value={project.dominio} accent="#22D3EE" />}
+                    {project.link_acceso_editor && <DataBlock icon={<ExternalLink className="w-3.5 h-3.5" />} label="Editor"    value={project.link_acceso_editor} link accent="#22D3EE" />}
+                    {project.usuario         && <DataBlock icon={<User className="w-3.5 h-3.5" />}          label="Usuario"     value={project.usuario} accent="#F59E0B" />}
+                    {project.clave           && <DataBlock icon={<Key className="w-3.5 h-3.5" />}           label="Clave"       value={project.clave} secret accent="#F87171" />}
+                    {project.autenticador    && <DataBlock icon={<Shield className="w-3.5 h-3.5" />}        label="Auth"        value={project.autenticador} accent="#A78BFA" />}
+                    {project.vencimiento_dominio && <DataBlock icon={<Calendar className="w-3.5 h-3.5" />}  label="Vence"       value={project.vencimiento_dominio} accent="#F472C2" />}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Configuración */}
-              {(project.licencias || project.figma_url || project.ceco) && (
-                <div>
-                  <SectionLabel>Configuración</SectionLabel>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {project.ceco       && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-slate-400" />}  label="CECO"     value={project.ceco} />}
-                    {project.licencias  && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}   label="Licencias" value={project.licencias} />}
-                    {project.figma_url  && <DataBlock icon={<Sigma className="w-3.5 h-3.5 text-purple-400" />}   label="Figma"    value={project.figma_url} link accent="#A855F7" />}
+                {/* Configuración */}
+                {(project.licencias || project.figma_url || project.ceco) && (
+                  <div className="flex flex-col gap-1.5 min-w-0">
+                    <SectionLabel>Configuración</SectionLabel>
+                    {project.ceco       && <DataBlock icon={<FileText className="w-3.5 h-3.5" />} label="CECO"      value={project.ceco} />}
+                    {project.licencias  && <DataBlock icon={<FileText className="w-3.5 h-3.5" />} label="Licencias" value={project.licencias} accent="#22D3EE" />}
+                    {project.figma_url  && <DataBlock icon={<Sigma className="w-3.5 h-3.5" />}    label="Figma"     value={project.figma_url} link accent="#A78BFA" />}
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Plugins */}
-              {project.plugins.length > 0 && (
-                <div>
-                  <SectionLabel>Plugins · {project.plugins.length}</SectionLabel>
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.plugins.map(p => (
-                      <span key={p}
-                        className="text-[11px] px-2.5 py-1 rounded-lg font-medium"
-                        style={{ background: 'rgba(15,23,42,0.9)', border: '1px solid rgba(30,41,59,0.7)', color: '#64748B' }}>
-                        {p}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Redirects de formularios */}
-              {project.redirects && project.redirects.length > 0 && (
-                <div>
-                  <SectionLabel>Redirects de formularios · {project.redirects.length}</SectionLabel>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                    <div className="flex flex-col gap-2 p-3 rounded-xl"
-                      style={{ background: 'rgba(8,13,26,0.7)', border: '1px solid rgba(30,41,59,0.5)' }}>
-                      <div className="flex items-center gap-1.5">
-                        <ExternalLink className="w-3.5 h-3.5 text-cyan-400" />
-                        <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'rgba(6,182,212,0.5)' }}>Formularios</span>
-                      </div>
-                      <div className="flex flex-col gap-1.5">
-                        {project.redirects.map((r, i) => (
-                          r.url ? (
-                            <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
-                              className="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-2 truncate transition-colors">
-                              {r.nombre || r.url}
-                            </a>
-                          ) : (
-                            <span key={i} className="text-xs text-[#CBD5E1] truncate">{r.nombre}</span>
-                          )
-                        ))}
-                      </div>
+                {/* Plugins */}
+                {project.plugins.length > 0 && (
+                  <div className="flex flex-col gap-1.5 min-w-0">
+                    <SectionLabel>Plugins · {project.plugins.length}</SectionLabel>
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.plugins.map(p => (
+                        <span key={p}
+                          className="text-[11px] px-2.5 py-1 rounded-lg font-medium"
+                          style={{ background: 'var(--bg-muted)', border: '1px solid var(--border)', color: 'var(--text-faint)' }}>
+                          {p}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Monitoreo */}
-              {m && (
-                <div>
-                  <SectionLabel>Monitoreo · {m.fecha}</SectionLabel>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
-                    {m.backup              && <DataBlock icon={<HardDrive className="w-3.5 h-3.5 text-emerald-400" />}     label="Backup"      value={m.backup} accent="#22C55E" />}
-                    {m.pruebas_formularios && <DataBlock icon={<MessageSquare className="w-3.5 h-3.5 text-violet-400" />}  label="Formularios" value={m.pruebas_formularios} accent="#8B5CF6" />}
-                    {m.estabilidad_diseno  && <DataBlock icon={<LayoutDashboard className="w-3.5 h-3.5 text-cyan-400" />}  label="Estabilidad" value={m.estabilidad_diseno} accent="#06B6D4" />}
-                    {m.notas               && <DataBlock icon={<FileText className="w-3.5 h-3.5 text-blue-400" />}         label="Notas"       value={m.notas ?? ''} />}
-                    {m.tareas_ejecutar     && <DataBlock icon={<ListTodo className="w-3.5 h-3.5 text-amber-400" />}        label="Tareas"      value={m.tareas_ejecutar ?? ''} accent="#F59E0B" />}
+                {/* Redirects de formularios */}
+                {project.redirects && project.redirects.length > 0 && (
+                  <div className="flex flex-col gap-1.5 min-w-0">
+                    <SectionLabel>Redirects · {project.redirects.length}</SectionLabel>
+                    {project.redirects.map((r, i) => (
+                      r.url ? (
+                        <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" title={r.url}
+                          className="text-xs underline underline-offset-2 truncate transition-colors"
+                          style={{ color: '#22D3EE' }}>
+                          {r.nombre || r.url}
+                        </a>
+                      ) : (
+                        <span key={i} className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>{r.nombre}</span>
+                      )
+                    ))}
                   </div>
-                </div>
-              )}
+                )}
+
+                {/* Monitoreo */}
+                {m && (
+                  <div className="flex flex-col gap-1.5 min-w-0">
+                    <SectionLabel>Monitoreo · {m.fecha}</SectionLabel>
+                    {m.backup              && <DataBlock icon={<HardDrive className="w-3.5 h-3.5" />}       label="Backup"      value={m.backup} accent="#34D399" />}
+                    {m.pruebas_formularios && <DataBlock icon={<MessageSquare className="w-3.5 h-3.5" />}   label="Formularios" value={m.pruebas_formularios} accent="#A78BFA" />}
+                    {m.estabilidad_diseno  && <DataBlock icon={<LayoutDashboard className="w-3.5 h-3.5" />} label="Estabilidad" value={m.estabilidad_diseno} accent="#22D3EE" />}
+                    {m.notas               && <DataBlock icon={<FileText className="w-3.5 h-3.5" />}        label="Notas"       value={m.notas ?? ''} />}
+                    {m.tareas_ejecutar     && <DataBlock icon={<ListTodo className="w-3.5 h-3.5" />}        label="Tareas"      value={m.tareas_ejecutar ?? ''} accent="#F59E0B" />}
+                  </div>
+                )}
+              </div>
             </div>
           </td>
         </tr>

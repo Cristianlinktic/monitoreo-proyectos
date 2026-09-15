@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #F472C2; }
+    a:hover { color: #FB9FD8; }
+    @keyframes m-edge { to { background-position: 200% 0%; } }
+  </style>
+</helmet>
+
+<div style="position:relative;width:1440px;height:900px;overflow:hidden;background:#0B0713;font-family:'Manrope',system-ui,sans-serif;">
+
+  <!-- dimmed backdrop hint of the dashboard behind the modal -->
+  <div style="position:absolute;inset:0;padding:36px 48px;box-sizing:border-box;opacity:0.35;filter:blur(2px);">
+    <div style="display:flex;gap:16px;margin-bottom:16px;">
+      <div style="flex:1;height:110px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;height:110px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;height:110px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);"></div>
+      <div style="flex:1;height:110px;border-radius:20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);"></div>
+    </div>
+    <div style="height:420px;border-radius:20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);"></div>
+  </div>
+  <div style="position:absolute;inset:0;background:rgba(6,3,12,0.7);"></div>
+
+  <div style="position:absolute;width:600px;height:600px;top:-200px;left:-160px;border-radius:50%;background:#7C3AED;opacity:0.2;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+
+  <!-- modal -->
+  <div style="position:absolute;top:70px;left:50%;transform:translateX(-50%);width:760px;">
+    <div style="height:2px;width:100%;background:linear-gradient(90deg,transparent,#F472C2,#7C3AED,transparent);background-size:200% 100%;animation:m-edge 5s linear infinite;border-radius:2px 2px 0 0;"></div>
+    <div style="background:rgba(20,12,34,0.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.14);border-top:none;border-radius:0 0 22px 22px;box-shadow:0 40px 100px rgba(0,0,0,0.6), 0 0 90px rgba(124,58,237,0.15);">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 30px;border-bottom:1px solid rgba(255,255,255,0.1);">
+        <p style="margin:0;font-family:'Unbounded',sans-serif;font-weight:700;font-size:16px;color:#FFFFFF;">Nuevo proyecto</p>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A8FBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+      </div>
+
+      <div style="display:flex;gap:6px;padding:16px 30px 0;">
+        <span style="padding:9px 16px;border-radius:9999px;background:linear-gradient(135deg,rgba(244,114,194,0.2),rgba(124,58,237,0.14));border:1px solid rgba(244,114,194,0.3);font-size:12px;font-weight:700;color:#FFFFFF;">Proyecto</span>
+        <span style="padding:9px 16px;border-radius:9999px;font-size:12px;font-weight:600;color:#7A6E99;">Acceso</span>
+        <span style="padding:9px 16px;border-radius:9999px;font-size:12px;font-weight:600;color:#7A6E99;">Monitoreo</span>
+        <span style="padding:9px 16px;border-radius:9999px;font-size:12px;font-weight:600;color:#7A6E99;">Tareas</span>
+      </div>
+
+      <div style="padding:26px 30px 30px;display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div style="grid-column:span 2;display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">Nombre *</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;">Clínica Vital</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">Maquetador / Hosting</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;">Andrea R. — SiteGround</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">URL</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;">clinicavital.com</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">CECO</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;">MK-002</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">Figma</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;">figma.com/file/…</div>
+        </div>
+        <div style="grid-column:span 2;display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">Licencias</label>
+          <div style="padding:10px 14px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);font-size:13px;color:#FFFFFF;min-height:44px;">Elementor Pro, WPForms Pro — vencen dic. 2026</div>
+        </div>
+        <div style="grid-column:span 2;display:flex;flex-direction:column;gap:8px;">
+          <label style="font-size:10px;font-weight:700;color:#9A8FBE;text-transform:uppercase;letter-spacing:0.1em;">Plugins</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.12);">
+            <span style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:9999px;background:rgba(244,114,194,0.15);font-size:11px;color:#F472C2;">WooCommerce ×</span>
+            <span style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:9999px;background:rgba(244,114,194,0.15);font-size:11px;color:#F472C2;">Yoast SEO ×</span>
+            <span style="font-size:12px;color:#7A6E99;">Escribe y presiona Enter…</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:10px;padding:20px 30px;border-top:1px solid rgba(255,255,255,0.1);">
+        <div style="padding:10px 18px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);font-size:13px;font-weight:600;color:#C9B8E8;">Cancelar</div>
+        <div style="padding:10px 20px;border-radius:10px;background:linear-gradient(135deg,#F472C2,#7C3AED);box-shadow:0 0 20px rgba(236,72,201,0.35);font-size:13px;font-weight:700;color:#FFFFFF;">Guardar proyecto</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

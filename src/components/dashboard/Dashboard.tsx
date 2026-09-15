@@ -35,15 +35,11 @@ function DashboardContent() {
         onImport={() => setImportOpen(true)}
       />
 
-      {/* Background decoration */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-        <div className="bg-grid absolute inset-0 opacity-30" />
-        <div className="orb w-[600px] h-[600px] -top-64 -left-64 opacity-[0.04]"
-          style={{ background: '#22C55E' }} />
-        <div className="orb w-[500px] h-[500px] top-1/2 -right-48 opacity-[0.04]"
-          style={{ background: '#06B6D4' }} />
-        <div className="orb w-[400px] h-[400px] bottom-0 left-1/3 opacity-[0.03]"
-          style={{ background: '#8B5CF6' }} />
+      {/* Background decoration — Aurora mesh */}
+      <div className="aurora-blobs">
+        <div className="aurora-blob aurora-blob-magenta" />
+        <div className="aurora-blob aurora-blob-violet" />
+        <div className="aurora-blob aurora-blob-cyan" />
       </div>
 
       <main className="relative max-w-screen-2xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-5" style={{ zIndex: 1 }}>
@@ -67,14 +63,14 @@ function DashboardContent() {
         <div className="flex justify-end">
           <button
             onClick={() => setQuickMonitorOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all cursor-pointer active:scale-95"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all cursor-pointer active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, #22C55E 0%, #16A34A 100%)',
-              boxShadow: '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)',
-              color: '#020617',
+              background: 'var(--accent-gradient)',
+              boxShadow: '0 0 20px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)',
+              color: '#FFFFFF',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(34,197,94,0.55), 0 2px 8px rgba(0,0,0,0.4)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(34,197,94,0.35), 0 2px 8px rgba(0,0,0,0.4)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 32px rgba(244,114,194,0.55), 0 2px 8px rgba(0,0,0,0.4)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(244,114,194,0.35), 0 2px 8px rgba(0,0,0,0.4)' }}
           >
             <Zap className="w-4 h-4" />
             Monitoreo Rápido
@@ -83,9 +79,9 @@ function DashboardContent() {
 
         {error ? (
           <div className="flex flex-col items-center gap-3 py-24">
-            <ServerCrash className="w-10 h-10 text-red-400" />
-            <p className="text-sm text-[#94A3B8]">{error}</p>
-            <button onClick={refetch} className="text-xs text-emerald-400 hover:text-emerald-300 underline cursor-pointer">
+            <ServerCrash className="w-10 h-10" style={{ color: 'var(--danger)' }} />
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{error}</p>
+            <button onClick={refetch} className="text-xs underline underline-offset-2 cursor-pointer transition-colors" style={{ color: 'var(--accent)' }}>
               Reintentar
             </button>
           </div>
@@ -138,7 +134,7 @@ function DashboardContent() {
 export default function Home() {
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-[#020617]">
+      <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
         <DashboardContent />
       </div>
     </ToastProvider>

@@ -640,24 +640,27 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
       {/* ── Upload ── */}
       {step === 'upload' && (
         <div className="flex flex-col items-center gap-4 py-8">
-          <div className="p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-            <FileSpreadsheet className="w-10 h-10 text-emerald-400" />
+          <div className="p-5 rounded-2xl" style={{ background: 'rgba(244,114,194,0.1)', border: '1px solid rgba(244,114,194,0.25)' }}>
+            <FileSpreadsheet className="w-10 h-10" style={{ color: 'var(--accent)' }} />
           </div>
           <div className="text-center">
-            <p className="font-heading font-semibold text-[#F8FAFC]">Sube el archivo Excel</p>
-            <div className="mt-2 flex flex-col gap-1 text-xs text-[#64748B]">
-              <span><code className="text-emerald-400">IMPORTACION_COMPLETA.xlsx</code> — historial completo (recomendado)</span>
-              <span><code className="text-[#475569]">IMPORTACION_UNIFICADA.xlsx</code> — formato anterior (compatible)</span>
+            <p className="font-heading font-semibold" style={{ color: 'var(--text)' }}>Sube el archivo Excel</p>
+            <div className="mt-2 flex flex-col gap-1 text-xs" style={{ color: 'var(--text-faint)' }}>
+              <span><code style={{ color: 'var(--accent)' }}>IMPORTACION_COMPLETA.xlsx</code> — historial completo (recomendado)</span>
+              <span><code style={{ color: 'var(--text-faint)' }}>IMPORTACION_UNIFICADA.xlsx</code> — formato anterior (compatible)</span>
             </div>
           </div>
           <div
-            className="w-full flex flex-col items-center gap-3 p-8 rounded-xl border-2 border-dashed border-[#1E293B] hover:border-emerald-500/40 transition-colors cursor-pointer"
+            className="w-full flex flex-col items-center gap-3 p-8 rounded-xl border-2 border-dashed transition-colors cursor-pointer"
+            style={{ borderColor: 'var(--border)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(244,114,194,0.4)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)' }}
             onClick={() => fileRef.current?.click()}
             onDragOver={e => e.preventDefault()}
             onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleFile(f) }}
           >
-            <Upload className="w-6 h-6 text-[#475569]" />
-            <span className="text-sm text-[#475569]">Click o arrastra el archivo aquí</span>
+            <Upload className="w-6 h-6" style={{ color: 'var(--text-faint)' }} />
+            <span className="text-sm" style={{ color: 'var(--text-faint)' }}>Click o arrastra el archivo aquí</span>
             <input ref={fileRef} type="file" accept=".xlsx,.xls" className="sr-only"
               onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }} />
           </div>
@@ -667,15 +670,15 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
       {/* ── Preview: solo monitoreo ── */}
       {step === 'preview' && mode === 'monitoring' && (
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-[#0A0F1E] border border-[#1E293B]">
-            <div className="p-2 rounded-lg bg-amber-500/10">
-              <Calendar className="w-5 h-5 text-amber-400" />
+          <div className="flex items-center gap-3 p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-soft)' }}>
+            <div className="p-2 rounded-lg" style={{ background: 'rgba(245,158,11,0.1)' }}>
+              <Calendar className="w-5 h-5" style={{ color: 'var(--amber)' }} />
             </div>
             <div>
-              <p className="font-semibold text-[#F8FAFC]">
+              <p className="font-semibold" style={{ color: 'var(--text)' }}>
                 {historialRows.length} registros de monitoreo
               </p>
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs" style={{ color: 'var(--text-faint)' }}>
                 {new Set(historialRows.map(r => r.nombre)).size} proyectos ·{' '}
                 {datesSummary ?? 'sin rango de fechas'}
               </p>
@@ -684,24 +687,24 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
 
           {/* Sample preview table */}
           <div>
-            <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-2">
+            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-faint)' }}>
               Muestra de registros
             </p>
-            <div className="rounded-xl border border-[#1E293B] overflow-hidden max-h-52 overflow-y-auto">
+            <div className="rounded-xl overflow-hidden max-h-52 overflow-y-auto" style={{ border: '1px solid var(--border-soft)' }}>
               <table className="w-full text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#0A0F1E] border-b border-[#1E293B]">
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">Fecha</th>
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">Proyecto</th>
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">Datos</th>
+                  <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid var(--border-soft)' }}>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Fecha</th>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Proyecto</th>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Datos</th>
                   </tr>
                 </thead>
                 <tbody>
                   {historialRows.slice(0, 30).map((row, i) => (
-                    <tr key={i} className="border-b border-[#1E293B] hover:bg-[#0F172A]/60">
-                      <td className="px-3 py-2 text-blue-400 font-mono">{row.fecha}</td>
-                      <td className="px-3 py-2 text-[#F8FAFC] font-medium">{row.nombre}</td>
-                      <td className="px-3 py-2 text-[#64748B] truncate max-w-xs">
+                    <tr key={i} className="hover:bg-white/[0.03]" style={{ borderTop: '1px solid var(--border-soft)' }}>
+                      <td className="px-3 py-2 font-mono" style={{ color: 'var(--cyan)' }}>{row.fecha}</td>
+                      <td className="px-3 py-2 font-medium" style={{ color: 'var(--text)' }}>{row.nombre}</td>
+                      <td className="px-3 py-2 truncate max-w-xs" style={{ color: 'var(--text-muted)' }}>
                         {[row.notas, row.tareas, row.estabilidad].filter(Boolean)[0] || '—'}
                       </td>
                     </tr>
@@ -710,15 +713,15 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
               </table>
             </div>
             {historialRows.length > 30 && (
-              <p className="text-xs text-[#475569] mt-1.5 text-right">
+              <p className="text-xs mt-1.5 text-right" style={{ color: 'var(--text-faint)' }}>
                 + {historialRows.length - 30} registros más...
               </p>
             )}
           </div>
 
-          <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-emerald-300">
+          <div className="p-3 rounded-lg flex items-start gap-2" style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)' }}>
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'var(--emerald)' }} />
+            <p className="text-xs" style={{ color: 'var(--emerald)' }}>
               Los proyectos que no existan se crean automáticamente con el nombre.
               Después puedes editar cada uno para agregar URL, usuario, clave, etc.
             </p>
@@ -738,23 +741,23 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
         <div className="flex flex-col gap-4">
           {/* Stats */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#0A0F1E] border border-[#1E293B]">
-              <div className="p-2 rounded-lg bg-blue-500/10">
-                <Database className="w-4 h-4 text-blue-400" />
+            <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-soft)' }}>
+              <div className="p-2 rounded-lg" style={{ background: 'rgba(34,211,238,0.1)' }}>
+                <Database className="w-4 h-4" style={{ color: 'var(--cyan)' }} />
               </div>
               <div>
-                <p className="text-xs text-[#64748B]">Proyectos</p>
-                <p className="font-semibold text-[#F8FAFC]">{projectRows.length}</p>
+                <p className="text-xs" style={{ color: 'var(--text-faint)' }}>Proyectos</p>
+                <p className="font-semibold" style={{ color: 'var(--text)' }}>{projectRows.length}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-[#0A0F1E] border border-[#1E293B]">
-              <div className="p-2 rounded-lg bg-amber-500/10">
-                <Calendar className="w-4 h-4 text-amber-400" />
+            <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border-soft)' }}>
+              <div className="p-2 rounded-lg" style={{ background: 'rgba(245,158,11,0.1)' }}>
+                <Calendar className="w-4 h-4" style={{ color: 'var(--amber)' }} />
               </div>
               <div>
-                <p className="text-xs text-[#64748B]">Registros históricos</p>
-                <p className="font-semibold text-[#F8FAFC]">{historialRows.length}
-                  {datesSummary && <span className="text-xs text-[#475569] font-normal ml-1.5">({datesSummary})</span>}
+                <p className="text-xs" style={{ color: 'var(--text-faint)' }}>Registros históricos</p>
+                <p className="font-semibold" style={{ color: 'var(--text)' }}>{historialRows.length}
+                  {datesSummary && <span className="text-xs font-normal ml-1.5" style={{ color: 'var(--text-faint)' }}>({datesSummary})</span>}
                 </p>
               </div>
             </div>
@@ -762,22 +765,22 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
 
           {/* Projects preview */}
           <div>
-            <p className="text-xs font-semibold text-[#475569] uppercase tracking-wider mb-2">Proyectos a importar</p>
-            <div className="rounded-xl border border-[#1E293B] overflow-hidden max-h-52 overflow-y-auto">
+            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-faint)' }}>Proyectos a importar</p>
+            <div className="rounded-xl overflow-hidden max-h-52 overflow-y-auto" style={{ border: '1px solid var(--border-soft)' }}>
               <table className="w-full text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#0A0F1E] border-b border-[#1E293B]">
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">Proyecto</th>
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">Maquetador</th>
-                    <th className="px-3 py-2 text-left text-[#475569] font-medium">URL</th>
+                  <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid var(--border-soft)' }}>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Proyecto</th>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Maquetador</th>
+                    <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>URL</th>
                   </tr>
                 </thead>
                 <tbody>
                   {projectRows.map((row, i) => (
-                    <tr key={i} className="border-b border-[#1E293B] hover:bg-[#0F172A]/60">
-                      <td className="px-3 py-2 text-[#F8FAFC] font-medium">{row.nombre}</td>
-                      <td className="px-3 py-2 text-[#94A3B8]">{row.maquetador || '—'}</td>
-                      <td className="px-3 py-2 text-[#64748B] truncate max-w-xs">{row.url || '—'}</td>
+                    <tr key={i} className="hover:bg-white/[0.03]" style={{ borderTop: '1px solid var(--border-soft)' }}>
+                      <td className="px-3 py-2 font-medium" style={{ color: 'var(--text)' }}>{row.nombre}</td>
+                      <td className="px-3 py-2" style={{ color: 'var(--text-muted)' }}>{row.maquetador || '—'}</td>
+                      <td className="px-3 py-2 truncate max-w-xs" style={{ color: 'var(--text-faint)' }}>{row.url || '—'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -785,9 +788,9 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-amber-300">
+          <div className="p-3 rounded-lg flex items-start gap-2" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)' }}>
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'var(--amber)' }} />
+            <p className="text-xs" style={{ color: 'var(--amber)' }}>
               Si un proyecto ya existe, sus datos serán actualizados. Los registros de monitoreo se guardan por fecha sin duplicar.
             </p>
           </div>
@@ -804,29 +807,29 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
       {step === 'preview' && mode === 'legacy' && (
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-[#94A3B8]">
-              Se importarán <span className="text-emerald-400 font-semibold">{legacyRows.length} proyectos</span>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Se importarán <span className="font-semibold" style={{ color: 'var(--emerald)' }}>{legacyRows.length} proyectos</span>
             </p>
             <Button variant="ghost" size="sm" onClick={reset}>Cambiar archivo</Button>
           </div>
 
-          <div className="rounded-xl border border-[#1E293B] overflow-hidden max-h-80 overflow-y-auto">
+          <div className="rounded-xl overflow-hidden max-h-80 overflow-y-auto" style={{ border: '1px solid var(--border-soft)' }}>
             <table className="w-full text-xs border-collapse">
               <thead>
-                <tr className="bg-[#0A0F1E] border-b border-[#1E293B]">
-                  <th className="px-3 py-2 text-left text-[#475569] font-medium">Proyecto</th>
-                  <th className="px-3 py-2 text-left text-[#475569] font-medium">Maquetador</th>
-                  <th className="px-3 py-2 text-left text-[#475569] font-medium">Estado</th>
-                  <th className="px-3 py-2 text-left text-[#475569] font-medium">Monitoreo</th>
+                <tr style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid var(--border-soft)' }}>
+                  <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Proyecto</th>
+                  <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Maquetador</th>
+                  <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Estado</th>
+                  <th className="px-3 py-2 text-left font-medium" style={{ color: 'var(--text-faint)' }}>Monitoreo</th>
                 </tr>
               </thead>
               <tbody>
                 {legacyRows.map((row, i) => (
-                  <tr key={i} className="border-b border-[#1E293B] hover:bg-[#0F172A]/60">
-                    <td className="px-3 py-2 text-[#F8FAFC] font-medium">{row.nombre}</td>
-                    <td className="px-3 py-2 text-[#94A3B8]">{row.maquetador || '—'}</td>
-                    <td className="px-3 py-2 text-[#94A3B8]">{row.url || '—'}</td>
-                    <td className="px-3 py-2 text-[#64748B]">
+                  <tr key={i} className="hover:bg-white/[0.03]" style={{ borderTop: '1px solid var(--border-soft)' }}>
+                    <td className="px-3 py-2 font-medium" style={{ color: 'var(--text)' }}>{row.nombre}</td>
+                    <td className="px-3 py-2" style={{ color: 'var(--text-muted)' }}>{row.maquetador || '—'}</td>
+                    <td className="px-3 py-2" style={{ color: 'var(--text-muted)' }}>{row.url || '—'}</td>
+                    <td className="px-3 py-2" style={{ color: 'var(--text-faint)' }}>
                       {row.notas || row.tareas_ejecutar ? '✓ Con datos' : '—'}
                     </td>
                   </tr>
@@ -835,9 +838,9 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
             </table>
           </div>
 
-          <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-amber-300">
+          <div className="p-3 rounded-lg flex items-start gap-2" style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.25)' }}>
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'var(--amber)' }} />
+            <p className="text-xs" style={{ color: 'var(--amber)' }}>
               Si un proyecto ya existe con el mismo nombre, sus datos serán actualizados (no duplicados).
             </p>
           </div>
@@ -852,16 +855,16 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
       {/* ── Importing ── */}
       {step === 'importing' && (
         <div className="flex flex-col items-center gap-6 py-8">
-          <Loader2 className="w-10 h-10 text-emerald-400 animate-spin" />
+          <Loader2 className="w-10 h-10 animate-spin" style={{ color: 'var(--accent)' }} />
           <div className="w-full flex flex-col gap-2">
-            <div className="flex justify-between text-xs text-[#94A3B8]">
+            <div className="flex justify-between text-xs" style={{ color: 'var(--text-muted)' }}>
               <span>{importStatus || 'Importando...'}</span>
               <span>{progress}%</span>
             </div>
-            <div className="h-2 bg-[#1E293B] rounded-full overflow-hidden">
+            <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
               <div
-                className="h-full bg-emerald-500 rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
+                className="h-full rounded-full transition-all duration-300"
+                style={{ width: `${progress}%`, background: 'var(--accent-gradient)' }}
               />
             </div>
           </div>
@@ -870,13 +873,13 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
             <div className="max-h-48 w-full overflow-y-auto flex flex-col gap-1">
               {legacyRows.map((row, i) => (
                 <div key={i} className="flex items-center gap-2 text-xs px-2 py-1 rounded">
-                  {row._status === 'ok'      && <CheckCircle className="w-3 h-3 text-emerald-400 shrink-0" />}
-                  {row._status === 'error'   && <XCircle     className="w-3 h-3 text-red-400 shrink-0" />}
-                  {row._status === 'pending' && <div className="w-3 h-3 rounded-full border border-[#334155] shrink-0" />}
-                  <span className={
-                    row._status === 'ok'    ? 'text-[#94A3B8]' :
-                    row._status === 'error' ? 'text-red-400' : 'text-[#475569]'
-                  }>{row.nombre}</span>
+                  {row._status === 'ok'      && <CheckCircle className="w-3 h-3 shrink-0" style={{ color: 'var(--emerald)' }} />}
+                  {row._status === 'error'   && <XCircle     className="w-3 h-3 shrink-0" style={{ color: 'var(--danger)' }} />}
+                  {row._status === 'pending' && <div className="w-3 h-3 rounded-full shrink-0" style={{ border: '1px solid var(--border)' }} />}
+                  <span style={{
+                    color: row._status === 'ok'    ? 'var(--text-muted)' :
+                           row._status === 'error' ? 'var(--danger)' : 'var(--text-faint)'
+                  }}>{row.nombre}</span>
                 </div>
               ))}
             </div>
@@ -887,22 +890,22 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
       {/* ── Done ── */}
       {step === 'done' && (
         <div className="flex flex-col items-center gap-5 py-8">
-          <CheckCircle className="w-12 h-12 text-emerald-400" />
+          <CheckCircle className="w-12 h-12" style={{ color: 'var(--emerald)' }} />
           <div className="text-center">
-            <p className="font-heading font-semibold text-lg text-[#F8FAFC]">Importación completa</p>
+            <p className="font-heading font-semibold text-lg" style={{ color: 'var(--text)' }}>Importación completa</p>
             <div className="flex flex-col gap-1 mt-2">
               {results.projects > 0 && (
-                <p className="text-sm text-[#94A3B8]">
-                  <span className="text-blue-400 font-semibold">{results.projects} proyectos</span> creados / actualizados
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                  <span className="font-semibold" style={{ color: 'var(--cyan)' }}>{results.projects} proyectos</span> creados / actualizados
                 </p>
               )}
               {results.monitoring > 0 && (
-                <p className="text-sm text-[#94A3B8]">
-                  <span className="text-amber-400 font-semibold">{results.monitoring} registros históricos</span> guardados
+                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                  <span className="font-semibold" style={{ color: 'var(--amber)' }}>{results.monitoring} registros históricos</span> guardados
                 </p>
               )}
               {results.errors > 0 && (
-                <p className="text-sm text-red-400">
+                <p className="text-sm" style={{ color: 'var(--danger)' }}>
                   <span className="font-semibold">{results.errors} errores</span>
                 </p>
               )}
@@ -912,7 +915,7 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
           {mode === 'legacy' && results.errors > 0 && (
             <div className="w-full max-h-32 overflow-y-auto flex flex-col gap-1">
               {legacyRows.filter(r => r._status === 'error').map((r, i) => (
-                <p key={i} className="text-xs text-red-400 px-2">✗ {r.nombre}: {r._error}</p>
+                <p key={i} className="text-xs px-2" style={{ color: 'var(--danger)' }}>✗ {r.nombre}: {r._error}</p>
               ))}
             </div>
           )}

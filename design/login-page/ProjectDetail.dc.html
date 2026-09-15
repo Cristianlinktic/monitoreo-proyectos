@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #F472C2; }
+    a:hover { color: #FB9FD8; }
+    .a-panel { background: rgba(20,12,34,0.55); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; box-sizing: border-box; }
+    .a-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:9999px; font-size:11px; font-weight:600; font-family:'Manrope',sans-serif; white-space:nowrap; }
+  </style>
+</helmet>
+
+<div style="position:relative;width:1440px;min-height:1920px;overflow:hidden;background:#0B0713;font-family:'Manrope',system-ui,sans-serif;padding:36px 48px 64px;box-sizing:border-box;">
+
+  <div style="position:absolute;width:640px;height:640px;top:-260px;right:-200px;border-radius:50%;background:#7C3AED;opacity:0.2;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:600px;height:600px;bottom:200px;left:-220px;border-radius:50%;background:#22D3EE;opacity:0.14;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:600px;height:600px;bottom:-260px;right:300px;border-radius:50%;background:#C026D3;opacity:0.16;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+
+  <div style="position:relative;">
+
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px;font-size:13px;font-weight:600;color:#C9B8E8;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Volver al dashboard
+    </div>
+
+    <!-- Hero -->
+    <div class="a-panel" style="padding:28px 32px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:22px;">
+        <svg width="72" height="72" viewBox="0 0 72 72"><circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/><circle cx="36" cy="36" r="30" fill="none" stroke="#34D399" stroke-width="8" stroke-dasharray="188.5" stroke-dashoffset="15" stroke-linecap="round" transform="rotate(-90 36 36)"/><text x="36" y="42" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="18" fill="#FFFFFF">92</text></svg>
+        <div>
+          <p style="margin:0 0 6px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:24px;color:#FFFFFF;">Clínica Vital</p>
+          <p style="margin:0 0 4px;font-size:13px;color:#9A8FBE;">Maquetador: Andrea R. · <span style="color:#F472C2;">clinicavital.com ↗</span></p>
+          <p style="margin:0;font-size:12px;color:#7A6E99;">36 registros de monitoreo desde ene. 2025</p>
+        </div>
+      </div>
+      <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;padding:8px 16px;font-size:13px;">Health 92/100</span>
+    </div>
+
+    <!-- Info grid + plugins/redirects -->
+    <div style="display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:20px;">
+      <div class="a-panel" style="padding:24px;">
+        <p style="margin:0 0 16px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:13px;color:#FFFFFF;">Información</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div><p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#7A6E99;">Dominio</p><p style="margin:0;font-size:13px;color:#C9B8E8;">clinicavital.com</p></div>
+          <div><p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#7A6E99;">Vencimiento dominio</p><p style="margin:0;font-size:13px;color:#C9B8E8;">18 mar 2027</p></div>
+          <div><p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#7A6E99;">CECO</p><p style="margin:0;font-size:13px;color:#C9B8E8;">MK-002</p></div>
+          <div><p style="margin:0 0 4px;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:#7A6E99;">Figma</p><p style="margin:0;font-size:13px;color:#F472C2;">Ver diseño ↗</p></div>
+        </div>
+      </div>
+      <div class="a-panel" style="padding:24px;">
+        <p style="margin:0 0 12px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:13px;color:#FFFFFF;">Plugins</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+          <span style="padding:5px 12px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:11px;color:#C9B8E8;">WooCommerce</span>
+          <span style="padding:5px 12px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:11px;color:#C9B8E8;">Yoast SEO</span>
+          <span style="padding:5px 12px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:11px;color:#C9B8E8;">WPForms</span>
+          <span style="padding:5px 12px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:11px;color:#C9B8E8;">Litespeed Cache</span>
+        </div>
+        <p style="margin:0 0 10px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:13px;color:#FFFFFF;">Redirects</p>
+        <p style="margin:0 0 4px;font-size:12px;color:#C9B8E8;">Form contacto → /gracias</p>
+        <p style="margin:0;font-size:12px;color:#C9B8E8;">Agenda cita → /confirmacion</p>
+      </div>
+    </div>
+
+    <!-- Performance chart -->
+    <div class="a-panel" style="padding:24px;margin-bottom:20px;">
+      <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Rendimiento histórico</p>
+      <p style="margin:0 0 18px;font-size:12px;color:#7A6E99;">Escala 0–10, últimos 12 registros</p>
+      <svg width="100%" height="130" viewBox="0 0 1300 130" preserveAspectRatio="none">
+        <defs><linearGradient id="perfFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34D399" stop-opacity="0.3"/><stop offset="100%" stop-color="#34D399" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0,70 L118,60 L236,75 L354,45 L472,55 L590,30 L708,40 L826,20 L944,35 L1062,15 L1180,25 L1300,10 L1300,130 L0,130 Z" fill="url(#perfFill)"/>
+        <path d="M0,70 L118,60 L236,75 L354,45 L472,55 L590,30 L708,40 L826,20 L944,35 L1062,15 L1180,25 L1300,10" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- Tasks -->
+    <div class="a-panel" style="padding:24px;margin-bottom:20px;">
+      <p style="margin:0 0 18px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Tareas</p>
+      <div style="display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:16px;">
+        <div>
+          <p style="display:flex;align-items:center;gap:6px;margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#F59E0B;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="3"><circle cx="12" cy="12" r="9"/></svg>Pendiente</p>
+          <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);margin-bottom:8px;"><p style="margin:0 0 4px;font-size:12px;font-weight:600;color:#FFFFFF;">Actualizar plugin de pagos</p><span style="font-size:10px;color:#F87171;">Vencida hace 2d</span></div>
+        </div>
+        <div>
+          <p style="display:flex;align-items:center;gap:6px;margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#22D3EE;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="3"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>En progreso</p>
+          <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);"><p style="margin:0 0 4px;font-size:12px;font-weight:600;color:#FFFFFF;">Optimizar imágenes del hero</p><span style="font-size:10px;color:#9A8FBE;">3 restantes</span></div>
+        </div>
+        <div>
+          <p style="display:flex;align-items:center;gap:6px;margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#34D399;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Resuelto</p>
+          <div style="padding:12px;border-radius:12px;background:rgba(255,255,255,0.04);"><p style="margin:0;font-size:12px;font-weight:600;color:#7A6E99;text-decoration:line-through;">Renovar certificado SSL</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div>
+      <p style="margin:0 0 16px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Historial de monitoreo</p>
+
+      <div class="a-panel" style="padding:20px 24px;margin-bottom:12px;display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:center;">
+        <div style="text-align:center;"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="#34D399" stroke-width="5" stroke-dasharray="113" stroke-dashoffset="9" stroke-linecap="round" transform="rotate(-90 22 22)"/></svg><p style="margin:6px 0 0;font-size:10px;color:#7A6E99;">15 sep</p></div>
+        <div style="display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:12px;font-size:12px;color:#C9B8E8;">
+          <p style="margin:0;">Estabilidad: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Formularios: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Backup: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Rendimiento: <span style="color:#34D399;">9.2</span></p>
+          <p style="margin:0;grid-column:span 2;">Notas: sin novedades</p>
+        </div>
+      </div>
+
+      <div class="a-panel" style="padding:20px 24px;margin-bottom:12px;display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:center;">
+        <div style="text-align:center;"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="#34D399" stroke-width="5" stroke-dasharray="113" stroke-dashoffset="12" stroke-linecap="round" transform="rotate(-90 22 22)"/></svg><p style="margin:6px 0 0;font-size:10px;color:#7A6E99;">14 sep</p></div>
+        <div style="display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:12px;font-size:12px;color:#C9B8E8;">
+          <p style="margin:0;">Estabilidad: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Formularios: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Backup: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Rendimiento: <span style="color:#34D399;">8.9</span></p>
+          <p style="margin:0;grid-column:span 2;">Tarea: revisar botón de agenda</p>
+        </div>
+      </div>
+
+      <div class="a-panel" style="padding:20px 24px;display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:center;">
+        <div style="text-align:center;"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="#F59E0B" stroke-width="5" stroke-dasharray="113" stroke-dashoffset="34" stroke-linecap="round" transform="rotate(-90 22 22)"/></svg><p style="margin:6px 0 0;font-size:10px;color:#7A6E99;">13 sep</p></div>
+        <div style="display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:12px;font-size:12px;color:#C9B8E8;">
+          <p style="margin:0;">Estabilidad: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Formularios: <span style="color:#F59E0B;">Revisar</span></p>
+          <p style="margin:0;">Backup: <span style="color:#34D399;">OK</span></p>
+          <p style="margin:0;">Rendimiento: <span style="color:#34D399;">8.5</span></p>
+          <p style="margin:0;grid-column:span 2;">Notas: formulario de agenda tarda en responder</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

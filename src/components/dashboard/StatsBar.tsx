@@ -19,20 +19,20 @@ const CARD_CONFIG = [
     label: 'Proyectos',
     sublabel: 'en sistema',
     icon: Activity,
-    color: '#06B6D4',
-    glow: 'rgba(6,182,212,0.3)',
-    border: 'rgba(6,182,212,0.2)',
-    bg: 'rgba(6,182,212,0.06)',
+    color: '#22D3EE',
+    glow: 'rgba(34,211,238,0.3)',
+    border: 'rgba(34,211,238,0.25)',
+    bg: 'rgba(34,211,238,0.08)',
   },
   {
     key: 'monitored',
     label: 'Monitoreados',
     sublabel: 'este día',
     icon: CheckCircle2,
-    color: '#22C55E',
-    glow: 'rgba(34,197,94,0.3)',
-    border: 'rgba(34,197,94,0.2)',
-    bg: 'rgba(34,197,94,0.06)',
+    color: '#34D399',
+    glow: 'rgba(52,211,153,0.3)',
+    border: 'rgba(52,211,153,0.25)',
+    bg: 'rgba(52,211,153,0.08)',
   },
   {
     key: 'withTasks',
@@ -41,18 +41,18 @@ const CARD_CONFIG = [
     icon: AlertTriangle,
     color: '#F59E0B',
     glow: 'rgba(245,158,11,0.3)',
-    border: 'rgba(245,158,11,0.2)',
-    bg: 'rgba(245,158,11,0.06)',
+    border: 'rgba(245,158,11,0.25)',
+    bg: 'rgba(245,158,11,0.08)',
   },
   {
     key: 'pending',
     label: 'Sin revisar',
     sublabel: 'este día',
     icon: Clock,
-    color: '#8B5CF6',
-    glow: 'rgba(139,92,246,0.3)',
-    border: 'rgba(139,92,246,0.2)',
-    bg: 'rgba(139,92,246,0.06)',
+    color: '#A78BFA',
+    glow: 'rgba(167,139,250,0.3)',
+    border: 'rgba(167,139,250,0.25)',
+    bg: 'rgba(167,139,250,0.08)',
   },
 ]
 
@@ -103,7 +103,7 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
       const diff = values[i] - prev[i]
       if (diff === 0) { el.textContent = ''; return }
       el.textContent = diff > 0 ? `↑${diff}` : `↓${Math.abs(diff)}`
-      el.style.color = diff > 0 ? '#22C55E' : '#EF4444'
+      el.style.color = diff > 0 ? '#34D399' : '#F87171'
     })
 
     prevValues.current = [...values]
@@ -119,8 +119,10 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
             key={cfg.key}
             className="stat-card relative overflow-hidden rounded-2xl p-5"
             style={{
-              background: `linear-gradient(135deg, ${cfg.bg} 0%, rgba(8,13,26,0.9) 100%)`,
-              border: `1px solid ${cfg.key === 'pending' && showOnlyPending ? cfg.color + '60' : cfg.border}`,
+              background: `linear-gradient(135deg, ${cfg.bg} 0%, var(--bg-card) 100%)`,
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: `1px solid ${cfg.key === 'pending' && showOnlyPending ? cfg.color + '60' : 'var(--border)'}`,
               boxShadow: cfg.key === 'pending' && showOnlyPending ? `0 0 24px ${cfg.glow}` : 'none',
               cursor: cfg.key === 'pending' ? 'pointer' : 'default',
             }}
@@ -134,9 +136,6 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
               ;(e.currentTarget as HTMLElement).style.boxShadow = cfg.key === 'pending' && showOnlyPending ? `0 0 24px ${cfg.glow}` : 'none'
             }}
           >
-            {/* Scanline */}
-            <div className="scanline" />
-
             {/* Top row */}
             <div className="flex items-center justify-between mb-4">
               <div className="relative">
@@ -174,10 +173,10 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
             />
 
             {/* Label */}
-            <p className="text-xs text-[#64748B] mt-2 font-medium">
+            <p className="text-xs mt-2 font-medium" style={{ color: 'var(--text-muted)' }}>
               {cfg.label}
               {cfg.key === 'pending' && (
-                <span className="ml-2 text-[10px] tracking-wider" style={{ color: showOnlyPending ? cfg.color : '#334155' }}>
+                <span className="ml-2 text-[10px] tracking-wider" style={{ color: showOnlyPending ? cfg.color : 'var(--text-faint)' }}>
                   {showOnlyPending ? '· filtro activo' : '· click para ver'}
                 </span>
               )}
@@ -185,7 +184,7 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
 
             {/* Progress bar */}
             {total > 0 && cfg.key !== 'total' && (
-              <div className="mt-3 h-0.5 rounded-full bg-[#1E293B] overflow-hidden">
+              <div className="mt-3 h-0.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-muted)' }}>
                 <div
                   className="h-full rounded-full transition-all duration-1000"
                   style={{

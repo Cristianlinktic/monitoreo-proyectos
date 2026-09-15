@@ -12,8 +12,8 @@ export function computeHealth(m: MonitoringEntry | null | undefined): number {
 }
 
 export function healthColor(score: number): string {
-  if (score === 0)   return '#1E293B'
-  if (score <= 49)   return '#EF4444'
+  if (score === 0)   return 'rgba(255,255,255,0.15)'
+  if (score <= 49)   return '#F87171'
   if (score <= 79)   return '#F59E0B'
-  return '#22C55E'
+  return '#34D399'
 }

@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #F472C2; }
+    a:hover { color: #FB9FD8; }
+    .a-panel { background: rgba(20,12,34,0.55); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; box-sizing: border-box; }
+    .a-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:9999px; font-size:11px; font-weight:600; font-family:'Manrope',sans-serif; white-space:nowrap; }
+  </style>
+</helmet>
+
+<div style="position:relative;width:1440px;min-height:2040px;overflow:hidden;background:#0B0713;font-family:'Manrope',system-ui,sans-serif;padding:36px 48px 64px;box-sizing:border-box;">
+
+  <div style="position:absolute;width:640px;height:640px;top:-260px;left:-200px;border-radius:50%;background:#C026D3;opacity:0.22;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:640px;height:640px;top:600px;right:-220px;border-radius:50%;background:#22D3EE;opacity:0.14;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:600px;height:600px;bottom:-200px;left:400px;border-radius:50%;background:#7C3AED;opacity:0.16;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+
+  <div style="position:relative;">
+
+    <!-- Nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#F472C2,#7C3AED);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6a6 6 0 0 1 6 6"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M7.76 7.76a6 6 0 0 0 0 8.48"/></svg>
+        </div>
+        <p style="margin:0;font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;">Monitor</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:9999px;background:rgba(255,255,255,0.06);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span style="font-size:13px;font-weight:600;color:#FFFFFF;">15 sept. 2026</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="padding:9px 16px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);font-size:13px;font-weight:600;color:#FFFFFF;">Importar</div>
+        <div style="padding:9px 18px;border-radius:10px;background:linear-gradient(135deg,#F472C2,#7C3AED);box-shadow:0 0 20px rgba(236,72,201,0.35);font-size:13px;font-weight:700;color:#FFFFFF;">+ Nuevo proyecto</div>
+      </div>
+    </div>
+
+    <!-- Stats bar -->
+    <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px;margin-bottom:20px;">
+
+      <div class="a-panel" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:rgba(34,211,238,0.15);display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <span style="display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#34D399;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>+3</span>
+        </div>
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:30px;color:#FFFFFF;">24</p>
+        <p style="margin:0 0 12px;font-size:12px;color:#9A8FBE;">Proyectos en sistema</p>
+        <div style="height:4px;border-radius:9999px;background:rgba(255,255,255,0.08);overflow:hidden;"><div style="width:82%;height:100%;background:#22D3EE;"></div></div>
+      </div>
+
+      <div class="a-panel" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:rgba(52,211,153,0.15);display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          </div>
+          <span style="display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#34D399;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>+5</span>
+        </div>
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:30px;color:#FFFFFF;">18</p>
+        <p style="margin:0 0 12px;font-size:12px;color:#9A8FBE;">Monitoreados este día</p>
+        <div style="height:4px;border-radius:9999px;background:rgba(255,255,255,0.08);overflow:hidden;"><div style="width:75%;height:100%;background:#34D399;"></div></div>
+      </div>
+
+      <div class="a-panel" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <span style="display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#F87171;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10"/><path d="M17 7v10H7"/></svg>+2</span>
+        </div>
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:30px;color:#FFFFFF;">5</p>
+        <p style="margin:0 0 12px;font-size:12px;color:#9A8FBE;">Con tareas pendientes</p>
+        <div style="height:4px;border-radius:9999px;background:rgba(255,255,255,0.08);overflow:hidden;"><div style="width:21%;height:100%;background:#F59E0B;"></div></div>
+      </div>
+
+      <div class="a-panel" style="padding:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="width:34px;height:34px;border-radius:9px;background:rgba(124,58,237,0.18);display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <span style="font-size:11px;font-weight:700;color:#9A8FBE;">hoy</span>
+        </div>
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:30px;color:#FFFFFF;">6</p>
+        <p style="margin:0 0 12px;font-size:12px;color:#9A8FBE;">Sin revisar este día</p>
+        <div style="height:4px;border-radius:9999px;background:rgba(255,255,255,0.08);overflow:hidden;"><div style="width:25%;height:100%;background:#A78BFA;"></div></div>
+      </div>
+    </div>
+
+    <!-- Alerts strip -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+      <div class="a-panel" style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="a-badge" style="background:rgba(248,113,113,0.15);color:#F87171;">2</span>
+          <span style="font-size:13px;font-weight:600;color:#FFFFFF;">Vencimientos de dominio</span>
+          <span style="font-size:12px;color:#7A6E99;">acme-store.com vence en 12d</span>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7A6E99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="a-panel" style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">4</span>
+          <span style="font-size:13px;font-weight:600;color:#FFFFFF;">Proyectos sin revisar</span>
+          <span style="font-size:12px;color:#7A6E99;">clinica-vital sin revisar hace 9d</span>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7A6E99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;">
+      <div class="a-panel" style="padding:24px;">
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Cobertura de monitoreo</p>
+        <p style="margin:0 0 18px;font-size:12px;color:#7A6E99;">Últimos 30 días</p>
+        <svg width="100%" height="140" viewBox="0 0 620 140" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#22D3EE" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M0,90 L45,70 L90,80 L135,50 L180,60 L225,35 L270,45 L315,25 L360,40 L405,20 L450,30 L495,15 L540,25 L585,10 L620,18 L620,140 L0,140 Z" fill="url(#areaFill)"/>
+          <path d="M0,90 L45,70 L90,80 L135,50 L180,60 L225,35 L270,45 L315,25 L360,40 L405,20 L450,30 L495,15 L540,25 L585,10 L620,18" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="a-panel" style="padding:24px;display:flex;flex-direction:column;align-items:center;">
+        <p style="margin:0 0 18px;align-self:flex-start;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Estado del día</p>
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#34D399" stroke-width="14" stroke-dasharray="301.6" stroke-dashoffset="60" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#F59E0B" stroke-width="14" stroke-dasharray="301.6" stroke-dashoffset="220" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+          <text x="60" y="66" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">75%</text>
+        </svg>
+        <div style="display:flex;gap:14px;margin-top:16px;">
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#9A8FBE;"><span style="width:8px;height:8px;border-radius:9999px;background:#34D399;"></span>Sin tareas</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#9A8FBE;"><span style="width:8px;height:8px;border-radius:9999px;background:#F59E0B;"></span>Con tareas</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#9A8FBE;"><span style="width:8px;height:8px;border-radius:9999px;background:#4B4560;"></span>Sin revisar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="a-panel" style="padding:24px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+        <p style="margin:0;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Historial de cobertura</p>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#7A6E99;">
+          <span>Menos</span>
+          <span style="width:9px;height:9px;border-radius:2px;background:rgba(52,211,153,0.15);"></span>
+          <span style="width:9px;height:9px;border-radius:2px;background:rgba(52,211,153,0.4);"></span>
+          <span style="width:9px;height:9px;border-radius:2px;background:rgba(52,211,153,0.7);"></span>
+          <span style="width:9px;height:9px;border-radius:2px;background:#34D399;"></span>
+          <span>Más</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(26, minmax(0,1fr));grid-auto-rows:11px;gap:3px;">
+        <div style="grid-row:1;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:5;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:6;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:rgba(255,255,255,0.05);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:5;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:rgba(255,255,255,0.05);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:3;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.15);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.4);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:5;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.15);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:5;background:#34D399;border-radius:2px;"></div><div style="grid-row:6;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:7;background:#34D399;border-radius:2px;"></div>
+        <div style="grid-row:1;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:2;background:#34D399;border-radius:2px;"></div><div style="grid-row:3;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:4;background:#34D399;border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.15);border-radius:2px;"></div>
+        <div style="grid-row:1;background:#34D399;border-radius:2px;"></div><div style="grid-row:2;background:rgba(52,211,153,0.7);border-radius:2px;"></div><div style="grid-row:3;background:#34D399;border-radius:2px;"></div><div style="grid-row:4;background:rgba(255,255,255,0.05);border-radius:2px;"></div><div style="grid-row:5;background:rgba(52,211,153,0.4);border-radius:2px;"></div><div style="grid-row:6;background:#34D399;border-radius:2px;"></div><div style="grid-row:7;background:rgba(52,211,153,0.7);border-radius:2px;"></div>
+      </div>
+    </div>
+
+    <!-- Quick monitor CTA -->
+    <div style="display:flex;justify-content:flex-end;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:9999px;background:linear-gradient(135deg,#F472C2,#7C3AED);box-shadow:0 0 20px rgba(236,72,201,0.35);font-size:13px;font-weight:700;color:#FFFFFF;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF" stroke="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Monitoreo rápido
+      </div>
+    </div>
+
+    <!-- Projects table -->
+    <div class="a-panel" style="padding:22px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);flex:1;max-width:320px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A6E99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span style="font-size:13px;color:#7A6E99;">Buscar proyecto…</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:#C9B8E8;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg>Filtros</span>
+          <span style="padding:8px 12px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:#C9B8E8;">Health ≥ 80</span>
+          <span style="padding:8px 12px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:#C9B8E8;">Solo con tareas</span>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;padding:0 12px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">
+        <div>Score</div><div>Proyecto</div><div>Plugins</div><div>SSL</div><div>Rendimiento</div><div>Estabilidad</div><div>Formularios</div><div>Backup</div><div>Estado</div><div>Acción</div>
+      </div>
+
+      <!-- row 1 -->
+      <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="15" cy="15" r="12" fill="none" stroke="#34D399" stroke-width="4" stroke-dasharray="75.4" stroke-dashoffset="6" stroke-linecap="round" transform="rotate(-90 15 15)"/><text x="15" y="19" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" fill="#FFFFFF">92</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Clínica Vital</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Andrea R.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">7</div>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">92</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">Monitoreado</span>
+        <div style="font-size:12px;font-weight:600;color:#F472C2;">Editar</div>
+      </div>
+
+      <!-- row 2 — expanded -->
+      <div style="border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:14px 12px;">
+          <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="15" cy="15" r="12" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="75.4" stroke-dashoffset="26" stroke-linecap="round" transform="rotate(-90 15 15)"/><text x="15" y="19" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" fill="#FFFFFF">65</text></svg>
+          <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Acme Store</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Julián P.</p></div>
+          <div style="font-size:12px;color:#C9B8E8;">12</div>
+          <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">Revisar</span>
+          <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">65</span>
+          <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+          <span class="a-badge" style="background:rgba(248,113,113,0.15);color:#F87171;">Falla</span>
+          <span class="a-badge" style="background:rgba(154,143,190,0.15);color:#9A8FBE;">Pendiente</span>
+          <div style="font-size:12px;font-weight:600;color:#F472C2;">Registrar</div>
+        </div>
+        <div style="margin:0 12px 18px;padding:18px;border-radius:14px;background:rgba(255,255,255,0.03);display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:18px;">
+          <div><p style="margin:0 0 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">Acceso</p><p style="margin:0 0 4px;font-size:12px;color:#C9B8E8;">acme-store.com</p><p style="margin:0 0 4px;font-size:12px;color:#C9B8E8;">Editor: WP Admin</p><p style="margin:0;font-size:12px;color:#C9B8E8;">Vence: 03 oct 2026</p></div>
+          <div><p style="margin:0 0 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">Configuración</p><p style="margin:0 0 4px;font-size:12px;color:#C9B8E8;">CECO: MK-014</p><p style="margin:0;font-size:12px;color:#C9B8E8;">Figma: enlace</p></div>
+          <div><p style="margin:0 0 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">Plugins</p><div style="display:flex;flex-wrap:wrap;gap:6px;"><span style="padding:3px 8px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:10px;color:#C9B8E8;">WooCommerce</span><span style="padding:3px 8px;border-radius:9999px;background:rgba(255,255,255,0.06);font-size:10px;color:#C9B8E8;">Yoast SEO</span></div></div>
+          <div><p style="margin:0 0 8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">Monitoreo</p><p style="margin:0 0 4px;font-size:12px;color:#C9B8E8;">Notas: revisar checkout</p><p style="margin:0;font-size:12px;color:#C9B8E8;">Tarea: actualizar plugin de pagos</p></div>
+        </div>
+      </div>
+
+      <!-- row 3 -->
+      <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="15" cy="15" r="12" fill="none" stroke="#34D399" stroke-width="4" stroke-dasharray="75.4" stroke-dashoffset="2" stroke-linecap="round" transform="rotate(-90 15 15)"/><text x="15" y="19" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" fill="#FFFFFF">97</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Grupo Delta Ingeniería</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Andrea R.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">4</div>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">97</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">Monitoreado</span>
+        <div style="font-size:12px;font-weight:600;color:#F472C2;">Editar</div>
+      </div>
+
+      <!-- row 4 -->
+      <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="15" cy="15" r="12" fill="none" stroke="#F87171" stroke-width="4" stroke-dasharray="75.4" stroke-dashoffset="45" stroke-linecap="round" transform="rotate(-90 15 15)"/><text x="15" y="19" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" fill="#FFFFFF">40</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Panadería San Marcos</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Julián P.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">3</div>
+        <span class="a-badge" style="background:rgba(248,113,113,0.15);color:#F87171;">Vence</span>
+        <span class="a-badge" style="background:rgba(248,113,113,0.15);color:#F87171;">40</span>
+        <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">Revisar</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(154,143,190,0.15);color:#9A8FBE;">Pendiente</span>
+        <span class="a-badge" style="background:rgba(154,143,190,0.15);color:#9A8FBE;">Pendiente</span>
+        <div style="font-size:12px;font-weight:600;color:#F472C2;">Registrar</div>
+      </div>
+
+      <!-- row 5 -->
+      <div style="display:grid;grid-template-columns:44px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:14px 12px;">
+        <svg width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="12" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="15" cy="15" r="12" fill="none" stroke="#34D399" stroke-width="4" stroke-dasharray="75.4" stroke-dashoffset="9" stroke-linecap="round" transform="rotate(-90 15 15)"/><text x="15" y="19" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="10" fill="#FFFFFF">88</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Colegio Nueva Era</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Andrea R.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">9</div>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">88</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">Monitoreado</span>
+        <div style="font-size:12px;font-weight:600;color:#F472C2;">Editar</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

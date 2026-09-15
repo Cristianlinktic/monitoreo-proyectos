@@ -17,16 +17,16 @@ interface CellData {
 }
 
 function cellColor(ratio: number): string {
-  if (ratio === 0) return 'rgba(30,41,59,0.3)'
-  if (ratio <= 0.33) return 'rgba(34,197,94,0.2)'
-  if (ratio <= 0.66) return 'rgba(34,197,94,0.5)'
-  if (ratio < 1)     return 'rgba(34,197,94,0.8)'
-  return '#22C55E'
+  if (ratio === 0) return 'rgba(255,255,255,0.05)'
+  if (ratio <= 0.33) return 'rgba(52,211,153,0.2)'
+  if (ratio <= 0.66) return 'rgba(52,211,153,0.5)'
+  if (ratio < 1)     return 'rgba(52,211,153,0.8)'
+  return '#34D399'
 }
 
 function cellGlow(ratio: number): string {
   if (ratio < 1) return 'none'
-  return '0 0 6px rgba(34,197,94,0.7)'
+  return '0 0 6px rgba(52,211,153,0.7)'
 }
 
 const MONTH_NAMES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic']
@@ -102,19 +102,19 @@ export function HeatmapCalendar({ totalProjects, onDateChange }: HeatmapCalendar
 
   return (
     <div className="rounded-2xl p-5 relative overflow-hidden"
-      style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}>
+      style={{ background: 'var(--bg-card)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--border)' }}>
 
       {/* Header */}
       <div className="flex items-center gap-2 mb-5">
-        <div className="p-1.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
-          <CalendarDays className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="p-1.5 rounded-lg" style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.2)' }}>
+          <CalendarDays className="w-3.5 h-3.5" style={{ color: '#34D399' }} />
         </div>
         <div>
-          <p className="text-sm font-heading font-semibold text-[#F8FAFC]">Historial de cobertura</p>
-          <p className="text-[11px] text-[#475569]">Último año de monitoreo diario</p>
+          <p className="text-sm font-heading font-semibold" style={{ color: 'var(--text)' }}>Historial de cobertura</p>
+          <p className="text-[11px]" style={{ color: 'var(--text-faint)' }}>Último año de monitoreo diario</p>
         </div>
         {/* Legend */}
-        <div className="ml-auto flex items-center gap-1.5 text-[10px] text-[#475569]">
+        <div className="ml-auto flex items-center gap-1.5 text-[10px]" style={{ color: 'var(--text-faint)' }}>
           <span>Menos</span>
           {[0, 0.25, 0.5, 0.85, 1].map(r => (
             <div key={r} className="w-2.5 h-2.5 rounded-sm" style={{ background: cellColor(r), boxShadow: cellGlow(r) }} />
@@ -133,7 +133,7 @@ export function HeatmapCalendar({ totalProjects, onDateChange }: HeatmapCalendar
               return (
                 <div key={col} style={{ width: 13, flexShrink: 0 }}>
                   {label && (
-                    <span style={{ fontSize: 9, color: '#475569', fontFamily: 'DM Sans, sans-serif', whiteSpace: 'nowrap' }}>
+                    <span style={{ fontSize: 9, color: '#7A6E99', fontFamily: 'Manrope, sans-serif', whiteSpace: 'nowrap' }}>
                       {label.label}
                     </span>
                   )}
@@ -149,7 +149,7 @@ export function HeatmapCalendar({ totalProjects, onDateChange }: HeatmapCalendar
               {DAY_LABELS.map((d, i) => (
                 <div key={d} style={{ width: 12, height: 11, display: 'flex', alignItems: 'center' }}>
                   {(i === 0 || i === 2 || i === 4) && (
-                    <span style={{ fontSize: 8, color: '#334155', fontFamily: 'DM Sans, sans-serif' }}>{d}</span>
+                    <span style={{ fontSize: 8, color: '#7A6E99', fontFamily: 'Manrope, sans-serif' }}>{d}</span>
                   )}
                 </div>
               ))}
@@ -187,8 +187,8 @@ export function HeatmapCalendar({ totalProjects, onDateChange }: HeatmapCalendar
                         }
                         e.currentTarget.style.transform = 'scale(1.6)'
                         if (clickable) {
-                          e.currentTarget.style.boxShadow = `0 0 10px rgba(34,197,94,0.8), 0 0 20px rgba(34,197,94,0.4)`
-                          e.currentTarget.style.outline = '1px solid rgba(34,197,94,0.6)'
+                          e.currentTarget.style.boxShadow = `0 0 10px rgba(52,211,153,0.8), 0 0 20px rgba(52,211,153,0.4)`
+                          e.currentTarget.style.outline = '1px solid rgba(52,211,153,0.6)'
                         }
                       }}
                       onMouseLeave={e => {
@@ -216,16 +216,16 @@ export function HeatmapCalendar({ totalProjects, onDateChange }: HeatmapCalendar
           style={{
             left: tooltip.x + 16,
             top: tooltip.y - 36,
-            background: 'rgba(8,13,26,0.97)',
-            border: '1px solid rgba(30,41,59,0.8)',
+            background: 'rgba(11,7,19,0.96)',
+            border: '1px solid var(--border)',
             boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
-            color: '#F8FAFC',
+            color: 'var(--text)',
             whiteSpace: 'nowrap',
           }}
         >
-          <span className="text-[#64748B]">{tooltip.date} · </span>
-          <span className="text-emerald-400 font-semibold">{tooltip.monitored}</span>
-          <span className="text-[#64748B]">/{totalProjects} proyectos</span>
+          <span style={{ color: 'var(--text-faint)' }}>{tooltip.date} · </span>
+          <span className="font-semibold" style={{ color: '#34D399' }}>{tooltip.monitored}</span>
+          <span style={{ color: 'var(--text-faint)' }}>/{totalProjects} proyectos</span>
         </div>
       )}
     </div>

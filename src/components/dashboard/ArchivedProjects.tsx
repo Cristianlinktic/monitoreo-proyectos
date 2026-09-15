@@ -49,11 +49,11 @@ export function ArchivedProjects({ onRestore }: ArchivedProjectsProps) {
 
   if (!loaded || projects.length === 0) return null
 
-  const color = '#64748B'
+  const color = '#7A6E99'
 
   return (
     <div className="rounded-2xl overflow-hidden"
-      style={{ background: 'rgba(8,13,26,0.9)', border: '1px solid rgba(30,41,59,0.7)' }}>
+      style={{ background: 'var(--bg-card)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--border)' }}>
 
       <div className="h-px w-full"
         style={{ background: `linear-gradient(90deg, transparent, ${color}40, transparent)` }} />
@@ -62,20 +62,20 @@ export function ArchivedProjects({ onRestore }: ArchivedProjectsProps) {
         type="button"
         onClick={handleToggle}
         className="w-full flex items-center gap-3 px-4 py-3 cursor-pointer"
-        style={{ background: 'rgba(5,10,20,0.6)' }}
+        style={{ background: 'rgba(255,255,255,0.02)' }}
       >
         <div className="p-1.5 rounded-lg" style={{ background: `${color}15`, border: `1px solid ${color}30` }}>
           <Archive className="w-3.5 h-3.5" style={{ color }} />
         </div>
-        <span className="font-semibold text-sm text-[#F8FAFC] flex-1 text-left">Proyectos archivados</span>
+        <span className="font-semibold text-sm flex-1 text-left" style={{ color: 'var(--text)' }}>Proyectos archivados</span>
         <div className="flex items-center gap-2">
           <span className="text-[11px] font-bold px-2 py-0.5 rounded-full"
             style={{ background: `${color}20`, color, border: `1px solid ${color}40` }}>
             {projects.length}
           </span>
           {open
-            ? <ChevronUp className="w-4 h-4 text-[#475569]" />
-            : <ChevronDown className="w-4 h-4 text-[#475569]" />}
+            ? <ChevronUp className="w-4 h-4" style={{ color: 'var(--text-faint)' }} />
+            : <ChevronDown className="w-4 h-4" style={{ color: 'var(--text-faint)' }} />}
         </div>
       </button>
 
@@ -84,20 +84,20 @@ export function ArchivedProjects({ onRestore }: ArchivedProjectsProps) {
           {projects.map(p => (
             <div key={p.id}
               className="flex items-center gap-3 px-3 py-2.5 rounded-xl"
-              style={{ background: 'rgba(30,41,59,0.1)', border: '1px solid rgba(30,41,59,0.3)' }}>
-              <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-[#334155]" />
+              style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-soft)' }}>
+              <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: 'var(--text-faint)' }} />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[#64748B] truncate">{p.nombre}</p>
+                <p className="text-sm font-medium truncate" style={{ color: 'var(--text-faint)' }}>{p.nombre}</p>
                 {p.maquetador && (
-                  <p className="text-[11px] text-[#334155]">{p.maquetador}</p>
+                  <p className="text-[11px]" style={{ color: 'var(--text-faint)' }}>{p.maquetador}</p>
                 )}
               </div>
               <button
                 onClick={() => handleRestore(p.id)}
                 className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer shrink-0"
-                style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', color: '#22C55E' }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.15)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.08)' }}
+                style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)', color: '#34D399' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(52,211,153,0.15)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(52,211,153,0.08)' }}
               >
                 <RotateCcw className="w-3 h-3" />
                 Restaurar

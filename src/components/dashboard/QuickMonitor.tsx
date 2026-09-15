@@ -86,42 +86,44 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
 
   return (
     <div ref={overlayRef} className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(2,6,23,0.85)', backdropFilter: 'blur(12px)' }}
+      style={{ background: 'rgba(11,7,19,0.85)', backdropFilter: 'blur(12px)' }}
       onClick={e => { if (e.target === overlayRef.current) onClose() }}
     >
       <div ref={cardRef} className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-2xl overflow-hidden opacity-0"
-        style={{ background: 'rgba(5,10,20,0.98)', border: '1px solid rgba(30,41,59,0.8)', boxShadow: '0 32px 80px rgba(0,0,0,0.8)' }}>
+        style={{ background: 'rgba(20,12,34,0.95)', backdropFilter: 'blur(24px)', border: '1px solid var(--border)', boxShadow: '0 32px 80px rgba(0,0,0,0.8)' }}>
 
         {/* Top accent */}
         <div className="h-px w-full shrink-0"
-          style={{ background: 'linear-gradient(90deg, transparent, #22C55E, #06B6D4, transparent)' }} />
+          style={{ background: 'linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent)' }} />
 
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-4 shrink-0" style={{ borderBottom: '1px solid rgba(30,41,59,0.6)' }}>
+        <div className="flex items-center gap-3 px-5 py-4 shrink-0" style={{ borderBottom: '1px solid var(--border-soft)' }}>
           <div className="flex-1">
-            <p className="font-bold text-sm text-[#F8FAFC]">Monitoreo Rápido</p>
-            <p className="text-[11px] text-[#475569] mt-0.5">{selectedDate} · {monitoredCount}/{total} revisados</p>
+            <p className="font-bold text-sm" style={{ color: 'var(--text)' }}>Monitoreo Rápido</p>
+            <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-faint)' }}>{selectedDate} · {monitoredCount}/{total} revisados</p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg text-[#475569] hover:text-[#94A3B8] transition-colors cursor-pointer"
-            style={{ border: '1px solid rgba(30,41,59,0.6)' }}>
+          <button onClick={onClose} className="p-1.5 rounded-lg transition-colors cursor-pointer"
+            style={{ border: '1px solid var(--border-soft)', color: 'var(--text-faint)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}>
             <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* Progress bar */}
-        <div className="px-5 py-3 shrink-0" style={{ borderBottom: '1px solid rgba(30,41,59,0.4)' }}>
+        <div className="px-5 py-3 shrink-0" style={{ borderBottom: '1px solid var(--border-soft)' }}>
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#334155]">Cobertura</span>
-            <span className="text-[10px] font-bold" style={{ color: pct === 100 ? '#22C55E' : '#64748B' }}>
+            <span className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: 'var(--text-faint)' }}>Cobertura</span>
+            <span className="text-[10px] font-bold" style={{ color: pct === 100 ? '#34D399' : 'var(--text-faint)' }}>
               {Math.round(pct)}%
             </span>
           </div>
-          <div className="h-1.5 rounded-full bg-[#0F172A] overflow-hidden">
+          <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--bg-muted)' }}>
             <div className="h-full rounded-full transition-all duration-500"
               style={{
                 width: `${pct}%`,
-                background: pct === 100 ? '#22C55E' : 'linear-gradient(90deg, #22C55E, #06B6D4)',
-                boxShadow: pct > 0 ? '0 0 8px rgba(34,197,94,0.5)' : 'none',
+                background: pct === 100 ? '#34D399' : 'var(--accent-gradient)',
+                boxShadow: pct > 0 ? '0 0 8px rgba(244,114,194,0.5)' : 'none',
               }} />
           </div>
         </div>
@@ -134,29 +136,31 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
             const score = computeHealth(project.monitoring)
 
             return (
-              <div key={project.id} className="flex flex-col gap-0" style={{ borderBottom: '1px solid rgba(30,41,59,0.3)' }}>
+              <div key={project.id} className="flex flex-col gap-0" style={{ borderBottom: '1px solid var(--border-soft)' }}>
                 <div className="flex items-center gap-3 px-2 py-3">
                   <HealthRing score={score} size={28} radius={10} stroke={2} />
 
                   {/* Name */}
                   <div className="flex-1 min-w-0">
                     <button onClick={() => setEditProject(project)}
-                      className="text-sm font-medium text-left hover:text-emerald-400 transition-colors cursor-pointer leading-tight truncate block w-full"
-                      style={{ color: done ? '#475569' : '#F8FAFC' }}>
+                      className="text-sm font-medium text-left transition-colors cursor-pointer leading-tight truncate block w-full"
+                      style={{ color: done ? 'var(--text-faint)' : 'var(--text)' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent)' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = done ? 'var(--text-faint)' : 'var(--text)' }}>
                       {project.nombre}
                       <ChevronRight className="w-3 h-3 inline ml-1 opacity-30" />
                     </button>
                     {project.maquetador && (
-                      <p className="text-[11px] text-[#334155]">{project.maquetador}</p>
+                      <p className="text-[11px]" style={{ color: 'var(--text-faint)' }}>{project.maquetador}</p>
                     )}
                   </div>
 
                   {/* Status / actions */}
                   {done ? (
                     <div className="flex items-center gap-1 px-2 py-1 rounded-lg shrink-0"
-                      style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)' }}>
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-[11px] font-medium text-emerald-400">Revisado</span>
+                      style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)' }}>
+                      <CheckCircle2 className="w-3.5 h-3.5" style={{ color: '#34D399' }} />
+                      <span className="text-[11px] font-medium" style={{ color: '#34D399' }}>Revisado</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-1.5 shrink-0">
@@ -164,9 +168,9 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
                         onClick={() => markOk(project)}
                         disabled={row.saving}
                         className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all cursor-pointer disabled:opacity-50"
-                        style={{ background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', color: '#22C55E' }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.2)' }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(34,197,94,0.1)' }}
+                        style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.3)', color: '#34D399' }}
+                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(52,211,153,0.2)' }}
+                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(52,211,153,0.1)' }}
                       >
                         <CheckCircle2 className="w-3 h-3" />
                         OK
@@ -197,8 +201,8 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
                       placeholder="Describe la tarea a ejecutar..."
                       rows={2}
                       autoFocus
-                      className="flex-1 px-3 py-2 rounded-lg text-sm text-[#F8FAFC] placeholder:text-[#334155] focus:outline-none resize-none transition-all"
-                      style={{ background: 'rgba(8,13,26,0.8)', border: '1px solid rgba(245,158,11,0.3)' }}
+                      className="flex-1 px-3 py-2 rounded-lg text-sm placeholder:text-[#7A6E99] focus:outline-none resize-none transition-all"
+                      style={{ background: 'var(--bg-muted)', border: '1px solid rgba(245,158,11,0.3)', color: 'var(--text)' }}
                       onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.5)' }}
                       onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,158,11,0.3)' }}
                     />
@@ -206,7 +210,7 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
                       onClick={() => markWithTask(project)}
                       disabled={row.saving || !row.taskText.trim()}
                       className="px-3 py-1 rounded-lg text-[11px] font-semibold self-end transition-all cursor-pointer disabled:opacity-40"
-                      style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', color: '#020617' }}
+                      style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', color: 'var(--bg)' }}
                     >
                       {row.saving ? '…' : 'Guardar'}
                     </button>
@@ -218,12 +222,12 @@ export function QuickMonitor({ projects, selectedDate, onRefresh, onClose }: Qui
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 shrink-0 flex justify-end" style={{ borderTop: '1px solid rgba(30,41,59,0.4)' }}>
+        <div className="px-5 py-3 shrink-0 flex justify-end" style={{ borderTop: '1px solid var(--border-soft)' }}>
           <button onClick={onClose}
             className="px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer"
-            style={{ background: 'rgba(30,41,59,0.4)', border: '1px solid rgba(30,41,59,0.7)', color: '#64748B' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#94A3B8' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#64748B' }}
+            style={{ background: 'var(--bg-muted)', border: '1px solid var(--border)', color: 'var(--text-faint)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--text-faint)' }}
           >
             Cerrar
           </button>
