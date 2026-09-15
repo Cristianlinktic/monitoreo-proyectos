@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #F472C2; }
+    a:hover { color: #FB9FD8; }
+    .a-panel { background: rgba(20,12,34,0.55); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; box-sizing: border-box; }
+    .a-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:9999px; font-size:11px; font-weight:600; font-family:'Manrope',sans-serif; white-space:nowrap; }
+    .a-chip { display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:12px; }
+  </style>
+</helmet>
+
+<div style="position:relative;width:1440px;min-height:1840px;overflow:hidden;background:#0B0713;font-family:'Manrope',system-ui,sans-serif;padding:36px 48px 64px;box-sizing:border-box;">
+
+  <div style="position:absolute;width:640px;height:640px;top:-260px;left:-200px;border-radius:50%;background:#C026D3;opacity:0.22;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:640px;height:640px;top:600px;right:-220px;border-radius:50%;background:#22D3EE;opacity:0.14;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+  <div style="position:absolute;width:600px;height:600px;bottom:-200px;left:400px;border-radius:50%;background:#7C3AED;opacity:0.16;filter:blur(160px);mix-blend-mode:screen;pointer-events:none;"></div>
+
+  <div style="position:relative;">
+
+    <!-- Nav -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#F472C2,#7C3AED);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 6a6 6 0 0 1 6 6"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M7.76 7.76a6 6 0 0 0 0 8.48"/></svg>
+        </div>
+        <p style="margin:0;font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;color:#FFFFFF;">Monitor</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:9999px;background:rgba(255,255,255,0.06);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span style="font-size:13px;font-weight:600;color:#FFFFFF;">15 sept. 2026</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C9B8E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="padding:9px 16px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);font-size:13px;font-weight:600;color:#FFFFFF;">Importar</div>
+        <div style="padding:9px 18px;border-radius:10px;background:linear-gradient(135deg,#F472C2,#7C3AED);box-shadow:0 0 20px rgba(236,72,201,0.35);font-size:13px;font-weight:700;color:#FFFFFF;">+ Nuevo proyecto</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(4, minmax(0, 1fr));gap:16px;margin-bottom:16px;">
+      <div class="a-panel" style="padding:18px 20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:9px;background:rgba(34,211,238,0.15);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#22D3EE;">en sistema</span>
+        </div>
+        <p style="margin:0 0 3px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:28px;color:#FFFFFF;">24</p>
+        <p style="margin:0;font-size:12px;color:#C9B8E8;">Proyectos</p>
+      </div>
+      <div class="a-panel" style="padding:18px 20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:9px;background:rgba(52,211,153,0.15);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#34D399;">este día</span>
+        </div>
+        <p style="margin:0 0 3px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:28px;color:#FFFFFF;">18</p>
+        <p style="margin:0;font-size:12px;color:#C9B8E8;">Monitoreados</p>
+      </div>
+      <div class="a-panel" style="padding:18px 20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:9px;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F59E0B;">pendientes</span>
+        </div>
+        <p style="margin:0 0 3px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:28px;color:#FFFFFF;">5</p>
+        <p style="margin:0;font-size:12px;color:#C9B8E8;">Con tareas</p>
+      </div>
+      <div class="a-panel" style="padding:18px 20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="width:32px;height:32px;border-radius:9px;background:rgba(124,58,237,0.18);display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#A78BFA;">hoy</span>
+        </div>
+        <p style="margin:0 0 3px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:28px;color:#FFFFFF;">6</p>
+        <p style="margin:0;font-size:12px;color:#C9B8E8;">Sin revisar</p>
+      </div>
+    </div>
+
+    <!-- Condensed alerts strip: 3 inline chips in ONE row instead of 3 stacked cards -->
+    <div class="a-panel" style="padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span class="a-chip" style="background:rgba(248,113,113,0.08);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span style="font-size:12px;font-weight:600;color:#FFFFFF;">Vencimientos</span>
+        <span class="a-badge" style="background:rgba(248,113,113,0.18);color:#F87171;">2</span>
+      </span>
+      <span class="a-chip" style="background:rgba(245,158,11,0.08);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span style="font-size:12px;font-weight:600;color:#FFFFFF;">Sin revisar</span>
+        <span class="a-badge" style="background:rgba(245,158,11,0.18);color:#F59E0B;">5</span>
+      </span>
+      <span class="a-chip" style="background:rgba(122,110,153,0.08);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A6E99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/></svg>
+        <span style="font-size:12px;font-weight:600;color:#FFFFFF;">Archivados</span>
+        <span class="a-badge" style="background:rgba(122,110,153,0.18);color:#9A8FBE;">6</span>
+      </span>
+      <span style="margin-left:auto;font-size:11px;color:#7A6E99;">Click en cualquiera para expandir el detalle ↓</span>
+    </div>
+
+    <!-- Metrics -->
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px;">
+      <div class="a-panel" style="padding:22px;">
+        <p style="margin:0 0 4px;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Cobertura de monitoreo</p>
+        <p style="margin:0 0 16px;font-size:12px;color:#7A6E99;">Últimos 30 días</p>
+        <svg width="100%" height="130" viewBox="0 0 620 130" preserveAspectRatio="none">
+          <defs><linearGradient id="af1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22D3EE" stop-opacity="0.35"/><stop offset="100%" stop-color="#22D3EE" stop-opacity="0"/></linearGradient></defs>
+          <path d="M0,80 L45,65 L90,72 L135,45 L180,55 L225,30 L270,42 L315,20 L360,38 L405,15 L450,28 L495,12 L540,22 L585,8 L620,16 L620,130 L0,130 Z" fill="url(#af1)"/>
+          <path d="M0,80 L45,65 L90,72 L135,45 L180,55 L225,30 L270,42 L315,20 L360,38 L405,15 L450,28 L495,12 L540,22 L585,8 L620,16" fill="none" stroke="#22D3EE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="a-panel" style="padding:22px;display:flex;flex-direction:column;align-items:center;">
+        <p style="margin:0 0 16px;align-self:flex-start;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Estado del día</p>
+        <svg width="108" height="108" viewBox="0 0 108 108">
+          <circle cx="54" cy="54" r="43" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"/>
+          <circle cx="54" cy="54" r="43" fill="none" stroke="#34D399" stroke-width="12" stroke-dasharray="270.2" stroke-dashoffset="54" stroke-linecap="round" transform="rotate(-90 54 54)"/>
+          <circle cx="54" cy="54" r="43" fill="none" stroke="#F59E0B" stroke-width="12" stroke-dasharray="270.2" stroke-dashoffset="198" stroke-linecap="round" transform="rotate(-90 54 54)"/>
+          <text x="54" y="60" text-anchor="middle" font-family="Unbounded, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">75%</text>
+        </svg>
+        <div style="display:flex;gap:12px;margin-top:14px;">
+          <span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#9A8FBE;"><span style="width:7px;height:7px;border-radius:9999px;background:#34D399;"></span>Sin tareas</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#9A8FBE;"><span style="width:7px;height:7px;border-radius:9999px;background:#F59E0B;"></span>Con tareas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="a-panel" style="padding:22px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+        <p style="margin:0;font-family:'Unbounded',sans-serif;font-weight:600;font-size:14px;color:#FFFFFF;">Historial de cobertura</p>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#7A6E99;">
+          <span>Menos</span><span style="width:9px;height:9px;border-radius:2px;background:rgba(52,211,153,0.15);"></span><span style="width:9px;height:9px;border-radius:2px;background:rgba(52,211,153,0.5);"></span><span style="width:9px;height:9px;border-radius:2px;background:#34D399;"></span><span>Más</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(48, minmax(0,1fr));grid-auto-rows:8px;gap:2px;">
+        <!-- Compact strip representing the 52-week grid -->
+        <div style="grid-column:1/-1;display:flex;gap:2px;">
+          <div style="flex:1;height:36px;border-radius:6px;background:linear-gradient(90deg,rgba(52,211,153,0.15),rgba(52,211,153,0.85) 55%,#34D399);"></div>
+        </div>
+      </div>
+      <p style="margin:8px 0 0;font-size:10px;color:#7A6E99;">52 semanas · vista condensada</p>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:8px;padding:11px 20px;border-radius:9999px;background:linear-gradient(135deg,#F472C2,#7C3AED);box-shadow:0 0 20px rgba(236,72,201,0.35);font-size:13px;font-weight:700;color:#FFFFFF;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#FFFFFF" stroke="none"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Monitoreo rápido
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="a-panel" style="padding:22px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:16px;">
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);flex:1;max-width:320px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7A6E99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span style="font-size:13px;color:#7A6E99;">Buscar proyecto…</span>
+        </div>
+        <span style="padding:8px 12px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);font-size:12px;color:#C9B8E8;">Filtros</span>
+      </div>
+      <div style="display:grid;grid-template-columns:40px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 0.9fr;gap:10px;padding:0 12px 10px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7A6E99;">
+        <div>Score</div><div>Proyecto</div><div>Plugins</div><div>SSL</div><div>Rendimiento</div><div>Estabilidad</div><div>Estado</div><div>Acción</div>
+      </div>
+      <div style="display:grid;grid-template-columns:40px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:13px 12px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="14" cy="14" r="11" fill="none" stroke="#34D399" stroke-width="4" stroke-dasharray="69.1" stroke-dashoffset="6" stroke-linecap="round" transform="rotate(-90 14 14)"/><text x="14" y="18" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="9" fill="#FFFFFF">92</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Clínica Vital</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Andrea R.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">7</div>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">92</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">Monitoreado</span>
+        <span style="font-size:12px;font-weight:600;color:#F472C2;">Editar</span>
+      </div>
+      <div style="display:grid;grid-template-columns:40px 2.2fr 0.7fr 1fr 1.1fr 1fr 1fr 0.9fr;gap:10px;align-items:center;padding:13px 12px;">
+        <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="11" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4"/><circle cx="14" cy="14" r="11" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="69.1" stroke-dashoffset="24" stroke-linecap="round" transform="rotate(-90 14 14)"/><text x="14" y="18" text-anchor="middle" font-family="Manrope" font-weight="700" font-size="9" fill="#FFFFFF">65</text></svg>
+        <div><p style="margin:0;font-size:13px;font-weight:600;color:#FFFFFF;">Acme Store</p><p style="margin:2px 0 0;font-size:11px;color:#7A6E99;">Maquetador: Julián P.</p></div>
+        <div style="font-size:12px;color:#C9B8E8;">12</div>
+        <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">Revisar</span>
+        <span class="a-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;">65</span>
+        <span class="a-badge" style="background:rgba(52,211,153,0.15);color:#34D399;">OK</span>
+        <span class="a-badge" style="background:rgba(154,143,190,0.15);color:#9A8FBE;">Pendiente</span>
+        <span style="font-size:12px;font-weight:600;color:#F472C2;">Registrar</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

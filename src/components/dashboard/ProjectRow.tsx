@@ -5,7 +5,7 @@ import { gsap } from 'gsap'
 import Link from 'next/link'
 import {
   ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
-  HardDrive, FileText, ListTodo, ExternalLink,
+  HardDrive, FileText, ListTodo, ExternalLink, Edit3, Plus,
   Globe, User, Key, Calendar, Sigma, Copy, Check, Archive, GripVertical,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
@@ -25,18 +25,24 @@ function inferStatus(value: string | null | undefined): StatusLevel {
   return 'ok'
 }
 
+const STATUS_COLOR: Record<StatusLevel, string> = {
+  ok: '#34D399', warning: '#F59E0B', critical: '#F87171', pending: '#9A8FBE',
+}
+
 function StatusCell({ value, showImage, imageUrl }: { value: string | null; showImage?: boolean; imageUrl?: string | null }) {
   const [imgOpen, setImgOpen] = useState(false)
   if (!value && !imageUrl) return <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>
+  const ringColor = value ? STATUS_COLOR[inferStatus(value)] : null
   return (
     <div className="flex items-center gap-2 flex-wrap">
       {imageUrl && (
         <>
           <button onClick={e => { e.stopPropagation(); setImgOpen(true) }} className="group cursor-pointer" aria-label="Ver imagen">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all" style={{ border: '1px solid var(--border)' }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(244,114,194,0.4)')}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')} />
+            <img src={imageUrl} alt="captura" className="w-8 h-8 rounded-lg object-cover transition-all"
+              style={{ border: `1.5px solid ${ringColor ?? 'var(--border)'}`, boxShadow: ringColor ? `0 0 8px ${ringColor}40` : 'none' }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = 'rgba(244,114,194,0.5)')}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = ringColor ?? 'var(--border)')} />
           </button>
           {imgOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(11,7,19,0.9)', backdropFilter: 'blur(12px)' }} onClick={e => { e.stopPropagation(); setImgOpen(false) }}>
@@ -256,7 +262,7 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
         {/* Estabilidad */}
         <td className="px-3 py-3 hidden xl:table-cell">
           {m?.estabilidad_diseno
-            ? <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{m.estabilidad_diseno}</span>
+            ? <Badge variant={inferStatus(m.estabilidad_diseno)}>{m.estabilidad_diseno}</Badge>
             : <span className="text-xs" style={{ color: 'var(--text-faint)' }}>—</span>}
         </td>
 
@@ -286,11 +292,17 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
           <button
             onClick={e => { e.stopPropagation(); setEditOpen(true) }}
             className={cn(
-              'text-xs font-semibold cursor-pointer transition-opacity hover:opacity-75',
+              'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-all active:scale-95',
             )}
-            style={{ color: 'var(--accent)' }}
+            style={{
+              background: 'var(--accent-gradient)',
+              color: '#FFFFFF',
+              boxShadow: '0 0 12px rgba(244,114,194,0.25)',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 20px rgba(244,114,194,0.45)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 12px rgba(244,114,194,0.25)' }}
           >
-            {hasData ? 'Editar' : 'Registrar'}
+            {hasData ? <><Edit3 className="w-3 h-3" />Editar</> : <><Plus className="w-3 h-3" />Registrar</>}
           </button>
         </td>
       </tr>

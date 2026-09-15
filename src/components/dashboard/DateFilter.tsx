@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react'
 
 interface DateFilterProps {
   selectedDate: string
@@ -10,7 +10,8 @@ interface DateFilterProps {
   onChange: (date: string) => void
 }
 
-const DAYS   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
+const DAYS       = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']
+const DAYS_SHORT = ['D','L','M','X','J','V','S']
 const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
 
 function parseLocal(iso: string) {
@@ -27,7 +28,8 @@ export function DateFilter({ selectedDate, availableDates, onChange }: DateFilte
   const hasData  = availableDates.includes(selectedDate)
 
   const date     = parseLocal(selectedDate)
-  const dayName  = DAYS[date.getDay()]
+  const dayOfWeek = date.getDay()
+  const dayName  = DAYS[dayOfWeek]
   const dayNum   = date.getDate()
   const month    = MONTHS[date.getMonth()]
   const year     = date.getFullYear()
@@ -70,47 +72,62 @@ export function DateFilter({ selectedDate, availableDates, onChange }: DateFilte
   return (
     <div className="flex items-center gap-3">
 
-      {/* Navigator */}
-      <div className="relative flex items-center rounded-2xl overflow-hidden"
+      {/* Navigator card */}
+      <div className="relative flex items-center overflow-hidden rounded-2xl"
         style={{
           background: 'var(--bg-card)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           border: '1px solid var(--border)',
-          boxShadow: hasData ? '0 0 24px rgba(244,114,194,0.08)' : 'none',
+          boxShadow: hasData ? '0 20px 50px rgba(0,0,0,0.35), 0 0 30px rgba(124,58,237,0.12)' : '0 20px 50px rgba(0,0,0,0.35)',
         }}>
+
+        {/* Top accent */}
+        <div className="absolute top-0 left-0 right-0 h-[2px]"
+          style={{ background: 'linear-gradient(90deg, transparent, #F472C2, #7C3AED, #22D3EE, transparent)' }} />
 
         {/* Prev arrow */}
         <button
           onClick={goToPrev}
           disabled={!hasPrev}
           aria-label="Fecha anterior"
-          className="h-full px-3 py-3 transition-all cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed group"
-          style={{ borderRight: '1px solid var(--border-soft)' }}
+          className="flex items-center justify-center w-10 h-full transition-all cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed"
         >
-          <ChevronLeft className="w-4 h-4 transition-all"
-            style={{ color: hasPrev ? 'var(--text-muted)' : 'var(--text-faint)' }}
-          />
+          <ChevronLeft className="w-4 h-4 transition-all" style={{ color: hasPrev ? 'var(--text-muted)' : 'var(--text-faint)' }} />
         </button>
 
         {/* Date display — click opens native picker */}
         <button
-          className="relative flex items-center gap-4 px-5 py-2.5 cursor-pointer group/date"
+          className="relative flex items-center gap-4 pl-1 pr-5 py-3 cursor-pointer group/date"
           onClick={() => inputRef.current?.showPicker?.()}
         >
-          {/* Left: day-of-week + month */}
-          <div className="flex flex-col items-end gap-0 hidden sm:flex">
-            <span className="text-[10px] font-bold tracking-widest uppercase"
-              style={{ color: isToday ? 'var(--accent)' : 'var(--text-muted)' }}>
-              {isToday ? 'HOY' : dayName}
-            </span>
-            <span className="text-[10px] tracking-wider uppercase" style={{ color: 'var(--text-faint)' }}>
-              {month.slice(0, 3)} {year}
+          {/* Calendar icon badge */}
+          <div className="hidden sm:flex items-center justify-center w-10 h-10 rounded-xl shrink-0"
+            style={{ background: 'linear-gradient(135deg, rgba(244,114,194,0.18), rgba(124,58,237,0.16))', border: '1px solid rgba(167,139,250,0.3)' }}>
+            <CalendarDays className="w-4 h-4" style={{ color: '#A78BFA' }} />
+          </div>
+
+          {/* Weekday strip */}
+          <div className="hidden md:flex flex-col items-center gap-1.5">
+            <div className="flex items-center gap-1">
+              {DAYS_SHORT.map((d, i) => (
+                <span key={i} className="flex items-center justify-center rounded-full font-bold"
+                  style={{
+                    width: 15, height: 15, fontSize: 8,
+                    background: i === dayOfWeek ? 'var(--accent-gradient)' : 'transparent',
+                    color: i === dayOfWeek ? '#FFFFFF' : 'var(--text-faint)',
+                  }}>
+                  {d}
+                </span>
+              ))}
+            </div>
+            <span className="text-[9px] tracking-widest uppercase" style={{ color: isToday ? 'var(--accent)' : 'var(--text-faint)' }}>
+              {isToday ? 'Hoy' : dayName}
             </span>
           </div>
 
           {/* Divider */}
-          <div className="hidden sm:block w-px h-7 self-center" style={{ background: 'var(--border-soft)' }} />
+          <div className="hidden sm:block w-px h-9 self-center" style={{ background: 'var(--border-soft)' }} />
 
           {/* Center: big day number */}
           <div className="flex flex-col items-center">
@@ -118,21 +135,19 @@ export function DateFilter({ selectedDate, availableDates, onChange }: DateFilte
               ref={dayRef}
               className="font-heading font-bold leading-none"
               style={{
-                fontSize: '2rem',
-                color: hasData ? 'var(--text)' : 'var(--text-faint)',
-                textShadow: hasData ? '0 0 24px rgba(244,114,194,0.25)' : 'none',
+                fontSize: '2.1rem',
+                background: hasData ? 'var(--accent-gradient)' : 'none',
+                WebkitBackgroundClip: hasData ? 'text' : undefined,
+                WebkitTextFillColor: hasData ? 'transparent' : undefined,
+                backgroundClip: hasData ? 'text' : undefined,
+                color: hasData ? undefined : 'var(--text-faint)',
               }}
             >
               {String(dayNum).padStart(2, '0')}
             </span>
-            {/* Data indicator dots */}
-            <div className="flex gap-0.5 mt-1">
-              {hasData ? (
-                <div className="w-1 h-1 rounded-full" style={{ background: '#34D399', boxShadow: '0 0 4px rgba(52,211,153,0.8)' }} />
-              ) : (
-                <div className="w-1 h-1 rounded-full" style={{ background: 'rgba(255,255,255,0.15)' }} />
-              )}
-            </div>
+            <span className="text-[10px] tracking-wider uppercase mt-1" style={{ color: 'var(--text-faint)' }}>
+              {month.slice(0, 3)} {year}
+            </span>
           </div>
 
           {/* Hidden native input */}
@@ -151,12 +166,9 @@ export function DateFilter({ selectedDate, availableDates, onChange }: DateFilte
           onClick={goToNext}
           disabled={!hasNext}
           aria-label="Fecha siguiente"
-          className="h-full px-3 py-3 transition-all cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed"
-          style={{ borderLeft: '1px solid var(--border-soft)' }}
+          className="flex items-center justify-center w-10 h-full transition-all cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed"
         >
-          <ChevronRight className="w-4 h-4"
-            style={{ color: hasNext ? 'var(--text-muted)' : 'var(--text-faint)' }}
-          />
+          <ChevronRight className="w-4 h-4" style={{ color: hasNext ? 'var(--text-muted)' : 'var(--text-faint)' }} />
         </button>
       </div>
 
@@ -164,7 +176,7 @@ export function DateFilter({ selectedDate, availableDates, onChange }: DateFilte
       {!isToday && (
         <button
           onClick={() => onChange(today)}
-          className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer active:scale-95"
+          className="hidden sm:flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer active:scale-95"
           style={{
             background: 'var(--accent-dim)',
             border: '1px solid rgba(244,114,194,0.3)',

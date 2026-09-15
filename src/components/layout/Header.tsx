@@ -3,14 +3,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { Plus, Upload, Radio, LogOut, Sun, Moon } from 'lucide-react'
-import { DateFilter } from '@/components/dashboard/DateFilter'
 import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 
 interface HeaderProps {
-  selectedDate: string
-  availableDates: string[]
-  onDateChange: (date: string) => void
   onNewProject: () => void
   onImport: () => void
 }
@@ -28,13 +24,13 @@ function LiveClock() {
   }, [])
   if (!time) return null
   return (
-    <span className="font-mono text-[11px] tracking-widest tabular-nums" style={{ color: '#34D399' }}>
+    <span className="font-mono text-[11px] tracking-widest tabular-nums" style={{ color: '#A78BFA' }}>
       {time}
     </span>
   )
 }
 
-export function Header({ selectedDate, availableDates, onDateChange, onNewProject, onImport }: HeaderProps) {
+export function Header({ onNewProject, onImport }: HeaderProps) {
   const { user, signOut } = useAuth()
   const { theme, toggle: toggleTheme } = useTheme()
   const headerRef  = useRef<HTMLElement>(null)
@@ -151,7 +147,7 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
                 Monitor MKT
               </span>
               <span className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-                style={{ background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)', color: '#34D399' }}>
+                style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.3)', color: '#A78BFA' }}>
                 LIVE
               </span>
             </div>
@@ -165,14 +161,7 @@ export function Header({ selectedDate, availableDates, onDateChange, onNewProjec
           </div>
         </div>
 
-        {/* Center: Date navigator */}
-        <div className="flex-1 flex justify-center">
-          <DateFilter
-            selectedDate={selectedDate}
-            availableDates={availableDates}
-            onChange={onDateChange}
-          />
-        </div>
+        <div className="flex-1" />
 
         {/* Actions */}
         <div className="flex items-center gap-2 shrink-0">

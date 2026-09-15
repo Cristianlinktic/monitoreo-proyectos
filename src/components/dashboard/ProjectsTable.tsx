@@ -126,13 +126,10 @@ function ProjectCard({ project, selectedDate, onRefresh }: { project: ProjectWit
           ) : <div />}
           <button
             onClick={() => setEditOpen(true)}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer"
-            style={m ? {
-              background: 'var(--bg-muted)', border: '1px solid var(--border)', color: 'var(--text-faint)',
-            } : {
-              background: 'linear-gradient(135deg, rgba(244,114,194,0.18), rgba(124,58,237,0.14))',
-              border: '1px solid rgba(244,114,194,0.35)', color: 'var(--accent)',
-            }}
+            className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold cursor-pointer transition-all active:scale-95"
+            style={{ background: 'var(--accent-gradient)', color: '#FFFFFF', boxShadow: '0 0 10px rgba(244,114,194,0.25)' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 18px rgba(244,114,194,0.45)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = '0 0 10px rgba(244,114,194,0.25)' }}
           >
             {m ? <><Edit3 className="w-3 h-3" />Editar</> : <><Plus className="w-3 h-3" />Registrar</>}
           </button>
@@ -480,18 +477,25 @@ export function ProjectsTable({ projects, selectedDate, onRefresh, loading, show
 
       {/* Table view */}
       {viewMode === 'table' && (
-        <div className="rounded-2xl overflow-hidden" style={{ border: '1px solid var(--border)', background: 'var(--bg-card)' }}>
-          <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, var(--border), transparent)' }} />
+        <div className="rounded-2xl overflow-hidden relative"
+          style={{
+            border: '1px solid var(--border)',
+            background: 'var(--bg-card)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            boxShadow: '0 30px 80px rgba(0,0,0,0.45), 0 0 60px rgba(124,58,237,0.08)',
+          }}>
+          <div className="h-[2px] w-full" style={{ background: 'linear-gradient(90deg, transparent, #F472C2 20%, #7C3AED 50%, #22D3EE 80%, transparent)' }} />
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border)' }}>
+                <tr style={{ background: 'linear-gradient(90deg, rgba(244,114,194,0.04), rgba(124,58,237,0.03))', borderBottom: '1px solid var(--border)' }}>
                   <TH className="w-8" />
                   <TH className="w-10">Score</TH>
                   <TH>Proyecto</TH>
                   <TH className="hidden md:table-cell">Plugins</TH>
                   <TH className="hidden lg:table-cell">
-                    <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-blue-400/60" />SSL</span>
+                    <span className="flex items-center gap-1.5"><Shield className="w-3 h-3" style={{ color: 'rgba(244,114,194,0.6)' }} />SSL</span>
                   </TH>
                   <TH className="hidden lg:table-cell">
                     <span className="flex items-center gap-1.5"><Zap className="w-3 h-3 text-amber-500/60" />Rendimiento</span>

@@ -11,6 +11,8 @@ interface StatsBarProps {
   loading?: boolean
   showOnlyPending?: boolean
   onTogglePending?: () => void
+  /** Vertical single-card layout for the sidebar, instead of the 4-card grid. */
+  compact?: boolean
 }
 
 const CARD_CONFIG = [
@@ -56,7 +58,7 @@ const CARD_CONFIG = [
   },
 ]
 
-export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }: StatsBarProps) {
+export function StatsBar({ projects, loading, showOnlyPending, onTogglePending, compact }: StatsBarProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const numRefs  = useRef<(HTMLSpanElement | null)[]>([])
   const trendRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -109,6 +111,46 @@ export function StatsBar({ projects, loading, showOnlyPending, onTogglePending }
     prevValues.current = [...values]
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
+
+  if (compact) {
+    return (
+      <div ref={containerRef} className="rounded-2xl p-4 flex flex-col gap-1"
+        style={{ background: 'var(--bg-card)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--border)' }}>
+        {CARD_CONFIG.map((cfg, i) => {
+          const Icon = cfg.icon
+          return (
+            <div
+              key={cfg.key}
+              className="stat-card flex items-center gap-3 py-2 rounded-xl transition-colors"
+              style={{ cursor: cfg.key === 'pending' ? 'pointer' : 'default' }}
+              onClick={cfg.key === 'pending' ? onTogglePending : undefined}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)' }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+            >
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ background: cfg.bg, border: `1px solid ${cfg.border}` }}>
+                <Icon className="w-4 h-4" style={{ color: cfg.color }} />
+              </div>
+              <div className="min-w-0">
+                <span
+                  ref={el => { numRefs.current[i] = el }}
+                  className="font-heading font-bold text-lg leading-none"
+                  style={{ color: cfg.color }}
+                >
+                  0
+                </span>
+                <p className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--text-muted)' }}>
+                  {cfg.label}
+                  {cfg.key === 'pending' && showOnlyPending && (
+                    <span className="ml-1.5" style={{ color: cfg.color }}>· filtro activo</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
 
   return (
     <div ref={containerRef} className="grid grid-cols-2 lg:grid-cols-4 gap-4">
