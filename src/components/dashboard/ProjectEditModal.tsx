@@ -6,11 +6,12 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { updateProject } from '@/services/projects.service'
+import { updateProject, applyKeyChange } from '@/services/projects.service'
 import { upsertMonitoring, uploadImage } from '@/services/monitoring.service'
 import { useToast } from '@/components/ui/Toast'
 import { TasksPanel } from './TasksPanel'
 import { RedirectsField } from './RedirectsField'
+import { KeyField } from './KeyField'
 import type { ProjectWithMonitoring, Redirect } from '@/lib/types'
 
 type Tab = 'monitoreo' | 'proyecto' | 'acceso' | 'tareas'
@@ -91,9 +92,11 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
     vencimiento_dominio: project.vencimiento_dominio ?? '',
     link_acceso_editor:  project.link_acceso_editor  ?? '',
     usuario:             project.usuario             ?? '',
-    clave:               project.clave               ?? '',
     autenticador:        project.autenticador        ?? '',
   })
+
+  const [clave, setClave] = useState('')
+  const [quitarClave, setQuitarClave] = useState(false)
 
   const setAccField = (f: keyof typeof acc) =>
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -118,9 +121,9 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
         vencimiento_dominio: acc.vencimiento_dominio  || null,
         link_acceso_editor:  acc.link_acceso_editor   || null,
         usuario:             acc.usuario              || null,
-        clave:               acc.clave                || null,
         autenticador:        acc.autenticador         || null,
       })
+      await applyKeyChange(project.id, clave, quitarClave)
 
       const hasMonData = Object.values(mon).some(v => v) || sslFile || rendFile
       if (hasMonData) {
@@ -265,7 +268,7 @@ export function ProjectEditModal({ open, onClose, onSuccess, project, selectedDa
               <Input label="Link editor (wp-admin)" placeholder="https://proyecto.com/wp-admin" value={acc.link_acceso_editor} onChange={setAccField('link_acceso_editor')} />
             </div>
             <Input label="Usuario"             placeholder="admin@proyecto.com"        value={acc.usuario}      onChange={setAccField('usuario')} />
-            <Input label="Clave"               type="password" placeholder="••••••••" value={acc.clave}         onChange={setAccField('clave')} />
+            <KeyField value={clave} onChange={setClave} hasKey={!!project.clave_secret_id} remove={quitarClave} onRemoveChange={setQuitarClave} />
             <div className="col-span-2">
               <Input label="Autenticador"      placeholder="Google Authenticator / Sin autenticador" value={acc.autenticador} onChange={setAccField('autenticador')} />
             </div>

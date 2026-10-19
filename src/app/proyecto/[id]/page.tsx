@@ -9,6 +9,7 @@ import {
 import {
   XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart,
 } from 'recharts'
+import { useAuth } from '@/hooks/useAuth'
 import { getProjects } from '@/services/projects.service'
 import { getProjectHistory } from '@/services/monitoring.service'
 import { HealthRing } from '@/components/dashboard/HealthRing'
@@ -104,15 +105,21 @@ export default function ProyectoPage({ params }: PageProps) {
   const [project, setProject] = useState<Project | null>(null)
   const [history, setHistory] = useState<MonitoringEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const { user, loading: authLoading } = useAuth()
 
   useEffect(() => {
+    if (!authLoading && !user) router.replace('/login')
+  }, [user, authLoading, router])
+
+  useEffect(() => {
+    if (!user) return
     Promise.all([getProjects(), getProjectHistory(id)])
       .then(([projects, hist]) => {
         setProject(projects.find(p => p.id === id) ?? null)
         setHistory(hist)
       })
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, user])
 
   const lastEntry = history.length > 0 ? history[history.length - 1] : null
   const score = computeHealth(lastEntry)

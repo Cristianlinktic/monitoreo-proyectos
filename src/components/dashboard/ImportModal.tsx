@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button'
 import { useToast } from '@/components/ui/Toast'
 import { supabase } from '@/lib/supabase/client'
 import { todayISO } from '@/lib/utils'
+import { saveProjectKey } from '@/services/projects.service'
 import type { ImportRow } from '@/lib/types'
 
 interface ImportModalProps {
@@ -347,7 +348,6 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
             vencimiento_dominio: parseDate(row.vencimiento_dominio ?? ''),
             link_acceso_editor:  row.link_acceso_editor || null,
             usuario:             row.usuario           || null,
-            clave:               row.clave             || null,
             autenticador:        row.autenticador      || null,
             maquetador:          row.maquetador        || null,
             plugins:             parsePlugins(row.plugins ?? ''),
@@ -358,6 +358,8 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
           .single()
 
         if (pe || !proj) throw pe ?? new Error('Sin datos')
+        // La clave va cifrada a la vault, no en la fila (ver saveProjectKey).
+        if (row.clave) await saveProjectKey(proj.id, row.clave)
 
         const hasMonitoring = [
           row.ssl, row.rendimiento, row.estabilidad_diseno,
@@ -413,7 +415,7 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
 
     for (let i = 0; i < projectRows.length; i++) {
       const r = projectRows[i]
-      const { error } = await supabase
+      const { data: proj, error } = await supabase
         .from('projects')
         .upsert({
           nombre:              r.nombre,
@@ -423,19 +425,29 @@ export function ImportModal({ open, onClose, onSuccess }: ImportModalProps) {
           vencimiento_dominio: parseDate(r.vencimiento_dominio) || null,
           link_acceso_editor:  r.link_acceso_editor || null,
           usuario:             r.usuario           || null,
-          clave:               r.clave             || null,
           autenticador:        r.autenticador      || null,
           maquetador:          r.maquetador        || null,
           plugins:             parsePlugins(r.plugins),
           licencias:           r.licencias         || null,
           figma_url:           r.figma_url         || null,
         }, { onConflict: 'nombre' })
+        .select('id')
+        .single()
 
-      if (error) {
+      if (error || !proj) {
         errors++
         console.warn(`Error en proyecto "${r.nombre}":`, pgErrMsg(error))
       } else {
         projOk++
+        // La clave va cifrada a la vault, no en la fila (ver saveProjectKey).
+        if (r.clave) {
+          try {
+            await saveProjectKey(proj.id, r.clave)
+          } catch (keyErr) {
+            errors++
+            console.warn(`Clave de "${r.nombre}" no guardada:`, pgErrMsg(keyErr))
+          }
+        }
       }
       setProgress(5 + Math.round(((i + 1) / projectRows.length) * 15))
     }

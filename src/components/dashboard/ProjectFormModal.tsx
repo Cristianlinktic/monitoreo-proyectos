@@ -6,9 +6,10 @@ import { Modal } from '@/components/ui/Modal'
 import { Input } from '@/components/ui/Input'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { createProject, updateProject } from '@/services/projects.service'
+import { createProject, updateProject, applyKeyChange } from '@/services/projects.service'
 import { useToast } from '@/components/ui/Toast'
 import { RedirectsField } from './RedirectsField'
+import { KeyField } from './KeyField'
 import type { Project, Redirect } from '@/lib/types'
 
 interface ProjectFormModalProps {
@@ -39,7 +40,6 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
     vencimiento_dominio: project?.vencimiento_dominio ?? '',
     link_acceso_editor:  project?.link_acceso_editor  ?? '',
     usuario:             project?.usuario             ?? '',
-    clave:               project?.clave               ?? '',
     autenticador:        project?.autenticador        ?? '',
     licencias:           project?.licencias           ?? '',
     figma_url:           project?.figma_url           ?? '',
@@ -48,6 +48,8 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
   const [pluginInput, setPluginInput] = useState('')
   const [plugins, setPlugins] = useState<string[]>(project?.plugins ?? [])
   const [redirects, setRedirects] = useState<Redirect[]>(project?.redirects ?? [])
+  const [clave, setClave] = useState('')
+  const [quitarClave, setQuitarClave] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const set = (field: keyof typeof form) =>
@@ -73,19 +75,20 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
         vencimiento_dominio: form.vencimiento_dominio || null,
         link_acceso_editor:  form.link_acceso_editor  || null,
         usuario:             form.usuario             || null,
-        clave:               form.clave               || null,
         autenticador:        form.autenticador        || null,
         licencias:           form.licencias           || null,
         figma_url:           form.figma_url           || null,
         plugins,
         redirects,
       }
-      if (isEdit && project) {
-        await updateProject(project.id, payload)
-        toast('Proyecto actualizado', 'success')
-      } else {
-        await createProject(payload)
-        toast('Proyecto creado', 'success')
+      const saved = isEdit && project
+        ? await updateProject(project.id, payload)
+        : await createProject(payload)
+      try {
+        await applyKeyChange(saved.id, clave, quitarClave)
+        toast(isEdit ? 'Proyecto actualizado' : 'Proyecto creado', 'success')
+      } catch {
+        toast('Proyecto guardado, pero no se pudo guardar la clave', 'error')
       }
       onSuccess()
       onClose()
@@ -253,12 +256,12 @@ export function ProjectFormModal({ open, onClose, onSuccess, project }: ProjectF
                 value={form.usuario}
                 onChange={set('usuario')}
               />
-              <Input
-                label="Clave"
-                type="password"
-                placeholder="••••••••"
-                value={form.clave}
-                onChange={set('clave')}
+              <KeyField
+                value={clave}
+                onChange={setClave}
+                hasKey={!!project?.clave_secret_id}
+                remove={quitarClave}
+                onRemoveChange={setQuitarClave}
               />
               <div className="col-span-2">
                 <Input

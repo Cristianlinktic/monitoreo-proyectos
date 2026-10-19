@@ -6,13 +6,13 @@ import Link from 'next/link'
 import {
   ChevronDown, ChevronRight, Shield, LayoutDashboard, MessageSquare,
   HardDrive, FileText, ListTodo, ExternalLink, Edit3, Plus,
-  Globe, User, Key, Calendar, Sigma, Copy, Check, Archive, GripVertical,
+  Globe, User, Key, Calendar, Sigma, Copy, Check, Archive, GripVertical, Loader2,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { ProjectEditModal } from './ProjectEditModal'
 import { HealthRing } from './HealthRing'
 import { computeHealth } from '@/lib/health'
-import { archiveProject } from '@/services/projects.service'
+import { archiveProject, revealProjectKey, isPermissionError } from '@/services/projects.service'
 import { cn } from '@/lib/utils'
 import type { ProjectWithMonitoring, StatusLevel } from '@/lib/types'
 
@@ -106,6 +106,53 @@ function DataBlock({ icon, label, value, secret, link, accent = 'var(--text-mute
         <CopyableValue value={value} secret />
       ) : (
         <span className="truncate" style={{ color: 'var(--text-muted)' }}>{value}</span>
+      )}
+    </div>
+  )
+}
+
+// La clave no viene en la fila: se pide a la base al hacer clic, y esa
+// consulta queda auditada. Al ocultarla se descarta del estado.
+function KeyBlock({ projectId }: { projectId: string }) {
+  const [value, setValue] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const reveal = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const clave = await revealProjectKey(projectId)
+      if (clave) setValue(clave)
+      else setError('Sin clave guardada')
+    } catch (err) {
+      setError(isPermissionError(err) ? 'Sin permiso para ver claves' : 'No se pudo mostrar la clave')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="flex items-baseline gap-1.5 text-xs min-w-0">
+      <span className="shrink-0 inline-flex" style={{ color: '#F87171' }}><Key className="w-3.5 h-3.5" /></span>
+      <span className="shrink-0" style={{ color: 'var(--text-faint)' }}>Clave:</span>
+      {value ? (
+        <div className="flex items-center gap-2 min-w-0">
+          <CopyableValue value={value} />
+          <button onClick={() => setValue(null)} className="text-[10px] cursor-pointer" style={{ color: 'var(--text-faint)' }}>
+            ocultar
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-2 min-w-0">
+          <button onClick={reveal} disabled={loading}
+            className="inline-flex items-center gap-1 text-[10px] font-semibold cursor-pointer disabled:cursor-wait transition-colors"
+            style={{ color: '#34D399' }}>
+            {loading && <Loader2 className="w-3 h-3 animate-spin" />}
+            Mostrar clave
+          </button>
+          {error && <span className="text-[10px] truncate" style={{ color: '#F87171' }}>{error}</span>}
+        </div>
       )}
     </div>
   )
@@ -335,13 +382,13 @@ export function ProjectRow({ project, selectedDate, onRefresh, dragHandlers }: P
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-x-6 gap-y-5">
 
                 {/* Acceso */}
-                {(project.link_acceso_editor || project.usuario || project.clave || project.dominio || project.autenticador || project.vencimiento_dominio) && (
+                {(project.link_acceso_editor || project.usuario || project.clave_secret_id || project.dominio || project.autenticador || project.vencimiento_dominio) && (
                   <div className="flex flex-col gap-1.5 min-w-0">
                     <SectionLabel>Acceso</SectionLabel>
                     {project.dominio         && <DataBlock icon={<Globe className="w-3.5 h-3.5" />}         label="Dominio"     value={project.dominio} accent="#22D3EE" />}
                     {project.link_acceso_editor && <DataBlock icon={<ExternalLink className="w-3.5 h-3.5" />} label="Editor"    value={project.link_acceso_editor} link accent="#22D3EE" />}
                     {project.usuario         && <DataBlock icon={<User className="w-3.5 h-3.5" />}          label="Usuario"     value={project.usuario} accent="#F59E0B" />}
-                    {project.clave           && <DataBlock icon={<Key className="w-3.5 h-3.5" />}           label="Clave"       value={project.clave} secret accent="#F87171" />}
+                    {project.clave_secret_id && <KeyBlock projectId={project.id} />}
                     {project.autenticador    && <DataBlock icon={<Shield className="w-3.5 h-3.5" />}        label="Auth"        value={project.autenticador} accent="#A78BFA" />}
                     {project.vencimiento_dominio && <DataBlock icon={<Calendar className="w-3.5 h-3.5" />}  label="Vence"       value={project.vencimiento_dominio} accent="#F472C2" />}
                   </div>

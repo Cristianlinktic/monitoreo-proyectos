@@ -15,7 +15,9 @@ export interface Project {
   vencimiento_dominio: string | null
   link_acceso_editor: string | null
   usuario: string | null
-  clave: string | null
+  // La clave vive cifrada en Supabase Vault: aquí solo la referencia.
+  // Se muestra con revealProjectKey() y se guarda con saveProjectKey().
+  clave_secret_id: string | null
   autenticador: string | null
   licencias: string | null
   figma_url: string | null
@@ -55,6 +57,8 @@ export interface ProjectWithMonitoring extends Project {
   monitoring?: MonitoringEntry | null
 }
 
+export type MonitoreoRol = 'lector' | 'editor' | 'admin'
+
 export type StatusLevel = 'ok' | 'warning' | 'critical' | 'pending'
 
 export interface UpsertMonitoringPayload {
@@ -81,7 +85,6 @@ export interface CreateProjectPayload {
   vencimiento_dominio?: string | null
   link_acceso_editor?: string | null
   usuario?: string | null
-  clave?: string | null
   autenticador?: string | null
   licencias?: string | null
   figma_url?: string | null

@@ -1,0 +1,19 @@
+-- ============================================================
+-- RLS + claves en Supabase Vault (retest de pentest T-64939)
+-- ============================================================
+-- Este proyecto comparte instancia de Supabase con el Centro de
+-- Mando, y la migración vive en ese repo para no duplicarla:
+--   dashboard-centro-mando-linktic/supabase/38_rls_tablas_compartidas_public.sql
+--
+-- Qué cambia para esta app:
+--   - projects y monitoring_entries ya NO son accesibles con la
+--     llave anónima ni con cualquier sesión: solo usuarios en
+--     public.monitoreo_miembros (rol lector / editor / admin).
+--   - La columna projects.clave desaparece. La clave queda cifrada
+--     en vault.secrets y se usa con las funciones
+--     revelar_clave_proyecto(p_project_id) y
+--     guardar_clave_proyecto(p_project_id, p_clave).
+--
+-- NO volver a correr la sección PERMISOS de 001_initial.sql
+-- (GRANT ALL ... TO anon): reabre el hallazgo.
+-- ============================================================
