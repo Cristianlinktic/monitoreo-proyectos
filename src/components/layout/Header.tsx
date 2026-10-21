@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import { gsap } from 'gsap'
-import { Plus, Upload, Radio, LogOut, Sun, Moon } from 'lucide-react'
-import { useAuth } from '@/hooks/useAuth'
+import { Plus, Upload, Radio, LogOut, Sun, Moon, Users } from 'lucide-react'
+import { useAuth, useMonitoreoRol } from '@/hooks/useAuth'
 import { useTheme } from '@/hooks/useTheme'
 
 interface HeaderProps {
@@ -32,6 +33,7 @@ function LiveClock() {
 
 export function Header({ onNewProject, onImport }: HeaderProps) {
   const { user, signOut } = useAuth()
+  const { rol } = useMonitoreoRol(user?.id)
   const { theme, toggle: toggleTheme } = useTheme()
   const headerRef  = useRef<HTMLElement>(null)
   const scanRef    = useRef<HTMLDivElement>(null)
@@ -208,6 +210,32 @@ export function Header({ onNewProject, onImport }: HeaderProps) {
             <Upload className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Importar</span>
           </button>
+
+          {/* Usuarios — solo admin; /api/usuarios vuelve a verificar el rol */}
+          {rol === 'admin' && (
+            <Link
+              href="/usuarios"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer"
+              style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border)',
+                color: 'var(--text-faint)',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(167,139,250,0.35)'
+                ;(e.currentTarget as HTMLElement).style.color = '#A78BFA'
+                ;(e.currentTarget as HTMLElement).style.boxShadow = '0 0 16px rgba(167,139,250,0.12)'
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'
+                ;(e.currentTarget as HTMLElement).style.color = 'var(--text-faint)'
+                ;(e.currentTarget as HTMLElement).style.boxShadow = 'none'
+              }}
+            >
+              <Users className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Usuarios</span>
+            </Link>
+          )}
 
           {/* User + sign out */}
           {user && (

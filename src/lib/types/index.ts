@@ -59,6 +59,19 @@ export interface ProjectWithMonitoring extends Project {
 
 export type MonitoreoRol = 'lector' | 'editor' | 'admin'
 
+export interface MiembroMonitor {
+  user_id: string
+  email: string | null
+  rol: MonitoreoRol
+  created_at: string
+}
+
+export interface CrearMiembroPayload {
+  email: string
+  password: string
+  rol: MonitoreoRol
+}
+
 export type StatusLevel = 'ok' | 'warning' | 'critical' | 'pending'
 
 export interface UpsertMonitoringPayload {

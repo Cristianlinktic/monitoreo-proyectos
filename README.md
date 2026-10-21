@@ -9,12 +9,10 @@ URL local: `http://localhost:3000`
 ### Iniciar sesión
 Usa tu correo y contraseña registrados en el sistema.
 
-### Crear una cuenta nueva
-1. En la pantalla de login, haz clic en **"Crear cuenta"**
-2. Ingresa el código de administrador: **`linktic2026`**
-3. Completa el formulario con el correo y contraseña del nuevo usuario
-
-> El código se puede cambiar en `src/app/login/page.tsx` línea 9 (`ADMIN_CODE`).
+### Usuarios nuevos
+No hay registro abierto. Un administrador de Monitor crea la cuenta (o da acceso a
+una que ya exista en Supabase) desde **Usuarios** en la barra superior, y ahí mismo
+cambia roles (`lector`, `editor`, `admin`) o quita el acceso.
 
 ---
 
@@ -34,6 +32,8 @@ Crea un archivo `.env.local` en la raíz con:
 NEXT_PUBLIC_SUPABASE_URL=tu_url_de_supabase
 NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
 NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=monitoring-images
+# Solo servidor (gestión de usuarios). Nunca con prefijo NEXT_PUBLIC_.
+SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
 ```
 
 ## Base de datos (Supabase)
