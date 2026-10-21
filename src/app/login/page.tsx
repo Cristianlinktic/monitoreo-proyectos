@@ -3,29 +3,23 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
-import { ArrowRight, Eye, EyeOff, Radio, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff, Radio } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { RevealLines } from '@/components/motion/RevealLines'
 import { GooeyBlobField } from '@/components/login/GooeyBlobField'
 
-const ADMIN_CODE = 'linktic2026'
-
 export default function LoginPage() {
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const cardRef = useRef<HTMLDivElement>(null)
 
-  const [mode, setMode] = useState<'login' | 'code' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
-  const [adminCode, setAdminCode] = useState('')
-  const [codeError, setCodeError] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -48,50 +42,18 @@ export default function LoginPage() {
     return () => ctx.revert()
   }, [router])
 
-  const switchMode = (next: 'login' | 'code' | 'register') => {
-    setMode(next)
-    setError(null)
-    setSuccess(null)
-    setCodeError(false)
-    setAdminCode('')
-  }
-
-  const handleCodeSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (adminCode === ADMIN_CODE) {
-      setCodeError(false)
-      setMode('register')
-      setAdminCode('')
-    } else {
-      setCodeError(true)
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
-    setSuccess(null)
     setLoading(true)
     try {
-      if (mode === 'register') {
-        const { error: authError } = await supabase.auth.signUp({ email, password })
-        if (authError) {
-          setError(authError.message)
-        } else {
-          setSuccess('Cuenta creada correctamente.')
-          setEmail('')
-          setPassword('')
-          switchMode('login')
-        }
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
+      if (authError) {
+        setError(authError.message === 'Invalid login credentials'
+          ? 'Correo o contraseña incorrectos'
+          : authError.message)
       } else {
-        const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
-        if (authError) {
-          setError(authError.message === 'Invalid login credentials'
-            ? 'Correo o contraseña incorrectos'
-            : authError.message)
-        } else {
-          router.replace('/')
-        }
+        router.replace('/')
       }
     } catch {
       setError('Error. Intenta de nuevo.')
@@ -150,123 +112,58 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Tabs */}
-            <div data-stagger className="relative flex gap-1 mb-6 p-1 rounded-xl" style={{ background: 'var(--bg-muted)' }}>
-              <div
-                className="absolute top-1 bottom-1 rounded-lg transition-transform"
-                style={{
-                  left: '4px',
-                  width: 'calc(50% - 6px)',
-                  background: 'var(--accent-gradient)',
-                  transform: mode === 'login' ? 'translateX(0)' : 'translateX(calc(100% + 4px))',
-                  transitionDuration: '350ms',
-                  transitionTimingFunction: 'var(--ease-spring-hover)',
-                }}
+            <p data-stagger className="text-xs -mt-3 mb-6" style={{ color: 'var(--text-muted)' }}>
+              Las cuentas las crea un administrador de Monitor.
+            </p>
+
+            {/* Login form */}
+            <form data-stagger onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <Input
+                label="Correo electrónico"
+                type="email"
+                placeholder="usuario@linktic.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                autoComplete="email"
               />
-              <button
-                type="button"
-                onClick={() => switchMode('login')}
-                className="relative z-10 flex-1 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
-                style={{ color: mode === 'login' ? '#FFFFFF' : 'var(--text-faint)' }}
-              >
-                Iniciar sesión
-              </button>
-              <button
-                type="button"
-                onClick={() => switchMode(mode === 'login' ? 'code' : 'login')}
-                className="relative z-10 flex-1 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer"
-                style={{ color: mode !== 'login' ? '#FFFFFF' : 'var(--text-faint)' }}
-              >
-                Crear cuenta
-              </button>
-            </div>
 
-            {/* Code gate */}
-            {mode === 'code' && (
-              <form data-stagger onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
-                <div className="flex flex-col items-center gap-2 py-2">
-                  <div className="p-2 rounded-xl" style={{ background: 'var(--violet-dim)', border: '1px solid rgba(167,139,250,0.3)' }}>
-                    <ShieldCheck className="w-5 h-5" style={{ color: 'var(--violet)' }} />
-                  </div>
-                  <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-                    Ingresa el código de administrador para continuar
-                  </p>
-                </div>
-
+              <div className="relative">
                 <Input
-                  type="password"
-                  placeholder="Código de administrador"
-                  value={adminCode}
-                  onChange={e => { setAdminCode(e.target.value); setCodeError(false) }}
-                  autoFocus
-                  error={codeError ? 'Código incorrecto' : undefined}
-                />
-
-                <Button type="submit" className="w-full">
-                  Verificar
-                </Button>
-              </form>
-            )}
-
-            {/* Login / Register form */}
-            {(mode === 'login' || mode === 'register') && (
-              <form data-stagger onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <Input
-                  label="Correo electrónico"
-                  type="email"
-                  placeholder="usuario@linktic.com"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  label="Contraseña"
+                  type={showPass ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                   required
-                  autoComplete="email"
+                  autoComplete="current-password"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(s => !s)}
+                  className="absolute right-3 bottom-2.5 transition-colors cursor-pointer"
+                  style={{ color: 'var(--text-faint)' }}
+                  onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
+                  onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-faint)' }}
+                >
+                  {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
 
-                <div className="relative">
-                  <Input
-                    label="Contraseña"
-                    type={showPass ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                    autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPass(s => !s)}
-                    className="absolute right-3 bottom-2.5 transition-colors cursor-pointer"
-                    style={{ color: 'var(--text-faint)' }}
-                    onMouseEnter={e => { e.currentTarget.style.color = 'var(--text-muted)' }}
-                    onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-faint)' }}
-                  >
-                    {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+              {error && (
+                <div
+                  className="px-3 py-2.5 rounded-lg text-xs"
+                  style={{ color: 'var(--danger)', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}
+                >
+                  {error}
                 </div>
+              )}
 
-                {error && (
-                  <div
-                    className="px-3 py-2.5 rounded-lg text-xs"
-                    style={{ color: 'var(--danger)', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}
-                  >
-                    {error}
-                  </div>
-                )}
-
-                {success && (
-                  <div
-                    className="px-3 py-2.5 rounded-lg text-xs"
-                    style={{ color: 'var(--emerald)', background: 'var(--emerald-dim)', border: '1px solid rgba(52,211,153,0.2)' }}
-                  >
-                    {success}
-                  </div>
-                )}
-
-                <Button type="submit" loading={loading} className="w-full mt-1">
-                  {mode === 'login' ? 'Iniciar sesión' : 'Crear cuenta'}
-                  {!loading && <ArrowRight className="w-3.5 h-3.5" />}
-                </Button>
-              </form>
-            )}
+              <Button type="submit" loading={loading} className="w-full mt-1">
+                Iniciar sesión
+                {!loading && <ArrowRight className="w-3.5 h-3.5" />}
+              </Button>
+            </form>
           </div>
         </div>
       </div>
